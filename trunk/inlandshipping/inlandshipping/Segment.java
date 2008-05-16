@@ -7,7 +7,7 @@ public class Segment {
     private Segment nextSegment;
     private Segment previousSegment;
     
-    private Fairway fairway;
+    protected Fairway fairway;
     
     /**
      * Constructs a new segment, as part of the given fairway.
@@ -16,6 +16,9 @@ public class Segment {
         this.fairway = fairway;
     }
     
+    protected Segment(){
+    	
+    }
     /**
      * Initializes the neighbouring segments for this segment.
      */
