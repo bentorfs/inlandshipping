@@ -11,6 +11,8 @@ public class Environment {
     
     private Vector<Vessel> vessels;
     
+    private Vector<Fairway> fairways;
+    
     /**
      * This constructor builds an example topography.
      */
@@ -23,6 +25,9 @@ public class Environment {
         Fairway way1 = new Fairway(node1,node2,2,1000,5);
         Fairway way2 = new Fairway(node2,node3,2,2000,5);
         Fairway way3 = new Fairway(node3,node1,2,1000,5);
+        fairways.add(way1);
+        fairways.add(way2);
+        fairways.add(way3);
         
         nodes = new Vector<Node>();
         nodes.add(node1);
