@@ -22,8 +22,16 @@ public class Segment {
     /**
      * Initializes the neighbouring segments for this segment.
      */
-    public void setNeighbours(Segment nextSegment, Segment previousSegment) {
+    public void setNeighbours(Segment previousSegment, Segment nextSegment) {
         this.nextSegment = nextSegment;
         this.previousSegment = previousSegment;
+    }
+    
+    public Segment getPreviousNeighbour(){
+    	return previousSegment;
+    }
+    
+    public Segment getNextNeighbour(){
+    	return nextSegment;
     }
 }

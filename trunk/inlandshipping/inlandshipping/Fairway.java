@@ -36,8 +36,8 @@ public class Fairway {
         for (int i=0; i<length; i++) {
             segments[i] = new Segment(this);
         }
-        segments[0].setNeighbours(segments[1], null);
-        segments[length-1].setNeighbours(null, segments[length-2]);
+        segments[0].setNeighbours(startNode,segments[1]);
+        segments[length-1].setNeighbours(segments[length-2], endNode);
         for (int i=1; i<length-1; i++) {
             segments[i].setNeighbours(segments[i-1],segments[i+1]);
         }
