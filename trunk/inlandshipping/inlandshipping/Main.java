@@ -18,10 +18,26 @@ public class Main {
         
         // Start GUI
         JFrame f = new JFrame("Inland Shipping");
-        GUI p = new GUI();
+        GUI p = new GUI(env);
         f.setContentPane(p);
         f.setSize(800,800);
         f.setVisible(true);
+        
+        //Segment newpos = env.getFairways().get(0).segments[100];
+        //env.getVessels().get(0).setCurrentPosition(newpos);
+        
+        p.drawVessels(env);
+        
+        /*for (int i=5; i<500; i++) {
+        	p.test(i, 5);
+        	try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }*/
+        
         
         
         // Start main loop
