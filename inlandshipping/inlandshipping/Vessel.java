@@ -30,4 +30,11 @@ public class Vessel {
         // schepen vertrekken in segmenten ipv nodes.
         this.currentSegment = startNode.getFairways().get(0).getSegmentFromNode(startNode);
     }
+    
+    /**
+     * Returns the Task Agent for this vessel
+     */
+    public TaskAgent getAgent() {
+        return agent;
+    }
 }
