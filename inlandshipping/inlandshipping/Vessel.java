@@ -12,6 +12,7 @@ public class Vessel {
     
     private int currentSpeed = 0;
     private Segment currentSegment;
+ 
     
     private TaskAgent agent;
     
@@ -28,7 +29,8 @@ public class Vessel {
         // TODO: dees zorgt da het schip in feite vertrekt vanuit het eerste segment van de eerste fairway
         // die aan de startnode verbonden is. Wat ni echt galant is. Misschien moeten we toch modelleren da
         // schepen vertrekken in segmenten ipv nodes.
-        this.currentSegment = startNode.getFairways().get(0).getSegmentFromNode(startNode);
+       // this.currentSegment = startNode.getFairways().get(0).getSegmentFromNode(startNode);
+        this.currentSegment = startNode;
     }
     
     /**
