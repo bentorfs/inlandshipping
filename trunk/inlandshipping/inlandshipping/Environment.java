@@ -24,12 +24,14 @@ public class Environment {
         Fairway way2 = new Fairway(node2,node3,2,2000,5);
         Fairway way3 = new Fairway(node3,node1,2,1000,5);
         
+        nodes = new Vector<Node>();
         nodes.add(node1);
         nodes.add(node2);
         nodes.add(node3);
         
         // new Vessel(source,destination,size,maxSpeed)
         Vessel vessel1 = new Vessel(node1,node3,1,3);
+        vessels = new Vector<Vessel>();
         vessels.add(vessel1);
     }
     
