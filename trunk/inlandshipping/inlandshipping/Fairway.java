@@ -47,13 +47,13 @@ public class Fairway {
      * This method returns the first segment a vessel has to traverse when it enters
      * this fairway via the given node.
      */
-    public Segment getSegmentFromNode(Node node) {
-        if (node == startNode) {
-            return segments[0];
-        }
-        else {
-            return segments[length];
-        }
-    }
+//    public Segment getSegmentFromNode(Node node) {
+//        if (node == startNode) {
+//            return segments[0];
+//        }
+//        else {
+//            return segments[length];
+//        }
+//    }
 
 }
