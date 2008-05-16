@@ -16,9 +16,14 @@ public class Segment {
         this.fairway = fairway;
     }
     
+    /**
+     * Constructs a new segment, not part of any fairway.
+     *
+     */
     protected Segment(){
     	
     }
+    
     /**
      * Initializes the neighbouring segments for this segment.
      */
@@ -27,11 +32,24 @@ public class Segment {
         this.previousSegment = previousSegment;
     }
     
+    /**
+     * Returns the segment before this one of the fairway.
+     */
     public Segment getPreviousNeighbour(){
     	return previousSegment;
     }
     
+    /**
+     * Returns the segment after this one of the fairway.
+     */
     public Segment getNextNeighbour(){
     	return nextSegment;
+    }
+    
+    /**
+     * Returns the fairway this segment belongs to.
+     */
+    public Fairway getFairway() {
+    	return fairway;
     }
 }

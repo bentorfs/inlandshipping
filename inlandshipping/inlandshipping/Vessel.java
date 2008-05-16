@@ -42,14 +42,14 @@ public class Vessel {
     /******************************************************
      * 				MOVEMENT
      ******************************************************/
-    public Segment getCurrentPosition(){
+    public Segment getCurrentPosition() {
     	return currentPosition;
     }
 
-    private void setCurrentPosition(Segment position){
+    private void setCurrentPosition(Segment position) {
     	currentPosition = position;
     }
-    public void moveToNextSegment(){
+    public void moveToNextSegment() {
     	setCurrentPosition(getCurrentPosition().getNextNeighbour());
     }
     
