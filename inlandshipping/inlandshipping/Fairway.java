@@ -10,6 +10,7 @@ public class Fairway {
     private int length;
     private Speed maxSpeed;
     
+    //als richting verandert, verandert start en eind
     private Node startNode;
     private Node endNode;
     
@@ -45,6 +46,10 @@ public class Fairway {
         }
     }
     
+    
+    public Node getOtherNode(Node node){
+    	return(node == startNode ? endNode : startNode);
+    }
     /**
      * This method returns the first segment a vessel has to traverse when it enters
      * this fairway via the given node.
