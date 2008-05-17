@@ -1,6 +1,5 @@
 package inlandshipping;
 
-import inlandshipping.Characteristics.*;
 
 /**
  * Class represents a vessel that has to travel from startNode to destinationNode.

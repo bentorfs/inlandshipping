@@ -36,4 +36,15 @@ public class Node extends Segment{
     public Vector<Fairway> getFairways() {
         return (Vector<Fairway>) fairways.clone();
     }
+   
+    /**
+     * Returns all fairways, connected to this node, that you can move to from a certain fairway.
+     * @param cameFrom
+     * @return
+     */
+    public Vector<Fairway> getNextFairways(Fairway cameFrom){
+    	Vector<Fairway> nextFairways= (Vector<Fairway>) fairways.clone();
+    	nextFairways.remove(cameFrom);
+    	return nextFairways;
+    }
 }

@@ -1,6 +1,5 @@
 package inlandshipping;
 
-import inlandshipping.Characteristics.*;
 
 import java.util.Vector;
 

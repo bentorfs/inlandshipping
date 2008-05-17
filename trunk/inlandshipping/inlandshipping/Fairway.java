@@ -1,12 +1,12 @@
 package inlandshipping;
 
-import inlandshipping.Characteristics.*;
 
 /**
  * Class representing a fairway.
  */
 public class Fairway {
     private int nbLanes;
+    private int nbLanesInUse = 0;
     private int length;
     private Speed maxSpeed;
     
