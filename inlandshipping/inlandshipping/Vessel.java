@@ -1,5 +1,7 @@
 package inlandshipping;
 
+import inlandshipping.Characteristics.*;
+
 /**
  * Class represents a vessel that has to travel from startNode to destinationNode.
  */
@@ -7,19 +9,18 @@ public class Vessel {
     private Node startNode;
     private Node destinationNode;
     
-    private int size;
-    private int topSpeed;
-    
-    private int currentSpeed = 0;
+    private Size size;
+    private Speed topSpeed;
+    private Speed currentSpeed = Speed.STILL;
     private Segment currentPosition;
- 
+    private Cargo cargo = Cargo.EMPTY;
     
     private TaskAgent agent;
     
     /**
      * Constructs a new vessel with given size, top speed and start and destination node
      */
-    public Vessel(Node startNode, Node destinationNode, int size, int topSpeed) {
+    public Vessel(Node startNode, Node destinationNode, Size size, Speed topSpeed) {
         this.startNode = startNode;
         this.destinationNode = destinationNode;
         this.size = size;
@@ -32,6 +33,11 @@ public class Vessel {
         setCurrentPosition(startNode);
     }
     
+    /******************************************************
+     * 				CHARACTERISTICS
+     ******************************************************/
+    
+  
     /**
      * Returns the Task Agent for this vessel
      */
