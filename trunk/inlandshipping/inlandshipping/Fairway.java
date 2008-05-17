@@ -1,12 +1,14 @@
 package inlandshipping;
 
+import inlandshipping.Characteristics.*;
+
 /**
  * Class representing a fairway.
  */
 public class Fairway {
     private int nbLanes;
     private int length;
-    private int maxSpeed;
+    private Speed maxSpeed;
     
     private Node startNode;
     private Node endNode;
@@ -17,7 +19,7 @@ public class Fairway {
      * Constructs a fairway from the given startnode to the given endnode. The length
      * is the number of segments this fairway is composed of.
      */
-    public Fairway(Node startNode, Node endNode, int nbLanes, int length, int maxSpeed) {
+    public Fairway(Node startNode, Node endNode, int nbLanes, int length, Speed maxSpeed) {
         this.nbLanes = nbLanes;
         this.maxSpeed = maxSpeed;
         this.startNode = startNode;
