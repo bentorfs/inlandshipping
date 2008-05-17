@@ -12,6 +12,7 @@ public class Vessel {
     private Speed topSpeed;
     private Speed currentSpeed = Speed.STILL;
     private Segment currentPosition;
+    private Node previousNode;
     private Cargo cargo = Cargo.EMPTY;
     
     private TaskAgent agent;
@@ -30,6 +31,7 @@ public class Vessel {
         // schepen vertrekken in segmenten ipv nodes.
        // this.currentSegment = startNode.getFairways().get(0).getSegmentFromNode(startNode);
         setCurrentPosition(startNode);
+        this.previousNode = startNode;
     }
     
     /******************************************************
@@ -56,6 +58,10 @@ public class Vessel {
     }
     public void moveToNextSegment() {
     	setCurrentPosition(getCurrentPosition().getNextNeighbour());
+    }
+    
+    public Node nextNode(Node node){
+    	return getCurrentPosition().getFairway().getOtherNode(node);
     }
     
     
