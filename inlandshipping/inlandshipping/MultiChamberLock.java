@@ -12,7 +12,15 @@ public class MultiChamberLock extends Lock {
 	 * @invariant 	chamberPrevious can never be at NEXTLEVEL, while chamberNext is at PREVIOUSLEVEL
 	 * 				
 	 */
-	LockPosition chamberPrevious = LockPosition.PREVIOUSLEVEL;
-	LockPosition chamberNext = LockPosition.PREVIOUSLEVEL;
+	LockPosition chamberPrevious = LockPosition.PREVLEVEL;
+	LockPosition chamberNext = LockPosition.PREVLEVEL;
 	
+	/*
+	 * The time needed for a chamber to change levels.
+	 */
+	int timeNeeded;
+	
+	public MultiChamberLock(int timeNeeded) {
+		this.timeNeeded = timeNeeded;
+	}
 }
