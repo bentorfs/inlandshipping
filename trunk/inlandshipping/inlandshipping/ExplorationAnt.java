@@ -20,9 +20,19 @@ public class ExplorationAnt {
 		//sourcenode == destination -> setPossiblePath
 		// bepaalde node vanuit sourceNode bereikbaar zit al in het pad == lus --> verwerpen
 		// else --> create new ant
+		
 		Vector<Fairway> reachableFairways = sourceNode.getFairways();
 		for(int i = 0; i < reachableFairways.size(); i ++){
-			ExplorationAnt ant = (ExplorationAnt) this.clone();
+			if(reachableFairways.get(i).getOtherNode(sourceNode) == destinationNode){ //bestemming bereikt
+				ExplorationAnt ant = (ExplorationAnt) this.clone();
+				ant.addToPath(reachableFairways.elementAt(i));
+				setPossiblePath(agent, pathSoFar);
+			}
+			else if(!pathSoFar.contains(reachableFairways.get(i))){ // anders lus
+				ExplorationAnt ant = (ExplorationAnt) this.clone();
+				ant.addToPath(reachableFairways.elementAt(i));
+				ant.scanForPossiblePaths(reachableFairways.get(i).getOtherNode(sourceNode), destinationNode, agent);
+			}
 		}
 				
 		
