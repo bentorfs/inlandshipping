@@ -10,8 +10,9 @@ public class Main {
 
     /**
      * @param args
+     * @throws InterruptedException 
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         // Build components
         Environment env = new Environment();
         
