@@ -17,8 +17,9 @@ public class Environment {
     /**
      * This constructor builds an example topography.
      * @throws InterruptedException 
+     * @throws CloneNotSupportedException 
      */
-    public Environment() throws InterruptedException {
+    public Environment() throws InterruptedException, CloneNotSupportedException {
         Node node1 = new Node();
         Node node2 = new Node();
         Node node3 = new Node();
