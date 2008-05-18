@@ -16,7 +16,8 @@ public class TaskAgent {
 	public void scanEnvironment() throws InterruptedException{
 		while(vessel.isWorking()){
 			ExplorationAnt ant = new ExplorationAnt(vessel.getSource(), vessel.getDestination(), this);
-			
+			ant.scanForPossiblePaths(vessel.getSource(), vessel.getDestination(), this);
+			//TODO ant terminate ofwel niet telkens opnieuw create???
 			Thread.sleep(1000);
 		}
 	}
