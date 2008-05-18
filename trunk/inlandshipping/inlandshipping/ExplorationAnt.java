@@ -12,7 +12,7 @@ public class ExplorationAnt {
 		this.destinationNode = destinationNode;
 	}
 	
-	public ArrayList getShortestPath(){
-		return null;
+	public void setPossiblePath(TaskAgent agent, ArrayList path){
+		agent.addToPossiblePaths(path);
 	}
 }

@@ -31,6 +31,10 @@ public class Fairway {
         constructSegments();
     }
     
+    public int getLength(){
+    	return length;
+    }
+    
     /**
      * Constructs the segments composing this fairway and initializes the neighbours.
      */
