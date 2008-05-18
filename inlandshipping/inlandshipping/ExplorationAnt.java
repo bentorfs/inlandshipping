@@ -1,6 +1,7 @@
 package inlandshipping;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class ExplorationAnt {
 
@@ -11,25 +12,24 @@ public class ExplorationAnt {
 	public ExplorationAnt(Node sourceNode, Node destinationNode, TaskAgent agent, ArrayList<Fairway> pathSoFar){
 		this.sourceNode = sourceNode;
 		this.destinationNode = destinationNode;
+		this.pathSoFar = pathSoFar;
 		//pathSofar initialize
 	}
 	
-	public void scanForPossiblePaths(Node sourceNode, Node destinationNode, TaskAgent agent){
+	public void scanForPossiblePaths(Node sourceNode, Node destinationNode, TaskAgent agent) throws CloneNotSupportedException{
 		//sourcenode == destination -> setPossiblePath
 		// bepaalde node vanuit sourceNode bereikbaar zit al in het pad == lus --> verwerpen
 		// else --> create new ant
+		Vector<Fairway> reachableFairways = sourceNode.getFairways();
+		for(int i = 0; i < reachableFairways.size(); i ++){
+			ExplorationAnt ant = (ExplorationAnt) this.clone();
+		}
+				
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	}
+	
+	public void addToPath(Fairway fairway){
+		pathSoFar.add(fairway);
 	}
 	
 	public void setPossiblePath(TaskAgent agent, ArrayList path){

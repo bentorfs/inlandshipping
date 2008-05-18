@@ -11,8 +11,9 @@ public class Main {
     /**
      * @param args
      * @throws InterruptedException 
+     * @throws CloneNotSupportedException 
      */
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, CloneNotSupportedException {
         // Build components
         Environment env = new Environment();
         

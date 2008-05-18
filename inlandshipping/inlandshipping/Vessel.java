@@ -22,8 +22,9 @@ public class Vessel {
     /**
      * Constructs a new vessel with given size, top speed and start and destination node
      * @throws InterruptedException 
+     * @throws CloneNotSupportedException 
      */
-    public Vessel(Node startNode, Node destinationNode, Size size, Speed topSpeed) throws InterruptedException {
+    public Vessel(Node startNode, Node destinationNode, Size size, Speed topSpeed) throws InterruptedException, CloneNotSupportedException {
         this.startNode = startNode;
         this.destinationNode = destinationNode;
         this.size = size;

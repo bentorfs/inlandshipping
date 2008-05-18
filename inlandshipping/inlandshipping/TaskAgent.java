@@ -7,15 +7,15 @@ public class TaskAgent {
 	private Vessel vessel;
 	ArrayList<ArrayList<Fairway>> possiblePaths;
 	
-	public TaskAgent(Vessel vessel) throws InterruptedException{
+	public TaskAgent(Vessel vessel) throws InterruptedException, CloneNotSupportedException{
 		this.vessel= vessel;
 		possiblePaths = new ArrayList<ArrayList<Fairway>>();
 		scanEnvironment();
 	}
 
-	public void scanEnvironment() throws InterruptedException{
+	public void scanEnvironment() throws InterruptedException, CloneNotSupportedException{
 		while(vessel.isWorking()){
-			ExplorationAnt ant = new ExplorationAnt(vessel.getSource(), vessel.getDestination(), this);
+			ExplorationAnt ant = new ExplorationAnt(vessel.getSource(), vessel.getDestination(), this, null);
 			ant.scanForPossiblePaths(vessel.getSource(), vessel.getDestination(), this);
 			//TODO ant terminate ofwel niet telkens opnieuw create???
 			Thread.sleep(1000);
