@@ -12,7 +12,12 @@ public class ExplorationAnt {
 		this.destinationNode = destinationNode;
 	}
 	
+	public void scanForPossiblePaths(Node sourceNode, Node destinationNode, TaskAgent agent){
+		
+		
+	}
+	
 	public void setPossiblePath(TaskAgent agent, ArrayList path){
-		agent.addToPossiblePaths(path);
+		agent.setToPossiblePaths(path);
 	}
 }
