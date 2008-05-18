@@ -6,8 +6,6 @@ public class ExplorationAnt {
 	private Node destinationNode;
 	
 	public ExplorationAnt(Node sourceNode, Node destinationNode){
-		this.sourceNode = sourceNode
+		this.sourceNode = sourceNode;
 	}
-	
-	public 
 }
