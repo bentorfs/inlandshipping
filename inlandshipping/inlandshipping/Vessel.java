@@ -15,17 +15,20 @@ public class Vessel {
     private Node previousNode;
     private Cargo cargo = Cargo.EMPTY;
     
+    private boolean isWorking = true;
+    
     private TaskAgent agent;
     
     /**
      * Constructs a new vessel with given size, top speed and start and destination node
+     * @throws InterruptedException 
      */
-    public Vessel(Node startNode, Node destinationNode, Size size, Speed topSpeed) {
+    public Vessel(Node startNode, Node destinationNode, Size size, Speed topSpeed) throws InterruptedException {
         this.startNode = startNode;
         this.destinationNode = destinationNode;
         this.size = size;
         this.topSpeed = topSpeed;
-        this.agent = new TaskAgent();
+        this.agent = new TaskAgent(this);
         // TODO: dees zorgt da het schip in feite vertrekt vanuit het eerste segment van de eerste fairway
         // die aan de startnode verbonden is. Wat ni echt galant is. Misschien moeten we toch modelleren da
         // schepen vertrekken in segmenten ipv nodes.
@@ -38,7 +41,17 @@ public class Vessel {
      * 				CHARACTERISTICS
      ******************************************************/
     
-  
+    public boolean isWorking(){
+    	return isWorking;
+    }
+    
+    public Node getDestination(){
+    	return destinationNode;
+    }
+    
+    public Node getSource(){
+    	return startNode;
+    }
     /**
      * Returns the Task Agent for this vessel
      */

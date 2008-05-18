@@ -16,8 +16,9 @@ public class Environment {
     
     /**
      * This constructor builds an example topography.
+     * @throws InterruptedException 
      */
-    public Environment() {
+    public Environment() throws InterruptedException {
         Node node1 = new Node();
         Node node2 = new Node();
         Node node3 = new Node();
