@@ -55,6 +55,10 @@ public class Vessel {
     public Node getSource(){
     	return startNode;
     }
+    
+    private void setSource(Node node){
+    	startNode = node;
+    }
     /**
      * Returns the Task Agent for this vessel
      */
@@ -86,6 +90,9 @@ public class Vessel {
      * 	1) on a normal segment, there is only one way to go because he can't turn around.
      * 	2) he is in a node: I) start : previousSegment == null
      * 						II) previousSegment != null
+     * When a vessel reaches a node, the source has to change.
+     * 
+     * Invariant: At the beginning a ship can only start in a Node!
      */
     public void moveToNextSegment(ArrayList<Fairway> path) {
     	if(!(getCurrentPosition() instanceof Node)){
@@ -93,15 +100,23 @@ public class Vessel {
     		if(neighbours.get(0) == previousSegment){
     			setPreviousSegment(getCurrentPosition());
     			setCurrentPosition(neighbours.get(1));
+    			if(getCurrentPosition() instanceof Node){
+    				setSource((Node) getCurrentPosition());
+    			}
     		}else{
     			setPreviousSegment(getCurrentPosition());
     			setCurrentPosition(neighbours.get(0));
-    			
+    			if(getCurrentPosition() instanceof Node){
+    				setSource((Node) getCurrentPosition());
+    			}
     		}
     	}else{
     		if(getPreviousSegment() == null){
     			setPreviousSegment(getCurrentPosition());
     			setCurrentPosition(path.get(0).getSegments()[0]);
+    			if(getCurrentPosition() instanceof Node){
+    				setSource((Node) getCurrentPosition());
+    			}
     		}else{
     			setPreviousSegment(getCurrentPosition());
     			Vector<Fairway> possibleFairways = ((Node) getCurrentPosition()).getFairways();
@@ -114,6 +129,9 @@ public class Vessel {
     						setCurrentPosition(path.get(i).getNeighbourSegmentOfNode((Node) getCurrentPosition()));
     					}
     				}
+    			}
+    			if(getCurrentPosition() instanceof Node){
+    				setSource((Node) getCurrentPosition());
     			}
     		}
     		

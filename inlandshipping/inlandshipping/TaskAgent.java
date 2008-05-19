@@ -10,16 +10,11 @@ public class TaskAgent {
 	public TaskAgent(Vessel vessel) throws InterruptedException, CloneNotSupportedException{
 		this.vessel= vessel;
 		possiblePaths = new ArrayList<ArrayList<Fairway>>();
-		scanEnvironment();
 	}
 
 	public void scanEnvironment() throws InterruptedException, CloneNotSupportedException{
-		while(vessel.isWorking()){
 			ExplorationAnt ant = new ExplorationAnt(vessel.getSource(), vessel.getDestination(), this, null);
 			ant.scanForPossiblePaths(vessel.getSource(), vessel.getDestination(), this);
-			//TODO ant terminate ofwel niet telkens opnieuw create???
-			Thread.sleep(1000);
-		}
 	}
 	
 	public void setToPossiblePaths(ArrayList<Fairway> path){
