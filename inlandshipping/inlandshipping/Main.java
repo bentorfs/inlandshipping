@@ -1,6 +1,7 @@
 package inlandshipping;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JFrame;
@@ -43,19 +44,28 @@ public class Main {
         
         
         // Start main loop
-        /*
+        
         int maxTimeSteps = 50000;
         for (int time=0; time<maxTimeSteps; time++) {
             Iterator<Vessel> i = env.getVessels().iterator();
             while (i.hasNext()) {
                 Vessel v = i.next();
                 TaskAgent agent = v.getAgent();
+                ArrayList<Fairway> path = agent.getShortestPath();
+                Segment currPosition = v.getCurrentPosition();
+                if(v.getCurrentSpeed() == Speed.SLOW){
+                	
+                }else if(v.getCurrentSpeed() == Speed.FAST){
+                	
+                }
                 //decision = agent.makeDecision();
                 //decisions.add(decision);
             }
             //Environment.reactTo(Vector<Decision> decisions);
         }
-        */
+        
+        
+        
         
         
     }
