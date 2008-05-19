@@ -1,6 +1,7 @@
 package inlandshipping;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 
 /**
@@ -102,7 +103,18 @@ public class Vessel {
     			setPreviousSegment(getCurrentPosition());
     			setCurrentPosition(path.get(0).getSegments()[0]);
     		}else{
-    			
+    			setPreviousSegment(getCurrentPosition());
+    			Vector<Fairway> possibleFairways = ((Node) getCurrentPosition()).getFairways();
+    			// er kunnen geen 2 fairways zowel in path als in de fairways van 
+    			// de node zitten, anders gaat het schip in een lus  
+    			// --> ALTIJD ZO??? kvind geen tegenvoorbeeld
+    			for(int i = 0; i < path.size(); i++){
+    				for(int j = 0; j < possibleFairways.size(); j++){
+    					if(path.get(i) == possibleFairways.get(j)){
+    						setCurrentPosition(path.get(i).getNeighbourSegmentOfNode((Node) getCurrentPosition()));
+    					}
+    				}
+    			}
     		}
     		
     	}
