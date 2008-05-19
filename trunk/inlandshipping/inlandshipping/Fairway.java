@@ -10,7 +10,6 @@ public class Fairway {
     private int length;
     private Speed maxSpeed;
     
-    //als richting verandert, verandert start en eind
     private Node node1;
     private Node node2;
     
