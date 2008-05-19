@@ -15,12 +15,10 @@ public class MultiChamberLock extends Lock {
 	LockPosition chamberPrevious = LockPosition.PREVLEVEL;
 	LockPosition chamberNext = LockPosition.PREVLEVEL;
 	
-	/*
-	 * The time needed for a chamber to change levels.
+	/**
+	 * Construct a new multichamber lock with the given duration for changing the level.
 	 */
-	int timeNeeded;
-	
 	public MultiChamberLock(int timeNeeded) {
-		this.timeNeeded = timeNeeded;
+		super(timeNeeded);
 	}
 }

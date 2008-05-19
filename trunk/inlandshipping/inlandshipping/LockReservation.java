@@ -21,6 +21,11 @@ public class LockReservation {
 	private int arrivalTime;
 	
 	/*
+	 * Integer used for ranking the reservations for scheduling algorithms
+	 */
+	private int ranking;
+	
+	/*
 	 * Direction this vessel will be coming from.
 	 */
 	private Segment from;
@@ -62,6 +67,20 @@ public class LockReservation {
 			agent.expire(this);
 		}
 	}
+
+	/**
+	 * Set the ranking variable to the given value.
+	 */
+    public int getRanking() {
+        return ranking;
+    }
+
+    /**
+     * Retrieve the ranking variable.
+     */
+    public void setRanking(int ranking) {
+        this.ranking = ranking;
+    }
 
 
 }
