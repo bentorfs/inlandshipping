@@ -55,6 +55,14 @@ public class Fairway {
         }
     }
     
+    public Segment[] getSegments(){
+    	return segments;
+    }
+    
+    public Segment getNeighbourSegmentOfNode(Node node){
+    	if(node == node1)return getSegments()[0];
+    	else return getSegments()[getSegments().length -1];
+    }
     
     public Node getOtherNode(Node node){
     	return(node == node1 ? node2 : node1);

@@ -98,6 +98,12 @@ public class Vessel {
     			
     		}
     	}else{
+    		if(getPreviousSegment() == null){
+    			setPreviousSegment(getCurrentPosition());
+    			setCurrentPosition(path.get(0).getSegments()[0]);
+    		}else{
+    			
+    		}
     		
     	}
     	
