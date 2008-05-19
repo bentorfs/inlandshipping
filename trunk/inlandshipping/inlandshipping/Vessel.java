@@ -42,6 +42,9 @@ public class Vessel {
      * 				CHARACTERISTICS
      ******************************************************/
     
+    public Speed getCurrentSpeed(){
+    	return currentSpeed;
+    }
     public boolean isWorking(){
     	return isWorking;
     }
