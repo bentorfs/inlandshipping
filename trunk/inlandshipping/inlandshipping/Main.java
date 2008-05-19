@@ -51,6 +51,9 @@ public class Main {
             while (i.hasNext()) {
                 Vessel v = i.next();
                 TaskAgent agent = v.getAgent();
+                //TODO elke keer de agent gaat scanne kan hij het pad veranderen
+                // enkel van in een node kan hij wel zijn pad maar gaan veranderen
+                agent.scanEnvironment();
                 ArrayList<Fairway> path = agent.getShortestPath();
                 Segment currPosition = v.getCurrentPosition();
                 if(v.getCurrentSpeed() == Speed.SLOW){
