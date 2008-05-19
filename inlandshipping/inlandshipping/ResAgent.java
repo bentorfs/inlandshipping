@@ -19,7 +19,6 @@ public class ResAgent {
 	
 	/**
 	 * Decreases the TTL of all reservations of this agent by 1.
-	 *
 	 */
 	public void increaseTTL() {
 		Iterator<LockReservation> i = reservations.iterator();
