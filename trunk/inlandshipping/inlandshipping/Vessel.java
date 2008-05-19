@@ -12,7 +12,7 @@ public class Vessel {
     private Speed topSpeed;
     private Speed currentSpeed = Speed.STILL;
     private Segment currentPosition;
-    private Node previousNode;
+    private Segment previousSegment;
     private Cargo cargo = Cargo.EMPTY;
     
     private boolean isWorking = true;
@@ -35,7 +35,7 @@ public class Vessel {
         // schepen vertrekken in segmenten ipv nodes.
        // this.currentSegment = startNode.getFairways().get(0).getSegmentFromNode(startNode);
         setCurrentPosition(startNode);
-        this.previousNode = startNode;
+        this.previousSegment = null;
     }
     
     /******************************************************
