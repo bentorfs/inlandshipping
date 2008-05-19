@@ -76,6 +76,10 @@ public class Vessel {
     	return previousSegment;
     }
     
+    private void setPreviousSegment(Segment previous){
+    	previousSegment = previous;
+    }
+    
     /*
      * 2 possibilities:
      * 	1) on a normal segment, there is only one way to go because he can't turn around.
@@ -86,17 +90,17 @@ public class Vessel {
     	if(!(getCurrentPosition() instanceof Node)){
     		ArrayList<Segment> neighbours = getCurrentPosition().getNeighbours();
     		if(neighbours.get(0) == previousSegment){
+    			setPreviousSegment(getCurrentPosition());
     			setCurrentPosition(neighbours.get(1));
-    		}else setCurrentPosition(neighbours.get(0));
+    		}else{
+    			setPreviousSegment(getCurrentPosition());
+    			setCurrentPosition(neighbours.get(0));
+    			
+    		}
     	}else{
     		
     	}
     	
     }
-    
-    public Node nextNode(Node node){
-    	return getCurrentPosition().getFairway().getOtherNode(node);
-    }
-    
     
 }
