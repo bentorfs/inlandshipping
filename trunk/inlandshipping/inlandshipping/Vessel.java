@@ -72,13 +72,25 @@ public class Vessel {
     	currentPosition = position;
     }
     
+    private Segment getPreviousSegment(){
+    	return previousSegment;
+    }
+    
     /*
      * 2 possibilities:
      * 	1) on a normal segment, there is only one way to go because he can't turn around.
-     * 	2) he is in a node
+     * 	2) he is in a node: I) start : previousSegment == null
+     * 						II) previousSegment != null
      */
     public void moveToNextSegment(ArrayList<Fairway> path) {
-    	
+    	if(!(getCurrentPosition() instanceof Node)){
+    		ArrayList<Segment> neighbours = getCurrentPosition().getNeighbours();
+    		if(neighbours.get(0) == previousSegment){
+    			setCurrentPosition(neighbours.get(1));
+    		}else setCurrentPosition(neighbours.get(0));
+    	}else{
+    		
+    	}
     	
     }
     
