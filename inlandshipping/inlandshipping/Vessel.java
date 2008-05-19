@@ -1,5 +1,7 @@
 package inlandshipping;
 
+import java.util.ArrayList;
+
 
 /**
  * Class represents a vessel that has to travel from startNode to destinationNode.
@@ -30,10 +32,6 @@ public class Vessel {
         this.size = size;
         this.topSpeed = topSpeed;
         this.agent = new TaskAgent(this);
-        // TODO: dees zorgt da het schip in feite vertrekt vanuit het eerste segment van de eerste fairway
-        // die aan de startnode verbonden is. Wat ni echt galant is. Misschien moeten we toch modelleren da
-        // schepen vertrekken in segmenten ipv nodes.
-       // this.currentSegment = startNode.getFairways().get(0).getSegmentFromNode(startNode);
         setCurrentPosition(startNode);
         this.previousSegment = null;
     }
@@ -73,8 +71,15 @@ public class Vessel {
     private void setCurrentPosition(Segment position) {
     	currentPosition = position;
     }
-    public void moveToNextSegment() {
-    	setCurrentPosition(getCurrentPosition().getNextNeighbour());
+    
+    /*
+     * 2 possibilities:
+     * 	1) on a normal segment, there is only one way to go because he can't turn around.
+     * 	2) he is in a node
+     */
+    public void moveToNextSegment(ArrayList<Fairway> path) {
+    	
+    	
     }
     
     public Node nextNode(Node node){
