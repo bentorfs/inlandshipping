@@ -52,7 +52,9 @@ public class Main {
                 Vessel v = i.next();
                 TaskAgent agent = v.getAgent();
                 //TODO elke keer de agent gaat scanne kan hij het pad veranderen
-                // enkel van in een node kan hij wel zijn pad maar gaan veranderen
+                // enkel van in een node kan hij wel zijn pad maar gaan veranderen, 
+                // hij kan zijn route niet wijzigen van in een egwoon segment.
+                // TODO de voorwaarden om naar een segment/node te kunnen bewegen
                 agent.scanEnvironment();
                 ArrayList<Fairway> path = agent.getShortestPath();
                 Segment currPosition = v.getCurrentPosition();
