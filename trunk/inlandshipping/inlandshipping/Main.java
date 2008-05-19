@@ -54,9 +54,10 @@ public class Main {
                 ArrayList<Fairway> path = agent.getShortestPath();
                 Segment currPosition = v.getCurrentPosition();
                 if(v.getCurrentSpeed() == Speed.SLOW){
-                	
+                	v.moveToNextSegment(path);
                 }else if(v.getCurrentSpeed() == Speed.FAST){
-                	
+                	v.moveToNextSegment(path);
+                	v.moveToNextSegment(path);
                 }
                 //decision = agent.makeDecision();
                 //decisions.add(decision);
