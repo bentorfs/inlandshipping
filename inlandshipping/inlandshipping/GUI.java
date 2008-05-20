@@ -82,12 +82,10 @@ public class GUI extends JPanel {
 				double fromY = nodeYCoords[fromIndex];
 				double toX = nodeXCoords[toIndex];
 				double toY = nodeYCoords[toIndex];
-				// TODO: schip positioneren afhankelijk van hoe ver het op deze fairway zit.
-				// nummertjes gebruiken voor de segments hiervoor?
+				// TODO: factor moet soms 1-factor zijn
 				Segment[] fairwaySegments = vFairway.getSegments();
 				int positionOnFairway = findPositionOf(fairwaySegments, vPosition);
 				double factor = (double) positionOnFairway / vFairway.getLength();
-				System.out.println(factor);
 				shipXPosition = (toX - fromX) * factor + fromX;
 				shipYPosition = (toY - fromY) * factor + fromY;
 			}
