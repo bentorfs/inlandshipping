@@ -47,6 +47,7 @@ public class Main {
         
         int maxTimeSteps = Configuration.simulationTime;
         for (int time=0; time<maxTimeSteps; time++) {
+            System.out.println("Timestep: " + time);
             Iterator<Vessel> i = env.getVessels().iterator();
             while (i.hasNext()) {
                 Vessel v = i.next();
@@ -67,6 +68,10 @@ public class Main {
                 }
                 //decision = agent.makeDecision();
                 //decisions.add(decision);
+                
+                // Update GUI
+                //Thread.sleep(100);
+                //p.drawVessels(env);
             }
             //Environment.reactTo(Vector<Decision> decisions);
         }

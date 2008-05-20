@@ -13,8 +13,8 @@ public class TaskAgent {
 	}
 
 	public void scanEnvironment() throws CloneNotSupportedException {
-			ExplorationAnt ant = new ExplorationAnt(vessel.getSource(), vessel.getDestination(), this, null);
-			ant.scanForPossiblePaths(vessel.getSource(), vessel.getDestination(), this);
+			ExplorationAnt ant = new ExplorationAnt(vessel.getSource(), vessel.getDestination(), this, new ArrayList<Fairway>());
+			ant.scanForPossiblePaths();
 	}
 	
 	public void addToPossiblePaths(ArrayList<Fairway> path){
@@ -29,7 +29,7 @@ public class TaskAgent {
 				shortest = possiblePaths.get(i);
 			}
 		}
-		return null;
+		return shortest;
 	}
 	
 	public int getLengthOfPath(ArrayList<Fairway> path){

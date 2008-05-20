@@ -95,48 +95,49 @@ public class Vessel {
      * Invariant: At the beginning a ship can only start in a Node!
      */
     public void moveToNextSegment(ArrayList<Fairway> path) {
-    	if(!(getCurrentPosition() instanceof Node)){
-    		ArrayList<Segment> neighbours = getCurrentPosition().getNeighbours();
-    		if(neighbours.get(0) == previousSegment){
-    			setPreviousSegment(getCurrentPosition());
-    			setCurrentPosition(neighbours.get(1));
-    			if(getCurrentPosition() instanceof Node){
-    				setSource((Node) getCurrentPosition());
-    			}
-    		}else{
-    			setPreviousSegment(getCurrentPosition());
-    			setCurrentPosition(neighbours.get(0));
-    			if(getCurrentPosition() instanceof Node){
-    				setSource((Node) getCurrentPosition());
-    			}
-    		}
-    	}else{
-    		if(getPreviousSegment() == null){
-    			setPreviousSegment(getCurrentPosition());
-    			setCurrentPosition(path.get(0).getSegments()[0]);
-    			if(getCurrentPosition() instanceof Node){
-    				setSource((Node) getCurrentPosition());
-    			}
-    		}else{
-    			setPreviousSegment(getCurrentPosition());
-    			Vector<Fairway> possibleFairways = ((Node) getCurrentPosition()).getFairways();
-    			// er kunnen geen 2 fairways zowel in path als in de fairways van 
-    			// de node zitten, anders gaat het schip in een lus  
-    			// --> ALTIJD ZO??? kvind geen tegenvoorbeeld
-    			for(int i = 0; i < path.size(); i++){
-    				for(int j = 0; j < possibleFairways.size(); j++){
-    					if(path.get(i) == possibleFairways.get(j)){
-    						setCurrentPosition(path.get(i).getNeighbourSegmentOfNode((Node) getCurrentPosition()));
-    					}
-    				}
-    			}
-    			if(getCurrentPosition() instanceof Node){
-    				setSource((Node) getCurrentPosition());
-    			}
-    		}
-    		
-    	}
-    	
-    }
+        if(!(getCurrentPosition() instanceof Node)){
+            ArrayList<Segment> neighbours = getCurrentPosition().getNeighbours();
+            if(neighbours.get(0) == previousSegment){
+                setPreviousSegment(getCurrentPosition());
+                setCurrentPosition(neighbours.get(1));
+                if(getCurrentPosition() instanceof Node){
+                    setSource((Node) getCurrentPosition());
+                }
+            }else{
+                setPreviousSegment(getCurrentPosition());
+                setCurrentPosition(neighbours.get(0));
+                if(getCurrentPosition() instanceof Node){
+                    setSource((Node) getCurrentPosition());
+                }
+            }
+        }else{
+            if(getPreviousSegment() == null){
+                setPreviousSegment(getCurrentPosition());
+                setCurrentPosition(path.get(0).getSegments()[0]);
+                if(getCurrentPosition() instanceof Node){
+                    setSource((Node) getCurrentPosition());
+                }
+            }else{
+                setPreviousSegment(getCurrentPosition());
+                Vector<Fairway> possibleFairways = ((Node) getCurrentPosition()).getFairways();
+                // er kunnen geen 2 fairways zowel in path als in de fairways van 
+                // de node zitten, anders gaat het schip in een lus  
+                // --> ALTIJD ZO??? kvind geen tegenvoorbeeld
+                for(int i = 0; i < path.size(); i++){
+                    for(int j = 0; j < possibleFairways.size(); j++){
+                        if(path.get(i) == possibleFairways.get(j)){
+                            setCurrentPosition(path.get(i).getNeighbourSegmentOfNode((Node) getCurrentPosition()));
+                        }
+                    }
+                }
+                if(getCurrentPosition() instanceof Node){
+                    setSource((Node) getCurrentPosition());
+                }
+            }
+
+        }
+
+    } 
+    
     
 }
