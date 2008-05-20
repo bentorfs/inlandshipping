@@ -13,8 +13,20 @@ public class TaskAgent {
 	}
 
 	public void scanEnvironment() {
-			ExplorationAnt ant = new ExplorationAnt(vessel.getSource(), vessel.getDestination(), this, new ArrayList<Fairway>());
-			ant.scanForPossiblePaths();
+	    possiblePaths.clear();
+	    
+	    Segment currentPosition = getVessel().getCurrentPosition();
+	    Node antStartNode;
+	    if (currentPosition instanceof Node) {
+	        antStartNode = (Node) currentPosition;
+	    }
+	    else {
+	        antStartNode = currentPosition.getFairway().getOtherNode(getVessel().getSource());
+	    }
+		ExplorationAnt ant = new ExplorationAnt(antStartNode, getVessel().getDestination(), this, new ArrayList<Fairway>());
+		ant.scanForPossiblePaths();
+		
+		//System.out.println("Number of paths found: " + possiblePaths.size());
 	}
 	
 	public void addToPossiblePaths(ArrayList<Fairway> path){
@@ -39,4 +51,8 @@ public class TaskAgent {
 		}
 		return distance;
 	}
+
+    public Vessel getVessel() {
+        return vessel;
+    }
 }
