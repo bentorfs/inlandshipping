@@ -26,7 +26,6 @@ public class TaskAgent {
 		ExplorationAnt ant = new ExplorationAnt(antStartNode, getVessel().getDestination(), this, new ArrayList<Fairway>());
 		ant.scanForPossiblePaths();
 		
-		//System.out.println("Number of paths found: " + possiblePaths.size());
 	}
 	
 	public void addToPossiblePaths(ArrayList<Fairway> path){

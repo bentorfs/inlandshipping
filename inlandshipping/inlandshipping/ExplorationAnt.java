@@ -31,14 +31,12 @@ public class ExplorationAnt {
         // else --> create new ant
 
         Vector<Fairway> reachableFairways = sourceNode.getFairways();
-        //System.out.println("reachable fairways: " + reachableFairways.size());
         for(int i = 0; i < reachableFairways.size(); i++) {
             if (reachableFairways.get(i).getOtherNode(sourceNode) == destinationNode) { // bestemming bereikt
                 addToPath(reachableFairways.get(i));    
                 getAgent().addToPossiblePaths(getPathSoFar());
             }
             else if (!pathSoFar.contains(reachableFairways.get(i))) {
-                //ExplorationAnt ant = (ExplorationAnt) this.clone();
                 ArrayList<Fairway> newPathSoFar = (ArrayList<Fairway>) getPathSoFar().clone();
                 ExplorationAnt newAnt = new ExplorationAnt(reachableFairways.get(i).getOtherNode(sourceNode),destinationNode,getAgent(),newPathSoFar);
                 newAnt.addToPath(reachableFairways.elementAt(i));
