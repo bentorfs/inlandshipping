@@ -43,6 +43,6 @@ public class ExplorationAnt {
 	}
 	
 	public void setPossiblePath(TaskAgent agent, ArrayList path){
-		agent.setToPossiblePaths(path);
+		agent.addToPossiblePaths(path);
 	}
 }
