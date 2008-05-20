@@ -32,7 +32,7 @@ public class TaskAgent {
 		possiblePaths.add(path);
 	}
 	
-	public ArrayList<Fairway> getShortestPath(){
+	public ArrayList<Fairway> getShortestPath() {
 		if(possiblePaths.size() == 0) return null;
 		ArrayList<Fairway> shortest = possiblePaths.get(0);
 		for(int i = 1; i < possiblePaths.size(); i ++){
@@ -43,7 +43,7 @@ public class TaskAgent {
 		return shortest;
 	}
 	
-	public int getLengthOfPath(ArrayList<Fairway> path){
+	public int getLengthOfPath(ArrayList<Fairway> path) {
 		int distance = 0;
 		for(int i = 0; i < path.size(); i ++){
 			distance += path.get(i).getLength();

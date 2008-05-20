@@ -112,11 +112,11 @@ public class Vessel {
                     // TODO: Vessel moet uit de environment gehaald worden
                 }
             }
-        } else{
-            if(getPreviousSegment() == null){
+        } else {
+            if (getPreviousSegment() == null) {
                 setPreviousSegment(getCurrentPosition());
                 setCurrentPosition(path.get(0).getNeighbourSegmentOfNode((Node) getCurrentPosition()));
-            }else{
+            } else {
                 setPreviousSegment(getCurrentPosition());
                 Node thisNode = (Node) getCurrentPosition();
                 Vector<Fairway> possibleFairways = thisNode.getFairways();
