@@ -167,8 +167,16 @@ public class Environment {
         vessels.add(v);
     }
     
-    
-    public void reactTo() {
-        
+    /**
+     * This method makes random changes to the environment,
+     * according to the configuration of the simulation
+     */
+    public void act() {
+        // Possibly add a vessel
+        if (Math.random() < Configuration.probNewVessel) {
+            Vessel v = getRandomVessel();
+            addToVessels(v);
+            System.out.println("A new vessel has entered the environment");
+        }
     }
 }

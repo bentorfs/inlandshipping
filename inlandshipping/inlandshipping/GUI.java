@@ -16,6 +16,9 @@ public class GUI extends JPanel {
 	private Vector<Line2D.Double> fairways = new Vector<Line2D.Double>();
 	private Vector<Ellipse2D.Double> vessels = new Vector<Ellipse2D.Double>();
 	
+	private int nbLargeVessels;
+	private int nbSmallVessels;
+	
 	private int timeStep;
 	
 	/**
@@ -48,6 +51,8 @@ public class GUI extends JPanel {
 	public void redrawGUI(Environment env, int time) {
 	    // Refresh the vessel positions
 		vessels.clear();
+        nbLargeVessels = 0;
+        nbSmallVessels = 0;
 		double shipXPosition, shipYPosition;
 		Iterator<Vessel> envVessels = env.getVessels().iterator();
         while (envVessels.hasNext()) {
@@ -73,9 +78,11 @@ public class GUI extends JPanel {
             int size;
             if (v.getSize() == Size.LARGE) {
                 size = 7;
+                nbLargeVessels++;
             }
             else {
                 size = 4;
+                nbSmallVessels++;
             }
             Ellipse2D.Double vessel = new Ellipse2D.Double(shipXPosition - size/2, shipYPosition - size/2, size, size);
             vessels.add(vessel);
@@ -128,6 +135,11 @@ public class GUI extends JPanel {
         g2.setColor(new Color(0,0,0));
         g2.setFont(new Font("sans-serif",10,20));
         g2.drawString("Time: " + timeStep, 10, 30);
-
+        
+        // Draw other statistics
+        g2.setFont(new Font("sans-serif",10,10));
+        g.drawString("Total vessels: " + vessels.size(), 520, 570);
+        g.drawString("Small vessels: " + nbSmallVessels, 520, 590);
+        g.drawString("Large vessels: " + nbLargeVessels, 520, 610);
     }
 }
