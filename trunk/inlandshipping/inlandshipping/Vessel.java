@@ -77,7 +77,7 @@ public class Vessel {
     	currentPosition = position;
     }
     
-    private Segment getPreviousSegment(){
+    public Segment getPreviousSegment(){
     	return previousSegment;
     }
     
@@ -94,6 +94,7 @@ public class Vessel {
      * 
      * Invariant: At the beginning a ship can only start in a Node!
      */
+
     public void moveToNextSegment(ArrayList<Fairway> path) {
         if(!(getCurrentPosition() instanceof Node)){
             ArrayList<Segment> neighbours = getCurrentPosition().getNeighbours();
@@ -102,42 +103,51 @@ public class Vessel {
                 setCurrentPosition(neighbours.get(1));
                 if(getCurrentPosition() instanceof Node){
                     setSource((Node) getCurrentPosition());
+                    // TODO: is da wel nodig?
                 }
-            }else{
+            } else{
                 setPreviousSegment(getCurrentPosition());
                 setCurrentPosition(neighbours.get(0));
                 if(getCurrentPosition() instanceof Node){
                     setSource((Node) getCurrentPosition());
+                    // TODO: is da wel nodig?
                 }
             }
-        }else{
+        } else{
             if(getPreviousSegment() == null){
                 setPreviousSegment(getCurrentPosition());
-                setCurrentPosition(path.get(0).getSegments()[0]);
+                //setCurrentPosition(path.get(0).getSegments()[0]);
+                // BEN: ik heb dees^^ vervangen door het volgende, juist zoals in de else-tak.
+                setCurrentPosition(path.get(0).getNeighbourSegmentOfNode((Node) getCurrentPosition()));
+                
                 if(getCurrentPosition() instanceof Node){
                     setSource((Node) getCurrentPosition());
+                    // TODO: is da wel nodig?
                 }
             }else{
                 setPreviousSegment(getCurrentPosition());
-                Vector<Fairway> possibleFairways = ((Node) getCurrentPosition()).getFairways();
+                Node thisNode = (Node) getCurrentPosition();
+                Vector<Fairway> possibleFairways = thisNode.getFairways();
                 // er kunnen geen 2 fairways zowel in path als in de fairways van 
                 // de node zitten, anders gaat het schip in een lus  
                 // --> ALTIJD ZO??? kvind geen tegenvoorbeeld
                 for(int i = 0; i < path.size(); i++){
                     for(int j = 0; j < possibleFairways.size(); j++){
                         if(path.get(i) == possibleFairways.get(j)){
-                            setCurrentPosition(path.get(i).getNeighbourSegmentOfNode((Node) getCurrentPosition()));
+                            setCurrentPosition(path.get(i).getNeighbourSegmentOfNode(thisNode));
                         }
                     }
                 }
                 if(getCurrentPosition() instanceof Node){
                     setSource((Node) getCurrentPosition());
+                    // TODO: is da wel nodig?
                 }
             }
 
         }
+    }
 
-    } 
-    
-    
+    public Speed getTopSpeed() {
+        return topSpeed;
+    }
 }
