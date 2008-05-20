@@ -108,9 +108,9 @@ public class Environment {
         fairways.add(way15);
         
         // new Vessel(source,destination,size,maxSpeed)
-        /*Vessel vessel1 = new Vessel(bruges,liege,Size.SMALL, Speed.SLOW);
+        Vessel vessel1 = new Vessel(bruges,liege,Size.SMALL, Speed.SLOW);
         vessels.add(vessel1);
-        Vessel vessel2 = new Vessel(hasselt,tournai,Size.SMALL, Speed.SLOW);
+        /*Vessel vessel2 = new Vessel(hasselt,tournai,Size.SMALL, Speed.SLOW);
         vessels.add(vessel2);
         Vessel vessel3 = new Vessel(namur,antwerp,Size.SMALL, Speed.SLOW);
         vessels.add(vessel3);*/
