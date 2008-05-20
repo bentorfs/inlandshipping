@@ -66,6 +66,14 @@ public class Fairway {
     public Node getOtherNode(Node node){
     	return(node == node1 ? node2 : node1);
     }
+
+    public Node getNode1() {
+        return node1;
+    }
+
+    public Node getNode2() {
+        return node2;
+    }
     
   
 }

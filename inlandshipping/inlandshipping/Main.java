@@ -23,13 +23,13 @@ public class Main {
         JFrame f = new JFrame("Inland Shipping");
         GUI p = new GUI(env);
         f.setContentPane(p);
-        f.setSize(800,800);
+        f.setSize(650,650);
         f.setVisible(true);
         
         //Segment newpos = env.getFairways().get(0).segments[100];
         //env.getVessels().get(0).setCurrentPosition(newpos);
         
-        p.drawVessels(env);
+        p.redrawGUI(env, 0);
         
         /*for (int i=5; i<500; i++) {
         	p.test(i, 5);
@@ -47,7 +47,9 @@ public class Main {
         
         int maxTimeSteps = Configuration.simulationTime;
         for (int time=0; time<maxTimeSteps; time++) {
-            System.out.println("Timestep: " + time);
+            if (time % 100 == 0) {
+                System.out.println("Reached timestep: " + time);
+            }
             Iterator<Vessel> i = env.getVessels().iterator();
             while (i.hasNext()) {
                 Vessel v = i.next();
@@ -66,19 +68,24 @@ public class Main {
                 // TODO: currentSpeed moet nog geimplementeerd worden!
               //if(v.getCurrentSpeed() == Speed.SLOW){
                 if (v.getTopSpeed() == Speed.SLOW) {
-                	v.moveToNextSegment(path);
-                }else if(v.getCurrentSpeed() == Speed.FAST){
-                	v.moveToNextSegment(path);
-                	v.moveToNextSegment(path);
+                    for (int k=0; k<Configuration.nbSegmentsPerStepSlow; k++) {
+                        v.moveToNextSegment(path);
+                    }
+                }else if(v.getTopSpeed() == Speed.FAST){
+                    for (int k=0; k<Configuration.nbSegmentsPerStepFast; k++) {
+                        v.moveToNextSegment(path);
+                    }
                 }
                 //decision = agent.makeDecision();
                 //decisions.add(decision);
-                
-                // Update GUI
-                Thread.sleep(20);
-                p.drawVessels(env);
             }
             //Environment.reactTo(Vector<Decision> decisions);
+            
+            // Update GUI
+            Thread.sleep(Configuration.sleepTime);
+            p.redrawGUI(env, time);
+            
+            
         }
         
         

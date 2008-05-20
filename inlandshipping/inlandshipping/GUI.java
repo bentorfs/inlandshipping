@@ -1,6 +1,7 @@
 package inlandshipping;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.*;
@@ -15,19 +16,7 @@ public class GUI extends JPanel {
 	private Vector<Line2D.Double> fairways = new Vector<Line2D.Double>();
 	private Vector<Ellipse2D.Double> vessels = new Vector<Ellipse2D.Double>();
 	
-	
-	/*
-	 * The next variables indicate the spatial positions of all items.
-	 * This is static, they have to be changed if a new environment is used.
-	 */
-	// Coordinates of the nodes
-	double[] nodeXCoords = new double[] {100,200,100};
-	double[] nodeYCoords = new double[] {100,200,200};
-	
-	// Fairway connections between nodes. The numbers in the array are indices
-	// of the arrays above.
-	int[] fwFromIndex = new int[] 	{ 0, 0, 1 };
-	int[] fwToIndex = new int[] 	{ 1, 2, 2 };
+	private int timeStep;
 	
 	/**
 	 * Construct a new GUI window with data from the given environment
@@ -37,62 +26,65 @@ public class GUI extends JPanel {
 		// Create the nodes
 		Vector<Node> envNodes = env.getNodes();
 		for (int i=0; i<envNodes.size(); i++) {
-			Ellipse2D.Double node = new Ellipse2D.Double(nodeXCoords[i]-5, nodeYCoords[i]-5, 10, 10);
+			Ellipse2D.Double node = new Ellipse2D.Double(envNodes.get(i).posX - 5, envNodes.get(i).posY-5, 10, 10);
 			nodes.add(node);
 		}
 		
 		// Create the fairways
 		Vector<Fairway> envFw = env.getFairways();
 		for (int i=0; i<envFw.size(); i++) {
-			double fromX = nodeXCoords[fwFromIndex[i]];
-			double fromY = nodeYCoords[fwFromIndex[i]];
-			double toX = nodeXCoords[fwToIndex[i]];
-			double toY = nodeYCoords[fwToIndex[i]];
+			double fromX = envFw.get(i).getNode1().posX;
+			double fromY = envFw.get(i).getNode1().posY;
+			double toX = envFw.get(i).getNode2().posX;
+			double toY = envFw.get(i).getNode2().posY;
 			Line2D.Double fw = new Line2D.Double(fromX,fromY,toX,toY);
 			fairways.add(fw);
 		}
 	}
 	
 	/**
-	 * This method refreshes the vessel positions and updates the drawing.
+	 * This method refreshes the GUI, with new vessel positions.
 	 */
-	public void drawVessels(Environment env) {
+	public void redrawGUI(Environment env, int time) {
+	    // Refresh the vessel positions
 		vessels.clear();
-		
-		Iterator<Vessel> envVessels = env.getVessels().iterator();
 		double shipXPosition, shipYPosition;
-		while (envVessels.hasNext()) {
-			// This code is dirty and temporary
-			Vessel v = envVessels.next();
-			Segment vPosition = v.getCurrentPosition();
-			Fairway vFairway = vPosition.getFairway();
-			int pos = env.getFairways().indexOf(vFairway);
-			if (pos < 0) {
-				// Vessel is on a node
-				Node node = (Node) vPosition;
-				pos = env.getNodes().indexOf(node);
-				shipXPosition = nodeXCoords[pos];
-				shipYPosition = nodeYCoords[pos];
-			}
-			else {
-				// Vessel is on a segment
-				int fromIndex = fwFromIndex[pos];
-				int toIndex = fwToIndex[pos];
-				double fromX = nodeXCoords[fromIndex];
-				double fromY = nodeYCoords[fromIndex];
-				double toX = nodeXCoords[toIndex];
-				double toY = nodeYCoords[toIndex];
-				// TODO: factor moet soms 1-factor zijn
-				Segment[] fairwaySegments = vFairway.getSegments();
-				int positionOnFairway = findPositionOf(fairwaySegments, vPosition);
-				double factor = (double) positionOnFairway / vFairway.getLength();
-				shipXPosition = (toX - fromX) * factor + fromX;
-				shipYPosition = (toY - fromY) * factor + fromY;
-			}
-			Ellipse2D.Double vessel = new Ellipse2D.Double(shipXPosition-2, shipYPosition-2, 5, 5);
-			vessels.add(vessel);
-			repaint();
-		}
+		Iterator<Vessel> envVessels = env.getVessels().iterator();
+        while (envVessels.hasNext()) {
+            Vessel v = envVessels.next();
+            Segment position = v.getCurrentPosition();
+            if (position instanceof Node) {
+                // Vessel is on a node
+                Node node = (Node) position;
+                shipXPosition = node.posX;
+                shipYPosition = node.posY;
+            }
+            else {
+                // Vessel is on a segment
+                Fairway currentFw = position.getFairway();
+                Segment[] fairwaySegments = currentFw.getSegments();
+                int positionOnFairway = findPositionOf(fairwaySegments, position);
+                double factor = (double) positionOnFairway / currentFw.getLength();
+                Node node1 = currentFw.getNode1();
+                Node node2 = currentFw.getNode2();
+                shipXPosition = (node2.posX - node1.posX) * factor + node1.posX;
+                shipYPosition = (node2.posY - node1.posY) * factor + node1.posY;
+            }
+            int size;
+            if (v.getSize() == Size.LARGE) {
+                size = 7;
+            }
+            else {
+                size = 4;
+            }
+            Ellipse2D.Double vessel = new Ellipse2D.Double(shipXPosition - size/2, shipYPosition - size/2, size, size);
+            vessels.add(vessel);
+        }
+        
+        // Refresh timestep
+        timeStep = time;
+        
+        repaint();
 	}
 	
 	private int findPositionOf(Segment[] list, Segment element) {
@@ -131,6 +123,11 @@ public class GUI extends JPanel {
         while (v.hasNext()) {
         	g2.fill(v.next());
         }
+        
+        // Draw the time
+        g2.setColor(new Color(0,0,0));
+        g2.setFont(new Font("sans-serif",10,20));
+        g2.drawString("Time: " + timeStep, 10, 30);
 
     }
 }

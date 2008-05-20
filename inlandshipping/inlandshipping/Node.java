@@ -47,4 +47,10 @@ public class Node extends Segment{
     	nextFairways.remove(cameFrom);
     	return nextFairways;
     }
+    
+    /************************************************************
+     * GEOGRAPHICAL INFORMATION
+     ***********************************************************/
+    public int posX;
+    public int posY;
 }

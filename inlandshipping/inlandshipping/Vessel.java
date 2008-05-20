@@ -101,16 +101,15 @@ public class Vessel {
             if(neighbours.get(0) == previousSegment){
                 setPreviousSegment(getCurrentPosition());
                 setCurrentPosition(neighbours.get(1));
-                if(getCurrentPosition() instanceof Node){
-                    setSource((Node) getCurrentPosition());
-                    // TODO: is da wel nodig?
-                }
-            } else{
+            } else {
                 setPreviousSegment(getCurrentPosition());
                 setCurrentPosition(neighbours.get(0));
-                if(getCurrentPosition() instanceof Node){
-                    setSource((Node) getCurrentPosition());
-                    // TODO: is da wel nodig?
+            }
+            if (getCurrentPosition() instanceof Node){
+                setSource((Node) getCurrentPosition());
+                if (getCurrentPosition() == getDestination()) {
+                    System.out.println("Vessel has reached target");
+                    // TODO: Vessel moet uit de environment gehaald worden
                 }
             }
         } else{
@@ -119,11 +118,6 @@ public class Vessel {
                 //setCurrentPosition(path.get(0).getSegments()[0]);
                 // BEN: ik heb dees^^ vervangen door het volgende, juist zoals in de else-tak.
                 setCurrentPosition(path.get(0).getNeighbourSegmentOfNode((Node) getCurrentPosition()));
-                
-                if(getCurrentPosition() instanceof Node){
-                    setSource((Node) getCurrentPosition());
-                    // TODO: is da wel nodig?
-                }
             }else{
                 setPreviousSegment(getCurrentPosition());
                 Node thisNode = (Node) getCurrentPosition();
@@ -138,16 +132,22 @@ public class Vessel {
                         }
                     }
                 }
-                if(getCurrentPosition() instanceof Node){
-                    setSource((Node) getCurrentPosition());
-                    // TODO: is da wel nodig?
+            }
+            if (getCurrentPosition() instanceof Node) {
+                setSource((Node) getCurrentPosition());
+                if (getCurrentPosition() == getDestination()) {
+                    System.out.println("Vessel has reached target");
+                    // TODO: Vessel moet uit de environment gehaald worden
                 }
             }
-
         }
     }
 
     public Speed getTopSpeed() {
         return topSpeed;
+    }
+
+    public Size getSize() {
+        return size;
     }
 }
