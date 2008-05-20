@@ -12,7 +12,7 @@ public class TaskAgent {
 		possiblePaths = new ArrayList<ArrayList<Fairway>>();
 	}
 
-	public void scanEnvironment() throws CloneNotSupportedException {
+	public void scanEnvironment() {
 			ExplorationAnt ant = new ExplorationAnt(vessel.getSource(), vessel.getDestination(), this, new ArrayList<Fairway>());
 			ant.scanForPossiblePaths();
 	}

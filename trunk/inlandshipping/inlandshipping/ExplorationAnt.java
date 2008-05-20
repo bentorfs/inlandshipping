@@ -25,7 +25,7 @@ public class ExplorationAnt {
         this.agent = agent;
     }
 
-    public void scanForPossiblePaths() throws CloneNotSupportedException {
+    public void scanForPossiblePaths() {
         //sourcenode == destination -> addToPossiblePaths
         // bepaalde node vanuit sourceNode bereikbaar zit al in het pad == lus --> verwerpen
         // else --> create new ant

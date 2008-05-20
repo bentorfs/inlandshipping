@@ -14,7 +14,7 @@ public class Main {
      * @throws InterruptedException 
      * @throws CloneNotSupportedException 
      */
-    public static void main(String[] args) throws InterruptedException, CloneNotSupportedException {
+    public static void main(String[] args) throws InterruptedException {
         // Build components
         Environment env = new Environment();
         
@@ -57,6 +57,7 @@ public class Main {
                 // hij kan zijn route niet wijzigen van in een egwoon segment.
                 // TODO de voorwaarden om naar een segment/node te kunnen bewegen
                 // TODO schip heeft bestemming bereikt
+                // TODO explorationants enkel uitsturen opt moment da vessel in ne node komt (of ga komen)
                 agent.scanEnvironment();
                 ArrayList<Fairway> path = agent.getShortestPath();
                 Segment currPosition = v.getCurrentPosition();
