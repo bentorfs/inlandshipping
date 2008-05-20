@@ -7,17 +7,17 @@ public class TaskAgent {
 	private Vessel vessel;
 	ArrayList<ArrayList<Fairway>> possiblePaths;
 	
-	public TaskAgent(Vessel vessel) throws InterruptedException, CloneNotSupportedException{
+	public TaskAgent(Vessel vessel) {
 		this.vessel= vessel;
 		possiblePaths = new ArrayList<ArrayList<Fairway>>();
 	}
 
-	public void scanEnvironment() throws InterruptedException, CloneNotSupportedException{
+	public void scanEnvironment() throws CloneNotSupportedException {
 			ExplorationAnt ant = new ExplorationAnt(vessel.getSource(), vessel.getDestination(), this, null);
 			ant.scanForPossiblePaths(vessel.getSource(), vessel.getDestination(), this);
 	}
 	
-	public void setToPossiblePaths(ArrayList<Fairway> path){
+	public void addToPossiblePaths(ArrayList<Fairway> path){
 		possiblePaths.add(path);
 	}
 	

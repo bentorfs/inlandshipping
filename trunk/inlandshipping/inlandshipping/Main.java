@@ -45,7 +45,7 @@ public class Main {
         
         // Start main loop
         
-        int maxTimeSteps = 50000;
+        int maxTimeSteps = Configuration.simulationTime;
         for (int time=0; time<maxTimeSteps; time++) {
             Iterator<Vessel> i = env.getVessels().iterator();
             while (i.hasNext()) {

@@ -19,7 +19,7 @@ public class Environment {
      * @throws InterruptedException 
      * @throws CloneNotSupportedException 
      */
-    public Environment() throws InterruptedException, CloneNotSupportedException {
+    public Environment() {
         Node node1 = new Node();
         Node node2 = new Node();
         Node node3 = new Node();
