@@ -17,15 +17,18 @@ public class Configuration {
 	public static double fractionFastVessels = 0.3;
 	
 	// The number of vessels in the initial environment
-	public static int nbStartVessels = 30;
+	public static int nbStartVessels = 0;
 	
 	// The number of timesteps that a reservation in a lock stays active before it "evaporates"
 	public static int reservationTTL = 3;
 	
-	// The number of segments a slow vessel may advance in every timestep.
+	// The number of segments a slow vessel may advance in every timestep
 	public static int nbSegmentsPerStepSlow = 1;
 	
-	// The number of segments a fast vessel may advance in every timestep.
+	// The number of segments a fast vessel may advance in every timestep
 	public static int nbSegmentsPerStepFast = 2;
+	
+	// The probability that a new vessel appears in a given timestep
+	public static double probNewVessel = 0.05;
 
 }

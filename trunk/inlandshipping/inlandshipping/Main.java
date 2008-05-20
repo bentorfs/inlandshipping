@@ -18,38 +18,20 @@ public class Main {
         // Build components
         Environment env = new Environment();
         
-        
         // Start GUI
-        JFrame f = new JFrame("Inland Shipping");
+        JFrame f = new JFrame("MAS Project: Inland Shipping");
         GUI p = new GUI(env);
         f.setContentPane(p);
         f.setSize(650,650);
         f.setVisible(true);
-        
-        //Segment newpos = env.getFairways().get(0).segments[100];
-        //env.getVessels().get(0).setCurrentPosition(newpos);
-        
-        p.redrawGUI(env, 0);
-        
-        /*for (int i=5; i<500; i++) {
-        	p.test(i, 5);
-        	try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        }*/
-        
-        
-        
+
         // Start main loop
-        
-        int maxTimeSteps = Configuration.simulationTime;
-        for (int time=0; time<maxTimeSteps; time++) {
+        for (int time=0; time<Configuration.simulationTime; time++) {
+            // Print a notification every 100 timesteps
             if (time % 100 == 0) {
                 System.out.println("Reached timestep: " + time);
             }
+            // Give all task agents the opportunity to act
             Iterator<Vessel> i = env.getVessels().iterator();
             while (i.hasNext()) {
                 Vessel v = i.next();
@@ -63,10 +45,9 @@ public class Main {
                 agent.scanEnvironment();
                 ArrayList<Fairway> path = agent.getShortestPath();
                 Segment currPosition = v.getCurrentPosition();
-                
-                
+
                 // TODO: currentSpeed moet nog geimplementeerd worden!
-              //if(v.getCurrentSpeed() == Speed.SLOW){
+                //if(v.getCurrentSpeed() == Speed.SLOW){
                 if (v.getTopSpeed() == Speed.SLOW) {
                     for (int k=0; k<Configuration.nbSegmentsPerStepSlow; k++) {
                         v.moveToNextSegment(path);
@@ -76,10 +57,9 @@ public class Main {
                         v.moveToNextSegment(path);
                     }
                 }
-                //decision = agent.makeDecision();
-                //decisions.add(decision);
             }
-            //Environment.reactTo(Vector<Decision> decisions);
+            // Give the environment the opportunity to make changes
+            env.act();
             
             // Update GUI
             Thread.sleep(Configuration.sleepTime);
