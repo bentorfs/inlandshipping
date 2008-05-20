@@ -60,7 +60,11 @@ public class Main {
                 agent.scanEnvironment();
                 ArrayList<Fairway> path = agent.getShortestPath();
                 Segment currPosition = v.getCurrentPosition();
-                if(v.getCurrentSpeed() == Speed.SLOW){
+                
+                
+                // TODO: currentSpeed moet nog geimplementeerd worden!
+              //if(v.getCurrentSpeed() == Speed.SLOW){
+                if (v.getTopSpeed() == Speed.SLOW) {
                 	v.moveToNextSegment(path);
                 }else if(v.getCurrentSpeed() == Speed.FAST){
                 	v.moveToNextSegment(path);
@@ -70,8 +74,8 @@ public class Main {
                 //decisions.add(decision);
                 
                 // Update GUI
-                //Thread.sleep(100);
-                //p.drawVessels(env);
+                Thread.sleep(20);
+                p.drawVessels(env);
             }
             //Environment.reactTo(Vector<Decision> decisions);
         }

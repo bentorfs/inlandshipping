@@ -84,12 +84,28 @@ public class GUI extends JPanel {
 				double toY = nodeYCoords[toIndex];
 				// TODO: schip positioneren afhankelijk van hoe ver het op deze fairway zit.
 				// nummertjes gebruiken voor de segments hiervoor?
-				shipXPosition = (fromX + toX) / 2;
-				shipYPosition = (fromY + toY) / 2;
+				Segment[] fairwaySegments = vFairway.getSegments();
+				int positionOnFairway = findPositionOf(fairwaySegments, vPosition);
+				double factor = (double) positionOnFairway / vFairway.getLength();
+				System.out.println(factor);
+				shipXPosition = (toX - fromX) * factor + fromX;
+				shipYPosition = (toY - fromY) * factor + fromY;
 			}
 			Ellipse2D.Double vessel = new Ellipse2D.Double(shipXPosition-2, shipYPosition-2, 5, 5);
 			vessels.add(vessel);
+			repaint();
 		}
+	}
+	
+	private int findPositionOf(Segment[] list, Segment element) {
+	    for (int i=0; i<list.length; i++) {
+	        if (list[i] == element) {
+	            return i;
+	        }
+	    }
+	    // This should not happen.
+	    System.out.println("the requested element was not in the array!");
+	    return 0;
 	}
 	
 	/**
