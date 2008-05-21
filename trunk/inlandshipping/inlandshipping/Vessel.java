@@ -20,7 +20,7 @@ public class Vessel {
     /*
      * The number of segments passed so far on the fairway the vessel is floating on currently.
      */
-    private double nbSegmentsPassed;
+    private int nbSegmentsPassed;
     
     private boolean isWorking = true;
     
@@ -159,10 +159,24 @@ public class Vessel {
     	return nbSegmentsPassed / getCurrentPosition().getFairway().getLength()+1;
     }
 
+    /*
+     * Returns the number of segments the vessel has to pass on the current fairway to reach
+     * the next node.
+     */
+    public int getNbSegmentsToGo(){
+    	return getCurrentPosition().getFairway().getLength() - nbSegmentsPassed + 1;
+    }
+    
+    /*
+     * Returns the top speed of the vessel.
+     */
     public Speed getTopSpeed() {
         return topSpeed;
     }
 
+    /*
+     * Returns the size of the vessel.
+     */
     public Size getSize() {
         return size;
     }
