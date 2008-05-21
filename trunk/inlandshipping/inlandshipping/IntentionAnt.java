@@ -24,6 +24,10 @@ public class IntentionAnt {
 		previousNode = vessel.getSource();
 	}
 
+	/**
+	 * Makes reservations at all the locks where the ship will pass. 
+	 * PreviousNode makes you know on which way you will enter the lock.
+	 */
 	public void makeReservations(){
 		int steps = vessel.getNbSegmentsToGo();
 		Fairway fairway;
