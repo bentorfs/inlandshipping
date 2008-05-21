@@ -98,7 +98,7 @@ public abstract class ResAgent {
 	 * Method returns when, according to current scheduling, a vessel could have traversed
 	 * the lock, if it arrived at the specified time from the specified direction.
 	 */
-	public abstract int whatIf(Vessel vessel, int arrivalTime, Segment direction);
+	public abstract int whatIf(Vessel vessel, int arrivalTime, Segment direction, int timeNow);
 	
 	/**
 	 * Create a new reservation for a vessel arriving at the given time from the given direction.
