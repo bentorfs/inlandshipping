@@ -27,11 +27,24 @@ public class SimpleResAgent extends ResAgent {
     }
     
     /**
-     * Calculates a new scheduling from the current reservations
+     * Calculates a new (FIFO) scheduling from the current reservations
      */
-    public void updateScheduling() {
+    public void updateScheduling(int time) {
+        // If there is a transfer going on right now, store all related SchedulingElem's in inTransfer
+        HashMap<Integer,SchedulingElem> inTransfer = new HashMap<Integer,SchedulingElem>();
+        int at = time;
+        SchedulingElem doingAt = timeTable.get(at);
+        while (doingAt.getEvent() != SchedulingEvent.ENDTRANSIT || 
+                   doingAt.getEvent() != SchedulingEvent.STARTTRANSIT) {
+            inTransfer.put(at,doingAt);
+            at++;
+            doingAt = timeTable.get(at);
+        }
+        // Clear the timetable
         timeTable.clear();
-        // TODO: vessels currently in transfer should be stored somewhere and added here.
+        // Add all stored events to the empty timetable
+        timeTable.putAll(inTransfer);
+        // Sort the reservations according to arrival time
         java.util.Collections.sort(getReservations());
         Iterator<LockReservation> i = getReservations().iterator();
         while (i.hasNext()) {
@@ -53,8 +66,15 @@ public class SimpleResAgent extends ResAgent {
      * Adds the given reservation to the schedule.
      */
     private void schedule(LockReservation r) {
-        // See when the ship can start transferring, and add empty transferslots if needed.
-        int start = prepareStartTime(r.getArrivalTime(), r.getDirection());
+        // See when the ship can start transferring.
+        int start = prepareStartTime(r.getArrivalTime());
+        // Add empty transferslots if needed, and get the resulting new start time.
+        start = addEmptySlots(start, r.getDirection());
+        if (start < r.getArrivalTime()) {
+            // The lock is ready before the vessel arrives, 
+            // of course, the transaction can only start when it arrives.
+            start = r.getArrivalTime();
+        }
         // Add the starttransit block
         SchedulingElem elem = new SchedulingElem(r.getVessel(), SchedulingEvent.STARTTRANSIT);
         timeTable.put(start,elem);
@@ -70,18 +90,59 @@ public class SimpleResAgent extends ResAgent {
         timeTable.put(start + getLock().getTimeNeeded(),elem);
     }
     
-    private int prepareStartTime(int arrivalTime, Segment direction) {
-        // TODO
+    /**
+     * Returns the first empty slot for a ship arriving at arrivalTime
+     */
+    private int prepareStartTime(int arrivalTime) {
+        int time;
         if (timeTable.get(arrivalTime) != null) {
             // Some other vessel is in transit
             // Find the first available slot
+            time = arrivalTime + 1;
+            while (timeTable.get(time) != null) {
+                time++;
+            }
         }
         else {
             // No other vessel is in transit
-            // Find the last event, and see in what position it left the lock
-            
+            // Find the last event
+            time = arrivalTime - 1;
+            while (timeTable.get(time) == null) {
+                time--;
+            }
+            // Time is now the last occupied position, we need the first unoccupied one.
+            time++;
         }
-        return 0;
+        return time;
+    }
+    
+    /**
+     * Returns when a vessel, arriving at given time from given direction,
+     * could enter the lock. Possibly after inserting empty transfer slots.
+     */
+    private int addEmptySlots(int time, Segment direction) {
+        // time is now the timepoint at which there is no vessel in the lock.
+        // See if we have to add empty transfer slots.
+        if ((timeTable.get(time - 2).getEvent() == SchedulingEvent.TRANSIT_TO_1 && direction == getLock()
+                .getSideOne())
+                || (timeTable.get(time - 2).getEvent() == SchedulingEvent.TRANSIT_TO_2 && direction == getLock()
+                        .getSideTwo())) {
+            // It's okay, don't add empty transfer slots
+            return time;
+        } else {
+            // It's not okay, add the empty transfers lots
+            SchedulingEvent event = (timeTable.get(time - 2).getEvent() == SchedulingEvent.TRANSIT_TO_1) ? SchedulingEvent.TRANSIT_TO_2
+                    : SchedulingEvent.TRANSIT_TO_1;
+            for (int i = 0; i < getLock().getTimeNeeded(); i++) {
+                SchedulingElem elem = new SchedulingElem(null, event);
+                timeTable.put(time + i, elem);
+            }
+            return time + getLock().getTimeNeeded() - 1;
+        }
+    }
+    
+    protected void performActions(int time) {
+        // TODO
     }
 
 }

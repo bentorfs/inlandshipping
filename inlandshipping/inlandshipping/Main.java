@@ -63,7 +63,7 @@ public class Main {
             while (it.hasNext()) {
                 Lock l = it.next();
                 ResAgent agent = l.getAgent();
-                agent.act();
+                agent.act(time);
             }
             
             // Give the environment the opportunity to make changes

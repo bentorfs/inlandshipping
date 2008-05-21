@@ -63,7 +63,7 @@ public abstract class ResAgent {
 	/**
 	 * Decreases the TTL of all reservations of this agent by 1.
 	 */
-	private void increaseTTL() {
+	private void decreaseTTL() {
 		Iterator<LockReservation> i = reservations.iterator();
 		while (i.hasNext()) {
 			i.next().decreaseTTL();
@@ -91,7 +91,7 @@ public abstract class ResAgent {
 	/**
 	 * Calculates a new scheduling from the current reservations
 	 */
-	public abstract void updateScheduling();
+	public abstract void updateScheduling(int time);
 	
     /****************************************************************
      * Make decisions
@@ -99,14 +99,22 @@ public abstract class ResAgent {
 	
 	/**
 	 * This method is to be called at each timepoint during the simulation.
+	 * 
+	 * @param time The current timepoint of the simulation.
 	 */
-	public void act() {
-	    increaseTTL();
-	    updateScheduling();
+	public void act(int time) {
+	    // Decrease the TTL of all reservations
+	    decreaseTTL();
+	    // Create a new scheduling based on the remaining reservations
+	    updateScheduling(time);
+	    // Perform the actions of this timepoint
+	    performActions(time);
 	    // TODO: performActions() ofzo... schepen effectief verplaatsen. O
 	    // Als het schip da momenteel aan de beurt is er niet is, reservatie schrappen
 	    // en updateScheduling opnieuw doen.
 	}
+	
+	protected abstract void performActions(int time);
 
 
 }
