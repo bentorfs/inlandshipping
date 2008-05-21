@@ -7,6 +7,7 @@ public class IntentionAnt {
 	
 	private ArrayList<Fairway> pathToCheck;
 	private Vessel vessel;
+	private Node previousNode;
 	
 	// de frequentie waarop de mieren worden uitgestuurd moet overeenkomen met de tijd 
 	// dat een reservatie blijft staan
@@ -20,6 +21,7 @@ public class IntentionAnt {
 	public IntentionAnt(Vessel vessel){
 		this.vessel= vessel;
 		pathToCheck = vessel.getAgent().getShortestPath();
+		previousNode = vessel.getSource();
 	}
 
 	// geen rekening gehouden met richting!! 
@@ -28,6 +30,7 @@ public class IntentionAnt {
 		Fairway fairway;
 		for(int i = 0; i < pathToCheck.size(); i++){
 			fairway = pathToCheck.get(i);
+			if node = prevnod
 			for(int j = 0; j < fairway.getSegments().length; j ++){
 				steps++;
 				if(fairway.getSegments()[j] instanceof Lock){
