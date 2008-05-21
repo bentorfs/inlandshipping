@@ -58,6 +58,14 @@ public class Main {
                     }
                 }
             }
+            // Give all the resource agents the opportunity to act
+            Iterator<Lock> it = env.getLocks().iterator();
+            while (it.hasNext()) {
+                Lock l = it.next();
+                ResAgent agent = l.getAgent();
+                agent.act();
+            }
+            
             // Give the environment the opportunity to make changes
             env.act();
             

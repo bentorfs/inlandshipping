@@ -14,6 +14,8 @@ public class Environment {
     
     private Vector<Fairway> fairways = new Vector<Fairway>();
     
+    private Vector<Lock> locks = new Vector<Lock>();
+    
     /**
      * This constructor builds an example topography.
      * @throws InterruptedException 
@@ -107,10 +109,14 @@ public class Environment {
         Fairway way15 = new Fairway(antwerp,hasselt,2,80,Speed.FAST);
         fairways.add(way15);
         
+        // Create locks
+        // TODO
+        
+        
         // new Vessel(source,destination,size,maxSpeed)
-        /*Vessel vessel1 = new Vessel(bruges,liege,Size.SMALL, Speed.SLOW);
+        Vessel vessel1 = new Vessel(liege,bruges,Size.SMALL, Speed.FAST);
         vessels.add(vessel1);
-        Vessel vessel2 = new Vessel(hasselt,tournai,Size.SMALL, Speed.SLOW);
+        /*Vessel vessel2 = new Vessel(hasselt,tournai,Size.SMALL, Speed.SLOW);
         vessels.add(vessel2);
         Vessel vessel3 = new Vessel(namur,antwerp,Size.SMALL, Speed.SLOW);
         vessels.add(vessel3);*/
@@ -178,5 +184,9 @@ public class Environment {
             addToVessels(v);
             System.out.println("A new vessel has entered the environment");
         }
+    }
+
+    public Vector<Lock> getLocks() {
+        return locks;
     }
 }

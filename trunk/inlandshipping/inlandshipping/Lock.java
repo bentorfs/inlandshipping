@@ -4,11 +4,10 @@ import java.util.Vector;
 
 public abstract class Lock extends Segment {
 	/*
-	 * List of ships that are currently waiting on the 'next' and 'previous' side of the lock
-	 * TODO: nodig???
+	 * List of ships that are currently waiting on the each of the sides of the lock.
 	 */
-	//private Vector<Vessel> waitingNext;
-	//private Vector<Vessel> waitingPrevious;
+	private Vector<Vessel> waitingSideOne;
+	private Vector<Vessel> waitingSideTwo;
     
     /****************************************************************
      * Constructor
@@ -61,7 +60,4 @@ public abstract class Lock extends Segment {
     public ResAgent getAgent() {
         return agent;
     }
-    
-    
-	
 }
