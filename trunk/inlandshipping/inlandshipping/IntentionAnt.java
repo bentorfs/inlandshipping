@@ -10,6 +10,8 @@ public class IntentionAnt {
 	
 	// de frequentie waarop de mieren worden uitgestuurd moet overeenkomen met de tijd 
 	// dat een reservatie blijft staan
+	// maar wat als er een lock is op de fairway waar hij nu is?? het kortste pad begint vanaf de
+	// volgende node, dus de ants passere niet langs die lock!!
 	
 	// misschien een fairway late bijhouden of hij al dan niet een lock heeft en waar??
 	//om sequentieel doorzoeken te vermijden.
@@ -19,7 +21,7 @@ public class IntentionAnt {
 		pathToCheck = vessel.getAgent().getShortestPath();
 	}
 
-	// geen rekening gehouden met richting!!
+	// geen rekening gehouden met richting!! 
 	public void makeReservations(){
 		int steps = vessel.getNbSegmentsToGo();
 		Fairway fairway;
