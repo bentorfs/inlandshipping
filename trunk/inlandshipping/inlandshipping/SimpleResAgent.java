@@ -21,11 +21,17 @@ public class SimpleResAgent extends ResAgent {
      * Method returns when, according to current scheduling, a vessel could have traversed
      * the lock, if it arrived at the specified time from the specified direction.
      */
-    public int whatIf(Vessel vessel, int arrivalTime, Segment direction) {
-        // TODO
-        return 0;
+    public int whatIf(Vessel vessel, int arrivalTime, Segment direction, int timeNow) {
+        // Keep a backup of the current timetable
+        HashMap<Integer,SchedulingElem> timeTableBackup = (HashMap<Integer,SchedulingElem>) timeTable.clone();
+        makeReservation(vessel, arrivalTime, direction);
+        updateScheduling(timeNow);
+        int result = findPassThroughTime(vessel, arrivalTime);
+        // Put the original timetable back in place
+        timeTable = timeTableBackup;
+        return result;
     }
-    
+
     /**
      * Calculates a new (FIFO) scheduling from the current reservations
      */
@@ -183,6 +189,21 @@ public class SimpleResAgent extends ResAgent {
                 removeReservationsBy(currentVessel);
             }
         }
+    }
+    
+    /**
+     * Searches the timetable to find when the given vessel
+     * will have passed through the lock.
+     */
+    private int findPassThroughTime(Vessel vessel, int arrivalTime) {
+        int i = arrivalTime;
+        while (true) {
+            SchedulingElem e = timeTable.get(i);
+            if (e.getVessel() == vessel)
+                return i;
+            i++;
+        }
+        
     }
 
 }
