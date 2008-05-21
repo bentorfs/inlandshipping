@@ -11,4 +11,23 @@ public class SimpleLock extends Lock {
         super(fairway, timeNeeded);
         this.agent = agent;
     }
+    
+    /*
+     * The vessel currently in the chamber of this lock.
+     */
+    private Vessel vesselInChamber;
+
+    /*
+     * Returns the vessel in the chamber of this lock.
+     */
+    public Vessel getVesselInChamber() {
+        return vesselInChamber;
+    }
+
+    /*
+     * Sets the vessel in the chamber of this lock to the given vessel.
+     */
+    public void setVesselInChamber(Vessel vesselInChamber) {
+        this.vesselInChamber = vesselInChamber;
+    }
 }

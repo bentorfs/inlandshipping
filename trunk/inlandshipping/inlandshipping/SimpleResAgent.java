@@ -34,8 +34,7 @@ public class SimpleResAgent extends ResAgent {
         HashMap<Integer,SchedulingElem> inTransfer = new HashMap<Integer,SchedulingElem>();
         int at = time;
         SchedulingElem doingAt = timeTable.get(at);
-        while (doingAt.getEvent() != SchedulingEvent.ENDTRANSIT || 
-                   doingAt.getEvent() != SchedulingEvent.STARTTRANSIT) {
+        while (doingAt != null && doingAt.getEvent() != SchedulingEvent.STARTTRANSIT) {
             inTransfer.put(at,doingAt);
             at++;
             doingAt = timeTable.get(at);
@@ -141,8 +140,30 @@ public class SimpleResAgent extends ResAgent {
         }
     }
     
+    /**
+     * This method acts upon the vessels waiting on both sides of the lock
+     * performing the calculated schedule.
+     */
     protected void performActions(int time) {
-        // TODO
+        // See what has to happen at this moment, according to the schedule.
+        SchedulingElem task = timeTable.get(time);
+        // if task is null or transit, nothing needs to be done.
+        // if it is starttransit or endtransit, ships need to be moved.
+        if (task.getEvent() == SchedulingEvent.ENDTRANSIT) {
+            SimpleLock lock = (SimpleLock) getLock();
+            Vessel v = lock.getVesselInChamber();
+            if (v.getPreviousSegment() == lock.getSideOne()) {
+                v.setCurrentPosition(lock.getSideTwo());
+            }
+            else if (v.getPreviousSegment() == lock.getSideTwo()) {
+                v.setCurrentPosition(lock.getSideOne());
+            }
+            lock.setVesselInChamber(null);
+        }
+        else if (task.getEvent() == SchedulingEvent.STARTTRANSIT) {
+            //setVesselInChamber(task.getVessel());
+            // TODO
+        }
     }
 
 }
