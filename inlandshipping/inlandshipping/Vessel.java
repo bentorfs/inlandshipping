@@ -101,7 +101,8 @@ public class Vessel {
      */
 
     public void moveToNextSegment(ArrayList<Fairway> path) {
-        if(!(getCurrentPosition() instanceof Node)){
+    	nbSegmentsPassed++;
+    	if(!(getCurrentPosition() instanceof Node)){
             ArrayList<Segment> neighbours = getCurrentPosition().getNeighbours();
             if(neighbours.get(0) == previousSegment){
                 setPreviousSegment(getCurrentPosition());
@@ -112,6 +113,7 @@ public class Vessel {
             }
             if (getCurrentPosition() instanceof Node){
                 setSource((Node) getCurrentPosition());
+                nbSegmentsPassed = 0;
                 if (getCurrentPosition() == getDestination()) {
                     System.out.println("Vessel has reached target");
                     // TODO: Vessel moet uit de environment gehaald worden
@@ -138,6 +140,7 @@ public class Vessel {
             }
             if (getCurrentPosition() instanceof Node) {
                 setSource((Node) getCurrentPosition());
+                nbSegmentsPassed = 0;
                 if (getCurrentPosition() == getDestination()) {
                     System.out.println("Vessel has reached target");
                     // TODO: Vessel moet uit de environment gehaald worden
@@ -149,6 +152,7 @@ public class Vessel {
     /*
      * This method returns the percentage of road the vessel has passed 
      * so far on his current fairway.
+     * In a node this will always be 0%. -> probleem 100%???
      */
     
     public double GetPercentageOfFairwayPassed(){
