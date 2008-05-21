@@ -19,6 +19,7 @@ public class IntentionAnt {
 		pathToCheck = vessel.getAgent().getShortestPath();
 	}
 
+	// geen rekening gehouden met richting!!
 	public void makeReservations(){
 		int steps = vessel.getNbSegmentsToGo();
 		Fairway fairway;
@@ -27,8 +28,8 @@ public class IntentionAnt {
 			for(int j = 0; j < fairway.getSegments().length; j ++){
 				steps++;
 				if(fairway.getSegments()[j] instanceof Lock){
-					// maak reservatie
-					// tel de wachttijd van de lock erbij
+					((Lock) fairway.getSegments()[j]).getAgent().makeReservation(vessel, steps, direction);
+					steps += ((Lock) fairway.getSegments()[j]).getTimeNeeded();
 				}
 			}
 			// for the last step to the node
