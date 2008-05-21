@@ -12,4 +12,5 @@ public class IntentionAnt {
 		pathToCheck = vessel.getAgent().getShortestPath();
 	}
 
+	
 }

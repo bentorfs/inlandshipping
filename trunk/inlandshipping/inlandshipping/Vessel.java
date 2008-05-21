@@ -140,6 +140,13 @@ public class Vessel {
             }
         }
     }
+    
+    /*
+     * This method returns the percentage of road the vessel has passed 
+     * so far on his current fairway.
+     */
+    
+    public double 
 
     public Speed getTopSpeed() {
         return topSpeed;
