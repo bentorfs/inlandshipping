@@ -17,6 +17,10 @@ public class Vessel {
     private Segment currentPosition;
     private Segment previousSegment;
     private Cargo cargo = Cargo.EMPTY;
+    /*
+     * The number of segments passed so far on the fairway the vessel is floating on currently.
+     */
+    private double nbSegmentsPassed;
     
     private boolean isWorking = true;
     
@@ -35,6 +39,7 @@ public class Vessel {
         this.agent = new TaskAgent(this);
         setCurrentPosition(startNode);
         this.previousSegment = null;
+        nbSegmentsPassed = 0;
     }
     
     /******************************************************
@@ -146,7 +151,9 @@ public class Vessel {
      * so far on his current fairway.
      */
     
-    public double 
+    public double GetPercentageOfFairwayPassed(){
+    	return nbSegmentsPassed / getCurrentPosition().getFairway().getLength()+1;
+    }
 
     public Speed getTopSpeed() {
         return topSpeed;
