@@ -78,7 +78,7 @@ public class Vessel {
     	return currentPosition;
     }
 
-    private void setCurrentPosition(Segment position) {
+    public void setCurrentPosition(Segment position) {
     	currentPosition = position;
     }
     
