@@ -24,22 +24,32 @@ public class IntentionAnt {
 		previousNode = vessel.getSource();
 	}
 
-	// geen rekening gehouden met richting!! 
 	public void makeReservations(){
 		int steps = vessel.getNbSegmentsToGo();
 		Fairway fairway;
 		for(int i = 0; i < pathToCheck.size(); i++){
 			fairway = pathToCheck.get(i);
-			if node = prevnod
-			for(int j = 0; j < fairway.getSegments().length; j ++){
-				steps++;
-				if(fairway.getSegments()[j] instanceof Lock){
-					((Lock) fairway.getSegments()[j]).getAgent().makeReservation(vessel, steps, direction);
-					steps += ((Lock) fairway.getSegments()[j]).getTimeNeeded();
+			if (fairway.getNode1() == previousNode){
+				for(int j = 0; j < fairway.getSegments().length; j ++){
+					steps++;
+					if(fairway.getSegments()[j] instanceof Lock){
+						((Lock) fairway.getSegments()[j]).getAgent().makeReservation(vessel, steps, fairway.getSegments()[j - 1]);
+						steps += ((Lock) fairway.getSegments()[j]).getTimeNeeded();
+					}
+				}
+			}
+			else{ 
+				for(int j = fairway.getSegments().length; j > 0; j --){
+					steps++;
+					if(fairway.getSegments()[j] instanceof Lock){
+						((Lock) fairway.getSegments()[j]).getAgent().makeReservation(vessel, steps, fairway.getSegments()[j+1]);
+						steps += ((Lock) fairway.getSegments()[j]).getTimeNeeded();
+					}
 				}
 			}
 			// for the last step to the node
 			steps++;
+			previousNode = fairway.getOtherNode(previousNode);
 		}
 	}
 }
