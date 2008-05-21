@@ -103,8 +103,8 @@ public abstract class ResAgent {
 	public void act() {
 	    increaseTTL();
 	    updateScheduling();
-	    // TODO: performActions() ofzo... schepen effectief verplaatsen. Of doet de environment dit? in dat geval "decision definieren"
-	    // en abstracte methode maken die die invult. Als het schip da momenteel aan de beurt is er niet is, reservatie schrappen
+	    // TODO: performActions() ofzo... schepen effectief verplaatsen. O
+	    // Als het schip da momenteel aan de beurt is er niet is, reservatie schrappen
 	    // en updateScheduling opnieuw doen.
 	}
 
