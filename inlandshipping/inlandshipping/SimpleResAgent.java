@@ -34,7 +34,12 @@ public class SimpleResAgent extends ResAgent {
         HashMap<Integer,SchedulingElem> inTransfer = new HashMap<Integer,SchedulingElem>();
         int at = time;
         SchedulingElem doingAt = timeTable.get(at);
-        while (doingAt != null && doingAt.getEvent() != SchedulingEvent.STARTTRANSIT) {
+        SimpleLock lock = (SimpleLock) getLock();
+        // The first check is to ignore reservations of ships that did not show up
+        // The second check is to ignore empty events
+        // The third check is to continue copying until a starttransit event is found
+        while (lock.getVesselInChamber() != null 
+                && doingAt != null && doingAt.getEvent() != SchedulingEvent.STARTTRANSIT) {
             inTransfer.put(at,doingAt);
             at++;
             doingAt = timeTable.get(at);
@@ -147,10 +152,10 @@ public class SimpleResAgent extends ResAgent {
     protected void performActions(int time) {
         // See what has to happen at this moment, according to the schedule.
         SchedulingElem task = timeTable.get(time);
+        SimpleLock lock = (SimpleLock) getLock();
         // if task is null or transit, nothing needs to be done.
         // if it is starttransit or endtransit, ships need to be moved.
         if (task.getEvent() == SchedulingEvent.ENDTRANSIT) {
-            SimpleLock lock = (SimpleLock) getLock();
             Vessel v = lock.getVesselInChamber();
             if (v.getPreviousSegment() == lock.getSideOne()) {
                 v.setCurrentPosition(lock.getSideTwo());
@@ -161,8 +166,22 @@ public class SimpleResAgent extends ResAgent {
             lock.setVesselInChamber(null);
         }
         else if (task.getEvent() == SchedulingEvent.STARTTRANSIT) {
-            //setVesselInChamber(task.getVessel());
-            // TODO
+            Vessel currentVessel = task.getVessel();
+            if (lock.getWaitingSideOne().contains(currentVessel)) {
+                // The scheduled vessel is waiting at side one
+                lock.getWaitingSideOne().remove(currentVessel);
+                lock.setVesselInChamber(currentVessel);
+            }
+            else if (lock.getWaitingSideTwo().contains(currentVessel)) {
+                // The scheduled vessel is waiting at side two
+                lock.getWaitingSideTwo().remove(currentVessel);
+                lock.setVesselInChamber(currentVessel);
+            }
+            else {
+                // The scheduled vessel is not present
+                // Remove his reservation
+                removeReservationsBy(currentVessel);
+            }
         }
     }
 
