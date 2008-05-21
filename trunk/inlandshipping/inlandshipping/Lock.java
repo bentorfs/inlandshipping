@@ -8,6 +8,14 @@ public abstract class Lock extends Segment {
 	 */
 	private Vector<Vessel> waitingSideOne;
 	private Vector<Vessel> waitingSideTwo;
+	
+    public Vector<Vessel> getWaitingSideOne() {
+        return waitingSideOne;
+    }
+
+    public Vector<Vessel> getWaitingSideTwo() {
+        return waitingSideTwo;
+    }
     
     /****************************************************************
      * Constructor
@@ -60,4 +68,6 @@ public abstract class Lock extends Segment {
     public ResAgent getAgent() {
         return agent;
     }
+
+
 }
