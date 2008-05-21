@@ -155,7 +155,7 @@ public class Vessel {
      * In a node this will always be 0%. -> probleem 100%???
      */
     
-    public double GetPercentageOfFairwayPassed(){
+    public double GetPercentageOfFairwayPassed() {
     	return nbSegmentsPassed / getCurrentPosition().getFairway().getLength()+1;
     }
 
@@ -163,8 +163,9 @@ public class Vessel {
      * Returns the number of segments the vessel has to pass on the current fairway to reach
      * the next node.
      */
-    public int getNbSegmentsToGo(){
-    	return getCurrentPosition().getFairway().getLength() - nbSegmentsPassed + 1;
+    public int getNbSegmentsToGo() {
+    	if(getCurrentPosition() instanceof Node) return 0;
+    	else return getCurrentPosition().getFairway().getLength() - nbSegmentsPassed + 1;
     }
     
     /*
