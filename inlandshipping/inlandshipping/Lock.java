@@ -6,8 +6,8 @@ public abstract class Lock extends Segment {
 	/*
 	 * List of ships that are currently waiting on the each of the sides of the lock.
 	 */
-	private Vector<Vessel> waitingSideOne;
-	private Vector<Vessel> waitingSideTwo;
+	private Vector<Vessel> waitingSideOne = new Vector<Vessel>();
+	private Vector<Vessel> waitingSideTwo = new Vector<Vessel>();
 	
     public Vector<Vessel> getWaitingSideOne() {
         return waitingSideOne;

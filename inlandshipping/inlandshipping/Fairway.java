@@ -1,5 +1,7 @@
 package inlandshipping;
 
+import java.util.Vector;
+
 
 /**
  * Class representing a fairway.
@@ -18,8 +20,9 @@ public class Fairway {
     /**
      * Constructs a fairway from the given startnode to the given endnode. The length
      * is the number of segments this fairway is composed of.
+     * The new fairway will have locks positioned on all positions in lockpositions.
      */
-    public Fairway(Node node1, Node node2, int nbLanes, int length, Speed maxSpeed) {
+    public Fairway(Node node1, Node node2, int nbLanes, int length, Speed maxSpeed, Vector<Integer> lockPositions) {
         this.nbLanes = nbLanes;
         this.maxSpeed = maxSpeed;
         this.node1 = node1;
@@ -27,7 +30,7 @@ public class Fairway {
         node1.attachFairway(this);
         node2.attachFairway(this);
         this.length = length;
-        constructSegments();
+        constructSegments(lockPositions);
     }
     
     public int getLength(){
@@ -37,10 +40,17 @@ public class Fairway {
     /**
      * Constructs the segments composing this fairway and initializes the neighbours.
      */
-    private void constructSegments() {
+    private void constructSegments(Vector<Integer> lockPositions) {
         this.segments = new Segment[length];
         for (int i=0; i<length; i++) {
-            segments[i] = new Segment(this);
+            if (lockPositions.contains(i)) {
+                // A lock should be built
+                segments[i] = new SimpleLock(this,Configuration.lockTimeNeeded,new SimpleResAgent());
+            }
+            else {
+                // A regular segment should be built
+                segments[i] = new Segment(this);
+            }
         }
         node1.addNeighbour(segments[0]);
         node2.addNeighbour(segments[length-1]);

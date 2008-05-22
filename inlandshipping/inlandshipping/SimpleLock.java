@@ -10,6 +10,8 @@ public class SimpleLock extends Lock {
     public SimpleLock(Fairway fairway, int timeNeeded, SimpleResAgent agent) {
         super(fairway, timeNeeded);
         this.agent = agent;
+        SimpleResAgent a = (SimpleResAgent) agent;
+        a.setLock(this);
     }
     
     /*
