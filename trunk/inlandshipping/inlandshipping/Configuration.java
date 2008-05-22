@@ -30,4 +30,7 @@ public class Configuration {
 
 	// The number of timesteps that a reservation in a lock stays active before it "evaporates"
     public static int reservationTTL = 3;
+    
+    // The time needed for locks to transfer the water level of their chambers
+    public static int lockTimeNeeded = 5;
 }

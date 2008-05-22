@@ -15,6 +15,7 @@ public class GUI extends JPanel {
 	private Vector<Ellipse2D.Double> nodes = new Vector<Ellipse2D.Double>();
 	private Vector<Line2D.Double> fairways = new Vector<Line2D.Double>();
 	private Vector<Ellipse2D.Double> vessels = new Vector<Ellipse2D.Double>();
+	private Vector<Rectangle2D.Double> locks = new Vector<Rectangle2D.Double>();
 	
 	private int nbLargeVessels;
 	private int nbSmallVessels;
@@ -43,6 +44,8 @@ public class GUI extends JPanel {
 			Line2D.Double fw = new Line2D.Double(fromX,fromY,toX,toY);
 			fairways.add(fw);
 		}
+		
+		
 	}
 	
 	/**
@@ -122,6 +125,13 @@ public class GUI extends JPanel {
         Iterator<Ellipse2D.Double> n = nodes.iterator();
         while (n.hasNext()) {
         	g2.fill(n.next());
+        }
+        
+        g2.setColor(new Color(0,0,255));
+        // Draw locks
+        Iterator<Rectangle2D.Double> lo = locks.iterator();
+        while (lo.hasNext()) {
+            g2.fill(lo.next());
         }
         
         // Draw vessels
