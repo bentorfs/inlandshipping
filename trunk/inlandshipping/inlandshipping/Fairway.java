@@ -16,6 +16,8 @@ public class Fairway {
     private Node node2;
     
     private Segment[] segments;
+    
+    private Vector<Lock> locks = new Vector<Lock>();
    
     /**
      * Constructs a fairway from the given startnode to the given endnode. The length
@@ -46,6 +48,8 @@ public class Fairway {
             if (lockPositions.contains(i)) {
                 // A lock should be built
                 segments[i] = new SimpleLock(this,Configuration.lockTimeNeeded,new SimpleResAgent());
+                // Keep the created lock in a list
+                locks.add((Lock) segments[i]);
             }
             else {
                 // A regular segment should be built
