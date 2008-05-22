@@ -161,7 +161,7 @@ public class SimpleResAgent extends ResAgent {
         SimpleLock lock = (SimpleLock) getLock();
         // if task is null or transit, nothing needs to be done.
         // if it is starttransit or endtransit, ships need to be moved.
-        if (task.getEvent() == SchedulingEvent.ENDTRANSIT) {
+        if (task != null && task.getEvent() == SchedulingEvent.ENDTRANSIT) {
             Vessel v = lock.getVesselInChamber();
             if (v.getPreviousSegment() == lock.getSideOne()) {
                 v.setCurrentPosition(lock.getSideTwo());
@@ -171,7 +171,7 @@ public class SimpleResAgent extends ResAgent {
             }
             lock.setVesselInChamber(null);
         }
-        else if (task.getEvent() == SchedulingEvent.STARTTRANSIT) {
+        else if (task != null && task.getEvent() == SchedulingEvent.STARTTRANSIT) {
             Vessel currentVessel = task.getVessel();
             if (lock.getWaitingSideOne().contains(currentVessel)) {
                 // The scheduled vessel is waiting at side one

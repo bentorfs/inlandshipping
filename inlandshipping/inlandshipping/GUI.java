@@ -12,7 +12,9 @@ import javax.swing.JPanel;
 
 public class GUI extends JPanel {
 	
-	private Vector<Ellipse2D.Double> nodes = new Vector<Ellipse2D.Double>();
+    private static final long serialVersionUID = 1L;
+    
+    private Vector<Ellipse2D.Double> nodes = new Vector<Ellipse2D.Double>();
 	private Vector<Line2D.Double> fairways = new Vector<Line2D.Double>();
 	private Vector<Ellipse2D.Double> vessels = new Vector<Ellipse2D.Double>();
 	private Vector<Rectangle2D.Double> locks = new Vector<Rectangle2D.Double>();
