@@ -54,4 +54,37 @@ public class TaskAgent {
     public Vessel getVessel() {
         return vessel;
     }
+    
+    /**
+     * This method should be called at every timestep in the simulation
+     * for decision making and acting.
+     */
+    public void act() {
+        // TODO elke keer de agent gaat scanne kan hij het pad veranderen
+        // Enkel van in een node kan hij wel zijn pad maar gaan veranderen,
+        // hij kan zijn route niet wijzigen van in een egwoon segment.
+        // TODO de voorwaarden om naar een segment/node te kunnen bewegen
+        // TODO schip heeft bestemming bereikt
+        // TODO explorationants enkel uitsturen opt moment da vessel in ne node
+        // komt (of ga komen)
+        scanEnvironment();
+        
+        // Kijk naar het kortste pad. TODO: een "plan" invoeren, dat een paar iteraties
+        // bewaard blijft in plaats van élke iteratie alle paden te zoeken en het kortste
+        // te nemen.
+        ArrayList<Fairway> path = getShortestPath();
+
+        // Verplaats het schip in de richting van pad van het huidige plan.
+        // TODO: currentSpeed moet nog geimplementeerd worden!
+        // dus er staat getTopSpeed ipv getCurrentSpeed
+        if (getVessel().getTopSpeed() == Speed.SLOW) {
+            for (int k = 0; k < Configuration.nbSegmentsPerStepSlow; k++) {
+                getVessel().moveToNextSegment(path);
+            }
+        } else if (getVessel().getTopSpeed() == Speed.FAST) {
+            for (int k = 0; k < Configuration.nbSegmentsPerStepFast; k++) {
+                getVessel().moveToNextSegment(path);
+            }
+        }
+    }
 }
