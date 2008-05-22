@@ -36,27 +36,7 @@ public class Main {
             while (i.hasNext()) {
                 Vessel v = i.next();
                 TaskAgent agent = v.getAgent();
-                //TODO elke keer de agent gaat scanne kan hij het pad veranderen
-                // Enkel van in een node kan hij wel zijn pad maar gaan veranderen, 
-                // hij kan zijn route niet wijzigen van in een egwoon segment.
-                // TODO de voorwaarden om naar een segment/node te kunnen bewegen
-                // TODO schip heeft bestemming bereikt
-                // TODO explorationants enkel uitsturen opt moment da vessel in ne node komt (of ga komen)
-                agent.scanEnvironment();
-                ArrayList<Fairway> path = agent.getShortestPath();
-                Segment currPosition = v.getCurrentPosition();
-
-                // TODO: currentSpeed moet nog geimplementeerd worden!
-                //if(v.getCurrentSpeed() == Speed.SLOW){
-                if (v.getTopSpeed() == Speed.SLOW) {
-                    for (int k=0; k<Configuration.nbSegmentsPerStepSlow; k++) {
-                        v.moveToNextSegment(path);
-                    }
-                }else if(v.getTopSpeed() == Speed.FAST){
-                    for (int k=0; k<Configuration.nbSegmentsPerStepFast; k++) {
-                        v.moveToNextSegment(path);
-                    }
-                }
+                agent.act();
             }
             // Give all the resource agents the opportunity to act
             Iterator<Lock> it = env.getLocks().iterator();

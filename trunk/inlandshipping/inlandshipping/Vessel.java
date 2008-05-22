@@ -11,12 +11,27 @@ public class Vessel {
     private Node startNode;
     private Node destinationNode;
     
-    private Size size;
-    private Speed topSpeed;
     private Speed currentSpeed = Speed.STILL;
     private Segment currentPosition;
     private Segment previousSegment;
     private Cargo cargo = Cargo.EMPTY;
+    
+    /*
+     * The top speed of the vessel.
+     */
+    private Speed topSpeed;
+    public Speed getTopSpeed() {
+        return topSpeed;
+    }
+
+    /*
+     * The size of the vessel.
+     */
+    private Size size;
+    public Size getSize() {
+        return size;
+    }
+    
     /*
      * The number of segments passed so far on the fairway the vessel is floating on currently.
      */
@@ -91,27 +106,46 @@ public class Vessel {
     }
     
     /*
-     * 2 possibilities:
+     * 3 possibilities:
      * 	1) on a normal segment, there is only one way to go because he can't turn around.
      * 	2) he is in a node: I) start : previousSegment == null
      * 						II) previousSegment != null
+     *  3) he is in a lock and doesn't need to do anything.
+     *  
      * When a vessel reaches a node, the source has to change.
      * 
      * Invariant: At the beginning a ship can only start in a Node!
      */
 
     public void moveToNextSegment(ArrayList<Fairway> path) {
-    	nbSegmentsPassed++;
-    	if(!(getCurrentPosition() instanceof Node)){
-            ArrayList<Segment> neighbours = getCurrentPosition().getNeighbours();
-            if(neighbours.get(0) == previousSegment){
+        nbSegmentsPassed++;
+        if (getCurrentPosition() instanceof Lock) {
+            // He is in a lock
+            // Don't do anything, just wait...
+        } else if (getCurrentPosition() instanceof Node) {
+            // He is in a node
+            if (getPreviousSegment() == null) {
                 setPreviousSegment(getCurrentPosition());
-                setCurrentPosition(neighbours.get(1));
+                setCurrentPosition(path.get(0).getNeighbourSegmentOfNode(
+                        (Node) getCurrentPosition()));
             } else {
                 setPreviousSegment(getCurrentPosition());
-                setCurrentPosition(neighbours.get(0));
+                Node thisNode = (Node) getCurrentPosition();
+                Vector<Fairway> possibleFairways = thisNode.getFairways();
+                // er kunnen geen 2 fairways zowel in path als in de fairways
+                // van
+                // de node zitten, anders gaat het schip in een lus
+                // --> ALTIJD ZO??? kvind geen tegenvoorbeeld
+                for (int i = 0; i < path.size(); i++) {
+                    for (int j = 0; j < possibleFairways.size(); j++) {
+                        if (path.get(i) == possibleFairways.get(j)) {
+                            setCurrentPosition(path.get(i)
+                                    .getNeighbourSegmentOfNode(thisNode));
+                        }
+                    }
+                }
             }
-            if (getCurrentPosition() instanceof Node){
+            if (getCurrentPosition() instanceof Node) {
                 setSource((Node) getCurrentPosition());
                 nbSegmentsPassed = 0;
                 if (getCurrentPosition() == getDestination()) {
@@ -120,23 +154,15 @@ public class Vessel {
                 }
             }
         } else {
-            if (getPreviousSegment() == null) {
+            // He is in a regular segment
+            ArrayList<Segment> neighbours = getCurrentPosition()
+                    .getNeighbours();
+            if (neighbours.get(0) == previousSegment) {
                 setPreviousSegment(getCurrentPosition());
-                setCurrentPosition(path.get(0).getNeighbourSegmentOfNode((Node) getCurrentPosition()));
+                setCurrentPosition(neighbours.get(1));
             } else {
                 setPreviousSegment(getCurrentPosition());
-                Node thisNode = (Node) getCurrentPosition();
-                Vector<Fairway> possibleFairways = thisNode.getFairways();
-                // er kunnen geen 2 fairways zowel in path als in de fairways van 
-                // de node zitten, anders gaat het schip in een lus  
-                // --> ALTIJD ZO??? kvind geen tegenvoorbeeld
-                for(int i = 0; i < path.size(); i++){
-                    for(int j = 0; j < possibleFairways.size(); j++){
-                        if(path.get(i) == possibleFairways.get(j)){
-                            setCurrentPosition(path.get(i).getNeighbourSegmentOfNode(thisNode));
-                        }
-                    }
-                }
+                setCurrentPosition(neighbours.get(0));
             }
             if (getCurrentPosition() instanceof Node) {
                 setSource((Node) getCurrentPosition());
@@ -166,19 +192,5 @@ public class Vessel {
     public int getNbSegmentsToGo() {
     	if(getCurrentPosition() instanceof Node) return 0;
     	else return getCurrentPosition().getFairway().getLength() - nbSegmentsPassed + 1;
-    }
-    
-    /*
-     * Returns the top speed of the vessel.
-     */
-    public Speed getTopSpeed() {
-        return topSpeed;
-    }
-
-    /*
-     * Returns the size of the vessel.
-     */
-    public Size getSize() {
-        return size;
     }
 }
