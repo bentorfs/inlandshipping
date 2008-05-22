@@ -9,15 +9,47 @@ import java.util.Vector;
 public class Fairway {
     private int nbLanes;
     private int nbLanesInUse = 0;
-    private int length;
+    
     private Speed maxSpeed;
     
+    /*
+     * The neighbouring nodes of this fairway
+     */
     private Node node1;
     private Node node2;
-    
+    public Node getNode1() {
+        return node1;
+    }
+    public Node getNode2() {
+        return node2;
+    }    
+
+    /*
+     * The segments this fairway is composed of
+     */
     private Segment[] segments;
     
+    public Segment[] getSegments(){
+        return segments;
+    }
+    
+    /*
+     * The length of this fairway
+     */
+    private int length;
+    
+    public int getLength(){
+        return length;
+    }
+    
+    /*
+     * The locks that are located on this fairway
+     */
     private Vector<Lock> locks = new Vector<Lock>();
+    
+    public Vector<Lock> getLocks() {
+        return locks;
+    }
    
     /**
      * Constructs a fairway from the given startnode to the given endnode. The length
@@ -33,10 +65,6 @@ public class Fairway {
         node2.attachFairway(this);
         this.length = length;
         constructSegments(lockPositions);
-    }
-    
-    public int getLength(){
-    	return length;
     }
     
     /**
@@ -68,10 +96,6 @@ public class Fairway {
         }
     }
     
-    public Segment[] getSegments(){
-    	return segments;
-    }
-    
     public Segment getNeighbourSegmentOfNode(Node node){
     	if(node == node1)return getSegments()[0];
     	else return getSegments()[getSegments().length -1];
@@ -81,13 +105,9 @@ public class Fairway {
     	return(node == node1 ? node2 : node1);
     }
 
-    public Node getNode1() {
-        return node1;
-    }
 
-    public Node getNode2() {
-        return node2;
-    }
+
+
     
   
 }

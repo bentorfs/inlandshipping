@@ -80,8 +80,8 @@ public class Environment {
         
         // new Fairway(from,to,nbLanes,length,maxSpeed)
         Vector<Integer> lockPositions = new Vector<Integer>();
-        lockPositions.add(20);
-        lockPositions.add(50);
+        lockPositions.add(10);
+        lockPositions.add(70);
         Fairway way1 = new Fairway(bruges,tournai,2,80,Speed.SLOW, lockPositions);
         fairways.add(way1);
         lockPositions = new Vector<Integer>();

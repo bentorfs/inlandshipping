@@ -45,7 +45,22 @@ public class GUI extends JPanel {
 			fairways.add(fw);
 		}
 		
-		
+		// Create the locks
+		for (int i=0; i<envFw.size(); i++) {
+		    Vector<Lock> realLocks = envFw.get(i).getLocks();
+		    Iterator<Lock> it = realLocks.iterator();
+		    while (it.hasNext()) {
+		        Lock l = it.next();
+		        int positionOnFairway = findPositionOf(envFw.get(i).getSegments(),l);
+		        double factor = (double) positionOnFairway / envFw.get(i).getLength();
+                Node node1 = envFw.get(i).getNode1();
+                Node node2 = envFw.get(i).getNode2();
+                double lockXPosition = (node2.posX - node1.posX) * factor + node1.posX;
+                double lockYPosition = (node2.posY - node1.posY) * factor + node1.posY;
+                Rectangle2D.Double lockDrawing = new Rectangle2D.Double(lockXPosition-2,lockYPosition-2,5,5);
+                locks.add(lockDrawing);
+		    }
+		}
 	}
 	
 	/**
