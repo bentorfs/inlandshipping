@@ -1,18 +1,15 @@
 package inlandshipping;
 
-import java.awt.Graphics;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class Main {
 
     /**
+     * This entry method runs the simulation.
      * @param args
-     * @throws InterruptedException 
-     * @throws CloneNotSupportedException 
+     * @throws InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
         // Build components
@@ -45,15 +42,12 @@ public class Main {
                 ResAgent agent = l.getAgent();
                 agent.act(time);
             }
-            
-            // Give the environment the opportunity to make changes
+            // Give the environment the opportunity to act
             env.act();
             
             // Update GUI
             Thread.sleep(Configuration.sleepTime);
             p.redrawGUI(env, time);
-            
-            
         }
         
         
