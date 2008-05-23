@@ -23,8 +23,6 @@ public class Environment {
     
     /**
      * This constructor builds an example topography.
-     * @throws InterruptedException 
-     * @throws CloneNotSupportedException 
      */
     public Environment() {
         Node bruges = new Node();
@@ -85,72 +83,112 @@ public class Environment {
         // new Fairway(from,to,nbLanes,length,maxSpeed)
         Vector<Integer> lockPositions;
         lockPositions = new Vector<Integer>();
-        lockPositions.add(10);
+        lockPositions.add(30);
         lockPositions.add(70);
         Fairway way1 = new Fairway(bruges,tournai,2,80,Speed.SLOW, lockPositions);
         fairways.add(way1);
         locks.addAll(way1.getLocks());
         
         lockPositions.clear();
+        //lockPositions.add(20);
+        //lockPositions.add(40);
         Fairway way2 = new Fairway(bruges,gent,2,55,Speed.SLOW, lockPositions);
         fairways.add(way2);
         locks.addAll(way2.getLocks());
         
+        lockPositions.clear();
+        //lockPositions.add(20);
+        //lockPositions.add(40);
+        //lockPositions.add(60);
         Fairway way3 = new Fairway(tournai,gent,2,70,Speed.FAST, lockPositions);
         fairways.add(way3);
         locks.addAll(way3.getLocks());
         
+        lockPositions.clear();
+        //lockPositions.add(20);
         Fairway way4 = new Fairway(tournai,mons,2,50,Speed.FAST, lockPositions);
         fairways.add(way4);
         locks.addAll(way4.getLocks());
         
+        lockPositions.clear();
+        //lockPositions.add(20);
+        //lockPositions.add(40);
+        //lockPositions.add(60);
+        //lockPositions.add(80);
         Fairway way5 = new Fairway(gent,mons,2,90,Speed.FAST, lockPositions);
         fairways.add(way5);
         locks.addAll(way5.getLocks());
         
+        lockPositions.clear();
+        //lockPositions.add(20);
+        //lockPositions.add(40);
         Fairway way6 = new Fairway(gent,antwerp,2,60,Speed.FAST, lockPositions);
         fairways.add(way6);
         locks.addAll(way6.getLocks());
         
+        lockPositions.clear();
+        //lockPositions.add(25);
         Fairway way7 = new Fairway(antwerp,brussels,2,50,Speed.FAST, lockPositions);
         fairways.add(way7);
         locks.addAll(way7.getLocks());
         
+        lockPositions.clear();
+        //lockPositions.add(20);
+        //lockPositions.add(40);
         Fairway way8 = new Fairway(brussels,hub,2,50,Speed.FAST, lockPositions);
         fairways.add(way8);
         locks.addAll(way8.getLocks());
         
+        lockPositions.clear();
         Fairway way9 = new Fairway(hub,mons,2,20,Speed.FAST, lockPositions);
         fairways.add(way9);
         locks.addAll(way9.getLocks());
         
+        lockPositions.clear();
+        //lockPositions.add(10);
         Fairway way10 = new Fairway(hub,charleroi,2,20,Speed.FAST, lockPositions);
         fairways.add(way10);
         locks.addAll(way10.getLocks());
         
+        lockPositions.clear();
+        //lockPositions.add(10);
+        //lockPositions.add(20);
         Fairway way11 = new Fairway(charleroi,namur,2,30,Speed.SLOW, lockPositions);
         fairways.add(way11);
         locks.addAll(way11.getLocks());
         
+        lockPositions.clear();
+        //lockPositions.add(20);
+        //lockPositions.add(40);
+        //lockPositions.add(50);
         Fairway way12 = new Fairway(namur,liege,2,60,Speed.SLOW, lockPositions);
         fairways.add(way12);
         locks.addAll(way12.getLocks());
         
+        lockPositions.clear();
+        //lockPositions.add(10);
+        //lockPositions.add(30);
         Fairway way13 = new Fairway(hasselt,liege,2,50,Speed.FAST, lockPositions);
         fairways.add(way13);
         locks.addAll(way13.getLocks());
         
+        lockPositions.clear();
+        //lockPositions.add(40);
         Fairway way14 = new Fairway(hasselt,brussels,2,70,Speed.FAST, lockPositions);
         fairways.add(way14);
         locks.addAll(way14.getLocks());
         
+        lockPositions.clear();
+        //lockPositions.add(20);
+        //lockPositions.add(40);
+        //lockPositions.add(60);
         Fairway way15 = new Fairway(antwerp,hasselt,2,80,Speed.FAST, lockPositions);
         fairways.add(way15);
         locks.addAll(way15.getLocks());
 
         
         // new Vessel(source,destination,size,maxSpeed)
-        Vessel vessel1 = new Vessel(charleroi,bruges,Size.SMALL, Speed.FAST);
+        Vessel vessel1 = new Vessel(mons,bruges,Size.SMALL, Speed.SLOW);
         vessels.add(vessel1);
         /*Vessel vessel2 = new Vessel(hasselt,tournai,Size.SMALL, Speed.SLOW);
         vessels.add(vessel2);

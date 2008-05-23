@@ -59,20 +59,23 @@ public class TaskAgent {
      * This method should be called at every timestep in the simulation
      * for decision making and acting.
      */
-    public void act() {
+    public void act(int timeNow) {
         // TODO elke keer de agent gaat scanne kan hij het pad veranderen
         // Enkel van in een node kan hij wel zijn pad maar gaan veranderen,
         // hij kan zijn route niet wijzigen van in een egwoon segment.
         // TODO de voorwaarden om naar een segment/node te kunnen bewegen
-        // TODO schip heeft bestemming bereikt
-        // TODO explorationants enkel uitsturen opt moment da vessel in ne node
-        // komt (of ga komen)
+        // TODO explorationants enkel uitsturen opt moment da vessel in ne node komt (of ga komen)
         scanEnvironment();
         
         // Kijk naar het kortste pad. TODO: een "plan" invoeren, dat een paar iteraties
         // bewaard blijft in plaats van élke iteratie alle paden te zoeken en het kortste
         // te nemen.
         ArrayList<Fairway> path = getShortestPath();
+        
+        // Send an intention ant to the current chosen path.
+        // TODO: this should not happen at every time point.
+        IntentionAnt intAnt = new IntentionAnt(getVessel());
+        intAnt.makeReservations(timeNow);
 
         // Verplaats het schip in de richting van pad van het huidige plan.
         // TODO: currentSpeed moet nog geimplementeerd worden!

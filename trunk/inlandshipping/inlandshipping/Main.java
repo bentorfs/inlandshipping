@@ -21,8 +21,25 @@ public class Main {
         f.setContentPane(p);
         f.setSize(650,650);
         f.setVisible(true);
-
+        
+        
+        // Scheduling tests
+        /*
+        Vessel v = env.getVessels().elementAt(0);
+        Vessel v2 = env.getVessels().elementAt(1);
+        Lock l = env.getLocks().elementAt(0);
+        ResAgent a = l.getAgent();
+        a.makeReservation(v, 10, l.getSideOne());
+        
+        int test = a.whatIf(v2, 11, l.getSideOne(), 0);
+        System.out.println(test);
+        
+        //a.makeReservation(v2, 11,l.getSideOne());
+        //a.updateScheduling(1);
+        */
+        
         // Start main loop
+        
         for (int time=0; time<Configuration.simulationTime; time++) {
             // Print a notification every 100 timesteps
             if (time % 100 == 0) {
@@ -33,7 +50,7 @@ public class Main {
             while (i.hasNext()) {
                 Vessel v = i.next();
                 TaskAgent agent = v.getAgent();
-                agent.act();
+                agent.act(time);
             }
             // Give all the resource agents the opportunity to act
             Iterator<Lock> it = env.getLocks().iterator();
@@ -47,13 +64,7 @@ public class Main {
             
             // Update GUI
             Thread.sleep(Configuration.sleepTime);
-            p.redrawGUI(env, time);
+            p.redrawGUI(time);
         }
-        
-        
-        
-        
-        
     }
-
 }

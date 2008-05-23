@@ -17,6 +17,29 @@ public abstract class Lock extends Segment {
         return waitingSideTwo;
     }
     
+    /**
+     * Returns whether the given vehicle is currently in transit in this lock
+     * (instead of just waiting)
+     */
+    protected abstract boolean inTransit(Vessel v);
+    
+    /**
+     * This method signifies the arrival of a vessel in the lock,
+     * it should be added to the waiting list if it isn't already in it.
+     */
+    public void arrival(Vessel v) {
+        if (v.getPreviousSegment() == getSideOne() 
+                && !getWaitingSideOne().contains(v)
+                && !inTransit(v)) {
+            getWaitingSideOne().add(v);
+        }
+        else if (v.getPreviousSegment() == getSideTwo() 
+                && !getWaitingSideTwo().contains(v)
+                && !inTransit(v)) {
+            getWaitingSideTwo().add(v);
+        }
+    }
+    
     /****************************************************************
      * Constructor
      ****************************************************************/

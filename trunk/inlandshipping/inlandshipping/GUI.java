@@ -19,6 +19,8 @@ public class GUI extends JPanel {
 	private Vector<Ellipse2D.Double> vessels = new Vector<Ellipse2D.Double>();
 	private Vector<Rectangle2D.Double> locks = new Vector<Rectangle2D.Double>();
 	
+	private Environment env;
+	
 	private int nbLargeVessels;
 	private int nbSmallVessels;
 	
@@ -29,6 +31,7 @@ public class GUI extends JPanel {
 	 * @param env
 	 */
 	public GUI(Environment env) {
+	    this.env = env;
 		// Create the nodes
 		Vector<Node> envNodes = env.getNodes();
 		for (int i=0; i<envNodes.size(); i++) {
@@ -68,7 +71,7 @@ public class GUI extends JPanel {
 	/**
 	 * This method refreshes the GUI, with new vessel positions.
 	 */
-	public void redrawGUI(Environment env, int time) {
+	public void redrawGUI(int time) {
 	    // Refresh the vessel positions
 		vessels.clear();
         nbLargeVessels = 0;
@@ -122,7 +125,7 @@ public class GUI extends JPanel {
 	    }
 	    // This should not happen.
 	    System.out.println("the requested element was not in the array!");
-	    return 0;
+	    return -1;
 	}
 	
 	/**
@@ -144,12 +147,24 @@ public class GUI extends JPanel {
         	g2.fill(n.next());
         }
         
-        g2.setColor(new Color(0,0,255));
         // Draw locks
+        g2.setFont(new Font("sans-serif",10,10));
+        g2.setColor(new Color(0,0,255));
         Iterator<Rectangle2D.Double> lo = locks.iterator();
         while (lo.hasNext()) {
-            g2.fill(lo.next());
+            Rectangle2D.Double lockD = lo.next();
+            g2.fill(lockD);
+            int x = Math.round((float) lockD.x);
+            int y = Math.round((float) lockD.y);
+            int position = locks.indexOf(lockD);
+            Lock lock = env.getLocks().elementAt(position);
+            int waiting1 = lock.getWaitingSideOne().size();
+            int waiting2 = lock.getWaitingSideTwo().size();
+            g2.drawString(waiting1 + "", x+10, y+6);
+            g2.drawString(waiting2 + "", x-10, y+6);
         }
+        
+        
         
         // Draw vessels
         g2.setColor(new Color(255,0,0));
@@ -165,8 +180,9 @@ public class GUI extends JPanel {
         
         // Draw other statistics
         g2.setFont(new Font("sans-serif",10,10));
-        g.drawString("Total vessels: " + vessels.size(), 520, 570);
-        g.drawString("Small vessels: " + nbSmallVessels, 520, 590);
-        g.drawString("Large vessels: " + nbLargeVessels, 520, 610);
+        g2.drawString("Total vessels: " + vessels.size(), 520, 570);
+        g2.drawString("Small vessels: " + nbSmallVessels, 520, 590);
+        g2.drawString("Large vessels: " + nbLargeVessels, 520, 610);
+       
     }
 }

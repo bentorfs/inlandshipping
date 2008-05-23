@@ -32,4 +32,12 @@ public class SimpleLock extends Lock {
     public void setVesselInChamber(Vessel vesselInChamber) {
         this.vesselInChamber = vesselInChamber;
     }
+    
+    /**
+     * Returns whether the given vehicle is currently in transit in this lock
+     * (instead of just waiting)
+     */
+    protected boolean inTransit(Vessel v) {
+        return (v == getVesselInChamber());
+    }
 }

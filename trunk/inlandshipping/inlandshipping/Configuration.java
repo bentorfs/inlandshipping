@@ -29,8 +29,8 @@ public class Configuration {
 	public static double probNewVessel = 0.00;
 
 	// The number of timesteps that a reservation in a lock stays active before it "evaporates"
-    public static int reservationTTL = 3;
+    public static int reservationTTL = 1000;
     
     // The time needed for locks to transfer the water level of their chambers
-    public static int lockTimeNeeded = 5;
+    public static int lockTimeNeeded = 3;
 }

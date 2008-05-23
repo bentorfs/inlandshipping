@@ -15,6 +15,8 @@ public class IntentionAnt {
 	// volgende node, dus de ants passere niet langs die lock!! Dus de reservatie moet minstens
 	// blijven staan van het eerste/laatste segment tot aan de lock
 	
+	// <Ben> Kunde uw ants ni laten vertrekken vanaf waar het vessel nu is? anders is die TTL te lang...
+	
 	// misschien een fairway late bijhouden of hij al dan niet een lock heeft en waar??
 	//om sequentieel doorzoeken te vermijden.
 	
@@ -28,8 +30,8 @@ public class IntentionAnt {
 	 * Makes reservations at all the locks where the ship will pass. 
 	 * PreviousNode makes you know on which way you will enter the lock.
 	 */
-	public void makeReservations(){
-		int steps = vessel.getNbSegmentsToGo();
+	public void makeReservations(int timeNow){
+		int steps = vessel.getNbSegmentsToGo() + timeNow;
 		Fairway fairway;
 		for(int i = 0; i < pathToCheck.size(); i++){
 			fairway = pathToCheck.get(i);
@@ -43,7 +45,7 @@ public class IntentionAnt {
 				}
 			}
 			else{ 
-				for(int j = fairway.getSegments().length; j > 0; j --){
+				for(int j = fairway.getSegments().length - 1; j >= 0; j--){
 					steps++;
 					if(fairway.getSegments()[j] instanceof Lock){
 						((Lock) fairway.getSegments()[j]).getAgent().makeReservation(vessel, steps, fairway.getSegments()[j+1]);
