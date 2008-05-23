@@ -81,12 +81,21 @@ public abstract class ResAgent {
 	}
 	
 	/**
-	 * Decreases the TTL of all reservations of this agent by 1.
+	 * Decreases the TTL of all reservations stored by 1,
+	 * and removes those whose TTL drops below zero.
 	 */
-	private void decreaseTTL() {
+	private void decreaseTTLs() {
 		Iterator<LockReservation> i = reservations.iterator();
+		Vector<LockReservation> toDelete = new Vector<LockReservation>();
 		while (i.hasNext()) {
-			i.next().decreaseTTL();
+		    LockReservation r = i.next();
+			if (r.decreaseTTL()) {
+			    toDelete.add(r);
+			}
+		}
+		i = toDelete.iterator();
+		while (i.hasNext()) {
+		    expire(i.next());
 		}
 	}
 	
@@ -105,6 +114,7 @@ public abstract class ResAgent {
 	 * If the vessel made another reservation at this agent, it is removed.
 	 */
 	public void makeReservation(Vessel vessel, int arrivalTime, Segment direction) {
+	    //System.out.println("a reservation has been made for time " + arrivalTime);
 	    removeReservationsBy(vessel);
 	    LockReservation reservation = new LockReservation(this,vessel,arrivalTime,direction);
 	    addReservation(reservation);
@@ -126,14 +136,11 @@ public abstract class ResAgent {
 	 */
 	public void act(int time) {
 	    // Decrease the TTL of all reservations
-	    decreaseTTL();
+	    decreaseTTLs();
 	    // Create a new scheduling based on the remaining reservations
 	    updateScheduling(time);
 	    // Perform the actions of this timepoint
 	    performActions(time);
-	    // TODO: performActions() ofzo... schepen effectief verplaatsen. O
-	    // Als het schip da momenteel aan de beurt is er niet is, reservatie schrappen
-	    // en updateScheduling opnieuw doen.
 	}
 	
 	protected abstract void performActions(int time);

@@ -121,7 +121,9 @@ public class Vessel {
         nbSegmentsPassed++;
         if (getCurrentPosition() instanceof Lock) {
             // He is in a lock
-            // Don't do anything, just wait...
+            // Notify the lock
+            Lock lock = (Lock) getCurrentPosition();
+            lock.arrival(this);
         } else if (getCurrentPosition() instanceof Node) {
             // He is in a node
             if (getPreviousSegment() == null) {

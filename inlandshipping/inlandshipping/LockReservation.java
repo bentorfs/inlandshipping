@@ -28,14 +28,15 @@ public class LockReservation implements Comparable<LockReservation> {
 	private int TTL;
 	
 	 /**
-     * Decreases the time-to-live of this reservation by one, and removes itself from the reservationlist if TTL becomes < 0.
+     * Decreases the time-to-live of this reservation by one, and returns true if TTL becomes < 0.
      *
      */
-    void decreaseTTL() {
+    boolean decreaseTTL() {
         TTL--;
         if (TTL < 0) {
-            agent.expire(this);
+            return true;
         }
+        return false;
     }
 	
 	/*

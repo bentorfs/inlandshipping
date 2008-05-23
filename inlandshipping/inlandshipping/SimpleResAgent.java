@@ -91,13 +91,13 @@ public class SimpleResAgent extends ResAgent {
         // See which direction the vessel is transferring in
         SchedulingEvent event = (r.getDirection() == getLock().getSideOne() ? SchedulingEvent.TRANSIT_TO_2 : SchedulingEvent.TRANSIT_TO_1);
         // Add the intransit blocks
-        for (int i=0; i<getLock().getTimeNeeded(); i++) {
+        for (int i=1; i<=getLock().getTimeNeeded(); i++) {
             elem = new SchedulingElem(r.getVessel(), event);
             timeTable.put(start+i,elem);
         }
         // Add the endtransit block
         elem = new SchedulingElem(r.getVessel(), SchedulingEvent.ENDTRANSIT);
-        timeTable.put(start + getLock().getTimeNeeded(),elem);
+        timeTable.put(start + getLock().getTimeNeeded() + 1,elem);
     }
     
     /**
@@ -117,7 +117,8 @@ public class SimpleResAgent extends ResAgent {
             // No other vessel is in transit
             // Find the last event
             time = arrivalTime - 1;
-            while (timeTable.get(time) == null) {
+            // The second check is in case there was no prior event
+            while (timeTable.get(time) == null && time >= (arrivalTime - getLock().getTimeNeeded())) {
                 time--;
             }
             // Time is now the last occupied position, we need the first unoccupied one.
@@ -132,11 +133,16 @@ public class SimpleResAgent extends ResAgent {
      */
     private int addEmptySlots(int time, Segment direction) {
         // time is now the timepoint at which there is no vessel in the lock.
+        // If nothing is happening prior to the given time, the given time is okay.
+        // This is in the case no vessel has ever used the lock.
+        if (timeTable.get(time - 2) == null) {
+            return time;
+        }
         // See if we have to add empty transfer slots.
-        if ((timeTable.get(time - 2).getEvent() == SchedulingEvent.TRANSIT_TO_1 && direction == getLock()
-                .getSideOne())
-                || (timeTable.get(time - 2).getEvent() == SchedulingEvent.TRANSIT_TO_2 && direction == getLock()
-                        .getSideTwo())) {
+        if (( timeTable.get(time - 2).getEvent() == SchedulingEvent.TRANSIT_TO_1 
+                && direction == getLock().getSideOne())
+                || (timeTable.get(time - 2).getEvent() == SchedulingEvent.TRANSIT_TO_2 
+                && direction == getLock().getSideTwo())) {
             // It's okay, don't add empty transfer slots
             return time;
         } else {
@@ -147,7 +153,7 @@ public class SimpleResAgent extends ResAgent {
                 SchedulingElem elem = new SchedulingElem(null, event);
                 timeTable.put(time + i, elem);
             }
-            return time + getLock().getTimeNeeded() - 1;
+            return time + getLock().getTimeNeeded();
         }
     }
     
@@ -165,11 +171,14 @@ public class SimpleResAgent extends ResAgent {
             Vessel v = lock.getVesselInChamber();
             if (v.getPreviousSegment() == lock.getSideOne()) {
                 v.setCurrentPosition(lock.getSideTwo());
+                System.out.println("een");
             }
             else if (v.getPreviousSegment() == lock.getSideTwo()) {
                 v.setCurrentPosition(lock.getSideOne());
+                System.out.println("twee");
             }
             lock.setVesselInChamber(null);
+            System.out.println("drie");
         }
         else if (task != null && task.getEvent() == SchedulingEvent.STARTTRANSIT) {
             Vessel currentVessel = task.getVessel();
@@ -199,7 +208,7 @@ public class SimpleResAgent extends ResAgent {
         int i = arrivalTime;
         while (true) {
             SchedulingElem e = timeTable.get(i);
-            if (e.getVessel() == vessel)
+            if (e.getVessel() == vessel && e.getEvent() == SchedulingEvent.ENDTRANSIT)
                 return i;
             i++;
         }
