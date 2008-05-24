@@ -62,6 +62,8 @@ public class IntentionAnt {
 		}
 	}
 
+	// zou moete gerefactored worde naar hoeveel steps een large vessel kan make etc,
+	// maar hoe rond ge dan af??
 	public int calculateTimeForReservation(int steps, int timeNow){
 		if(vessel.getTopSpeed() == Speed.SLOW){
 			return steps + timeNow;
