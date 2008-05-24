@@ -30,16 +30,18 @@ public class IntentionAnt {
 	 * Makes reservations at all the locks where the ship will pass. 
 	 * PreviousNode makes you know on which way you will enter the lock.
 	 */
-	public void makeReservations(int timeNow){
-		int steps = vessel.getNbSegmentsToGo() + timeNow;
+	public void makeReservations(int timeNow) {
+		int steps = vessel.getNbSegmentsToGo();
 		Fairway fairway;
+		int time;
 		for(int i = 0; i < pathToCheck.size(); i++){
 			fairway = pathToCheck.get(i);
 			if (fairway.getNode1() == previousNode){
 				for(int j = 0; j < fairway.getSegments().length; j ++){
 					steps++;
 					if(fairway.getSegments()[j] instanceof Lock){
-						((Lock) fairway.getSegments()[j]).getAgent().makeReservation(vessel, steps, fairway.getSegments()[j - 1]);
+						time = calculateTimeForReservation(steps, timeNow);
+						((Lock) fairway.getSegments()[j]).getAgent().makeReservation(vessel, time, fairway.getSegments()[j - 1]);
 						steps += ((Lock) fairway.getSegments()[j]).getTimeNeeded();
 					}
 				}
@@ -48,7 +50,8 @@ public class IntentionAnt {
 				for(int j = fairway.getSegments().length - 1; j >= 0; j--){
 					steps++;
 					if(fairway.getSegments()[j] instanceof Lock){
-						((Lock) fairway.getSegments()[j]).getAgent().makeReservation(vessel, steps, fairway.getSegments()[j+1]);
+						time = calculateTimeForReservation(steps, timeNow);
+						((Lock) fairway.getSegments()[j]).getAgent().makeReservation(vessel, time, fairway.getSegments()[j+1]);
 						steps += ((Lock) fairway.getSegments()[j]).getTimeNeeded();
 					}
 				}
@@ -57,5 +60,16 @@ public class IntentionAnt {
 			steps++;
 			previousNode = fairway.getOtherNode(previousNode);
 		}
+	}
+
+	public int calculateTimeForReservation(int steps, int timeNow){
+		if(vessel.getTopSpeed() == Speed.SLOW){
+			return steps + timeNow;
+		} 
+		else 
+			if(vessel.getTopSpeed() == Speed.FAST && (steps % 2) == 0){
+				return timeNow + steps/2;
+			} 
+			else return timeNow + (steps+1)/2;
 	}
 }
