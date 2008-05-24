@@ -16,16 +16,30 @@ public class TaskAgent {
 	 ******************************************************/
 	
 	public TaskAgent(Vessel vessel) {
-		this.vessel= vessel;
-		possiblePaths = new ArrayList<ArrayList<Fairway>>();
+		setVessel(vessel);
+		initializePossiblePaths(new ArrayList<ArrayList<Fairway>>());
 	}
 	
 	/******************************************************
 	 * 			Instantiation Methods
 	 ******************************************************/
+	
 	public Vessel getVessel() {
 	    return vessel;
 	}
+	
+	private void setVessel(Vessel vessel){
+		this.vessel = vessel;
+	}
+	
+	public ArrayList<ArrayList<Fairway>> getPossiblePaths(){
+		return possiblePaths;
+	}
+	
+	private void initializePossiblePaths(ArrayList<ArrayList<Fairway>> paths){
+		possiblePaths = paths;
+	}
+	
 
 	/******************************************************
 	 * 			Path Finding Methods
@@ -37,7 +51,6 @@ public class TaskAgent {
 	 */
 	public void scanEnvironment() {
 	    possiblePaths.clear();
-	    
 	    Segment currentPosition = getVessel().getCurrentPosition();
 	    Node antStartNode;
 	    if (currentPosition instanceof Node) {
@@ -48,13 +61,18 @@ public class TaskAgent {
 	    }
 		ExplorationAnt ant = new ExplorationAnt(antStartNode, getVessel().getDestination(), this, new ArrayList<Fairway>());
 		ant.scanForPossiblePaths();
-		
 	}
 	
+	/**
+	 * Adds a path an exploration ant has found to the possible paths.
+	 */
 	public void addToPossiblePaths(ArrayList<Fairway> path){
 		possiblePaths.add(path);
 	}
 	
+	/**
+	 * Returns the path with the shortest distance.
+	 */
 	public ArrayList<Fairway> getShortestPath() {
 		if(possiblePaths.size() == 0) return null;
 		ArrayList<Fairway> shortest = possiblePaths.get(0);
@@ -66,6 +84,9 @@ public class TaskAgent {
 		return shortest;
 	}
 	
+	/**
+	 * Returns the length of the given path.
+	 */
 	public int getLengthOfPath(ArrayList<Fairway> path) {
 		int distance = 0;
 		for(int i = 0; i < path.size(); i ++){
@@ -74,7 +95,10 @@ public class TaskAgent {
 		return distance;
 	}
 
-   
+	
+   /*******************************************************
+    * 			Acting Methods
+    *******************************************************/
     
     /**
      * This method should be called at every timestep in the simulation
