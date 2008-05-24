@@ -22,14 +22,27 @@ public class SimpleResAgent extends ResAgent {
      * the lock, if it arrived at the specified time from the specified direction.
      */
     public int whatIf(Vessel vessel, int arrivalTime, Segment direction, int timeNow) {
-        // Keep a backup of the current timetable
-        HashMap<Integer,SchedulingElem> timeTableBackup = (HashMap<Integer,SchedulingElem>) timeTable.clone();
-        makeReservation(vessel, arrivalTime, direction);
-        updateScheduling(timeNow);
-        int result = findPassThroughTime(vessel, arrivalTime);
-        // Put the original timetable back in place
-        timeTable = timeTableBackup;
-        return result;
+    	// See if this vessel has this reservation already
+    	// If so, just return the information of that reservation
+    	LockReservation res = getReservationOf(vessel);
+    	if (res != null && res.getArrivalTime() == arrivalTime
+    			&& res.getDirection() == direction) {
+    		updateScheduling(timeNow);
+    		return findPassThroughTime(vessel,arrivalTime);
+    	}
+    	// Otherwise, make a tentative reservation and see what the result would be.
+    	else {
+    		// Keep a backup of the current timetable
+    		HashMap<Integer,SchedulingElem> timeTableBackup = (HashMap<Integer,SchedulingElem>) timeTable.clone();
+        	makeReservation(vessel, arrivalTime, direction);
+        	updateScheduling(timeNow);
+        	int result = findPassThroughTime(vessel, arrivalTime);
+        	// Put the original timetable back in place
+        	timeTable = timeTableBackup;
+        
+        	System.out.println("whatif: " + result);
+        	return result;
+    	}
     }
 
     /**

@@ -46,6 +46,22 @@ public abstract class ResAgent {
 	}
 	
 	/**
+	 * Returns the reservation of a given vessel at this lock.
+	 * Returns null if the given vessel has no reservation.
+	 */
+	public LockReservation getReservationOf(Vessel v) {
+		Iterator<LockReservation> i = getReservations().iterator();
+	    while (i.hasNext()) {
+	        LockReservation res = i.next();
+	        if (res.getVessel() == v) {
+	            return res;
+	        }
+	    }
+	    return null;
+	}
+	
+	
+	/**
 	 * Remove all reservations by the given vessel
 	 */
 	public void removeReservationsBy(Vessel v) {
@@ -114,10 +130,18 @@ public abstract class ResAgent {
 	 * If the vessel made another reservation at this agent, it is removed.
 	 */
 	public void makeReservation(Vessel vessel, int arrivalTime, Segment direction) {
-	    //System.out.println("a reservation has been made for time " + arrivalTime);
-	    removeReservationsBy(vessel);
+	    // System.out.println("a reservation has been made for time " + arrivalTime);
 	    LockReservation reservation = new LockReservation(this,vessel,arrivalTime,direction);
-	    addReservation(reservation);
+	    LockReservation existingRes = getReservationOf(vessel);
+	    if (existingRes == null) {
+	    	addReservation(reservation);
+	    } else if (!existingRes.equals(reservation)) {
+	    	removeReservationsBy(vessel);
+	    	addReservation(reservation);
+	    }
+	    else {
+	    	// Vessel already made this reservation
+	    }
 	}
 	
 	/**
