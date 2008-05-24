@@ -42,7 +42,7 @@ public class IntentionAnt {
 					if(fairway.getSegments()[j] instanceof Lock){
 						time = calculateTimeForReservation(steps, timeNow);
 						((Lock) fairway.getSegments()[j]).getAgent().makeReservation(vessel, time, fairway.getSegments()[j - 1]);
-						steps += ((Lock) fairway.getSegments()[j]).getTimeNeeded();
+						steps += (((Lock) fairway.getSegments()[j]).getAgent().whatIf(vessel, time, fairway.getSegments()[j - 1], timeNow) - time);
 					}
 				}
 			}
@@ -51,8 +51,8 @@ public class IntentionAnt {
 					steps++;
 					if(fairway.getSegments()[j] instanceof Lock){
 						time = calculateTimeForReservation(steps, timeNow);
-						((Lock) fairway.getSegments()[j]).getAgent().makeReservation(vessel, time, fairway.getSegments()[j+1]);
-						steps += ((Lock) fairway.getSegments()[j]).getTimeNeeded();
+						((Lock) fairway.getSegments()[j]).getAgent().makeReservation(vessel, time, fairway.getSegments()[j + 1]);
+						steps += (((Lock) fairway.getSegments()[j]).getAgent().whatIf(vessel, time, fairway.getSegments()[j + 1], timeNow) - time);
 					}
 				}
 			}
