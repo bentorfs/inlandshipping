@@ -34,31 +34,43 @@ public class IntentionAnt {
 		int steps = vessel.getNbSegmentsToGo();
 		Fairway fairway;
 		int time;
-		for(int i = 0; i < pathToCheck.size(); i++){
-			fairway = pathToCheck.get(i);
-			if (fairway.getNode1() == previousNode){
-				for(int j = 0; j < fairway.getSegments().length; j ++){
-					steps++;
-					if(fairway.getSegments()[j] instanceof Lock){
-						time = calculateTimeForReservation(steps, timeNow);
-						((Lock) fairway.getSegments()[j]).getAgent().makeReservation(vessel, time, fairway.getSegments()[j - 1]);
-						steps += (((Lock) fairway.getSegments()[j]).getAgent().whatIf(vessel, time, fairway.getSegments()[j - 1], timeNow) - time);
+
+		if (pathToCheck != null) { // If pathToCheck == null this means the vessel is on its last fairway before arriving.
+			for (int i = 0; i < pathToCheck.size(); i++) {
+				fairway = pathToCheck.get(i);
+				if (fairway.getNode1() == previousNode) {
+					for (int j = 0; j < fairway.getSegments().length; j++) {
+						steps++;
+						if (fairway.getSegments()[j] instanceof Lock) {
+							time = calculateTimeForReservation(steps, timeNow);
+							((Lock) fairway.getSegments()[j]).getAgent()
+									.makeReservation(vessel, time,
+											fairway.getSegments()[j - 1]);
+							steps += (((Lock) fairway.getSegments()[j])
+									.getAgent().whatIf(vessel, time,
+											fairway.getSegments()[j - 1],
+											timeNow) - time);
+						}
+					}
+				} else {
+					for (int j = fairway.getSegments().length - 1; j >= 0; j--) {
+						steps++;
+						if (fairway.getSegments()[j] instanceof Lock) {
+							time = calculateTimeForReservation(steps, timeNow);
+							((Lock) fairway.getSegments()[j]).getAgent()
+									.makeReservation(vessel, time,
+											fairway.getSegments()[j + 1]);
+							steps += (((Lock) fairway.getSegments()[j])
+									.getAgent().whatIf(vessel, time,
+											fairway.getSegments()[j + 1],
+											timeNow) - time);
+						}
 					}
 				}
+				// for the last step to the node
+				steps++;
+				previousNode = fairway.getOtherNode(previousNode);
 			}
-			else{ 
-				for(int j = fairway.getSegments().length - 1; j >= 0; j--){
-					steps++;
-					if(fairway.getSegments()[j] instanceof Lock){
-						time = calculateTimeForReservation(steps, timeNow);
-						((Lock) fairway.getSegments()[j]).getAgent().makeReservation(vessel, time, fairway.getSegments()[j + 1]);
-						steps += (((Lock) fairway.getSegments()[j]).getAgent().whatIf(vessel, time, fairway.getSegments()[j + 1], timeNow) - time);
-					}
-				}
-			}
-			// for the last step to the node
-			steps++;
-			previousNode = fairway.getOtherNode(previousNode);
 		}
 	}
 

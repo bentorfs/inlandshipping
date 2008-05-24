@@ -11,10 +11,10 @@ public class Configuration {
 	public static int sleepTime = 100;
 	
 	// The probability that a new vessel will be large
-	public static double fractionLargeVessels = 0.3;
+	public static double fractionLargeVessels = 0.0;
 	
 	// The probability that a new vessel will be fast
-	public static double fractionFastVessels = 0.3;
+	public static double fractionFastVessels = 0.0;
 	
 	// The number of vessels in the initial environment
 	public static int nbStartVessels = 0;
@@ -29,7 +29,7 @@ public class Configuration {
 	public static double probNewVessel = 0.00;
 
 	// The number of timesteps that a reservation in a lock stays active before it "evaporates"
-    public static int reservationTTL = 1000;
+    public static int reservationTTL = 10000;
     
     // The time needed for locks to transfer the water level of their chambers
     public static int lockTimeNeeded = 10;

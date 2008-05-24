@@ -28,6 +28,7 @@ public class SimpleResAgent extends ResAgent {
     	if (res != null && res.getArrivalTime() == arrivalTime
     			&& res.getDirection() == direction) {
     		updateScheduling(timeNow);
+    		//System.out.println("whatif returns " + findPassThroughTime(vessel,arrivalTime));
     		return findPassThroughTime(vessel,arrivalTime);
     	}
     	// Otherwise, make a tentative reservation and see what the result would be.
@@ -221,7 +222,13 @@ public class SimpleResAgent extends ResAgent {
         int i = arrivalTime;
         while (true) {
             SchedulingElem e = timeTable.get(i);
-            if (e.getVessel() == vessel && e.getEvent() == SchedulingEvent.ENDTRANSIT)
+            
+            // DEBUG
+            if (e == null) {
+            	System.out.println("nothing was scheduled on a moment a ship arrived");
+            }
+            
+            if (e != null && e.getVessel() == vessel && e.getEvent() == SchedulingEvent.ENDTRANSIT)
                 return i;
             i++;
         }

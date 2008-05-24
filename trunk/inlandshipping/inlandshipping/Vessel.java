@@ -41,12 +41,14 @@ public class Vessel {
     
     private TaskAgent agent;
     
+    private Environment env;
+    
     /**
      * Constructs a new vessel with given size, top speed and start and destination node
      * @throws InterruptedException 
      * @throws CloneNotSupportedException 
      */
-    public Vessel(Node startNode, Node destinationNode, Size size, Speed topSpeed) {
+    public Vessel(Node startNode, Node destinationNode, Size size, Speed topSpeed, Environment env) {
         this.startNode = startNode;
         this.destinationNode = destinationNode;
         this.size = size;
@@ -55,6 +57,7 @@ public class Vessel {
         setCurrentPosition(startNode);
         this.previousSegment = null;
         nbSegmentsPassed = 0;
+        this.env = env;
     }
     
     /******************************************************
@@ -152,7 +155,7 @@ public class Vessel {
                 nbSegmentsPassed = 0;
                 if (getCurrentPosition() == getDestination()) {
                     System.out.println("Vessel has reached target");
-                    // TODO: Vessel moet uit de environment gehaald worden
+                    env.vesselArrived(this);
                 }
             }
         } else {
@@ -171,7 +174,7 @@ public class Vessel {
                 nbSegmentsPassed = 0;
                 if (getCurrentPosition() == getDestination()) {
                     System.out.println("Vessel has reached target");
-                    // TODO: Vessel moet uit de environment gehaald worden
+                    env.vesselArrived(this);
                 }
             }
         }
