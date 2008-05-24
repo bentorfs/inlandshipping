@@ -97,12 +97,14 @@ public class TaskAgent {
 
 	/**
 	 * Returns the path with the shortest time to cross it.
+	 * Invariant: this method can only be called when the vessel is in a node,
+	 * 			  the node is the current source of the vessel.
 	 */
-	public ArrayList<Fairway> getBestPath(){
+	public ArrayList<Fairway> getBestPath(int timeNow){
 		if(possiblePaths.size() == 0) return null;
 		ArrayList<Fairway> best = possiblePaths.get(0);
 		for(int i = 1; i < possiblePaths.size(); i ++){
-			if(getTimeToCrossPath(possiblePaths.get(i)) < getTimeToCrossPath(best)){
+			if(getTimeToCrossPath(possiblePaths.get(i), timeNow) < getTimeToCrossPath(best, timeNow)){
 				best = possiblePaths.get(i);
 			}
 		}
@@ -111,15 +113,39 @@ public class TaskAgent {
 	
 	/**
 	 * Returns the time to cross the given path.
+	 * Invariant: this method can only be called when the vessel is in a node,
+	 * 			  the node is the current source of the vessel.
 	 */
-	public int getTimeToCrossPath(ArrayList<Fairway> path){
+	// Om de tijd van die locks te weten moetk timeNow meegeven, isser een 
+	// andere methode waar da niet bij moet??? want nu gebeurt diene
+	// updateScheduling automatisch...
+	public int getTimeToCrossPath(ArrayList<Fairway> path, int timeNow){
 		int time = 0;
 		ResAgent agent;
 		Fairway fairway;
+		Node previousNode = getVessel().getSource();
 		
 		for (int i = 0; i < path.size(); i++) {
 			fairway = path.get(i);
-			
+			if (fairway.getNode1() == previousNode) {
+				for (int j = 0; j < fairway.getSegments().length; j++) {
+					time++;
+					if (fairway.getSegments()[j] instanceof Lock) {
+						agent = ((Lock) fairway.getSegments()[j]).getAgent();
+						// probleemke... :(
+						time += (agent.whatIf(vessel, time, fairway.getSegments()[j - 1], timeNow) - time);
+					}
+				}
+			}else {
+				for (int j = fairway.getSegments().length - 1; j >= 0; j--) {
+					time++;
+					if (fairway.getSegments()[j] instanceof Lock) {
+						agent = ((Lock) fairway.getSegments()[j]).getAgent();
+						// probleemke... :(
+						time += (agent.whatIf(vessel, time, fairway.getSegments()[j + 1], timeNow) - time);
+					}
+				}
+			}
 			
 		}
 		return time;
@@ -144,7 +170,9 @@ public class TaskAgent {
         // Kijk naar het kortste pad. TODO: een "plan" invoeren, dat een paar iteraties
         // bewaard blijft in plaats van élke iteratie alle paden te zoeken en het kortste
         // te nemen.
-        ArrayList<Fairway> path = getShortestPath();
+        
+        //ArrayList<Fairway> path = getShortestPath();
+        ArrayList<Fairway> path = getBestPath(timeNow);
         
         // Send an intention ant to the current chosen path.
         // TODO: this should not happen at every time point.
