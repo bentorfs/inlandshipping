@@ -4,14 +4,37 @@ import java.util.ArrayList;
 
 public class TaskAgent {
 	
+	/******************************************************
+	 * 			Instantiation Variables
+	 ******************************************************/
 	private Vessel vessel;
 	ArrayList<ArrayList<Fairway>> possiblePaths;
+	
+	
+	/******************************************************
+	 * 			Constructor
+	 ******************************************************/
 	
 	public TaskAgent(Vessel vessel) {
 		this.vessel= vessel;
 		possiblePaths = new ArrayList<ArrayList<Fairway>>();
 	}
+	
+	/******************************************************
+	 * 			Instantiation Methods
+	 ******************************************************/
+	public Vessel getVessel() {
+	    return vessel;
+	}
 
+	/******************************************************
+	 * 			Path Finding Methods
+	 ******************************************************/
+	
+	/**
+	 * This method sends exploration ants to scan the environment for the possible
+	 * paths from the vessels source to its destination.
+	 */
 	public void scanEnvironment() {
 	    possiblePaths.clear();
 	    
@@ -51,9 +74,7 @@ public class TaskAgent {
 		return distance;
 	}
 
-    public Vessel getVessel() {
-        return vessel;
-    }
+   
     
     /**
      * This method should be called at every timestep in the simulation
