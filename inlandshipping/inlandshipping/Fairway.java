@@ -12,6 +12,8 @@ public class Fairway {
     
     private Speed maxSpeed;
     
+    public String name;
+    
     /*
      * The neighbouring nodes of this fairway
      */
@@ -56,7 +58,7 @@ public class Fairway {
      * is the number of segments this fairway is composed of.
      * The new fairway will have locks positioned on all positions in lockpositions.
      */
-    public Fairway(Node node1, Node node2, int nbLanes, int length, Speed maxSpeed, Vector<Integer> lockPositions) {
+    public Fairway(Node node1, Node node2, int nbLanes, int length, Speed maxSpeed, Vector<Integer> lockPositions, String name) {
         this.nbLanes = nbLanes;
         this.maxSpeed = maxSpeed;
         this.node1 = node1;
@@ -65,6 +67,7 @@ public class Fairway {
         node2.attachFairway(this);
         this.length = length;
         constructSegments(lockPositions);
+        this.name = name;
     }
     
     /**

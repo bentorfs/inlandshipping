@@ -26,6 +26,12 @@ public class ExplorationAnt {
     }
 
     public void scanForPossiblePaths() {
+    	
+    	if (sourceNode != destinationNode) { // If this is the case, no exploration ants need to be sent out!
+    		
+
+    	
+    	
         //sourcenode == destination -> addToPossiblePaths
         // bepaalde node vanuit sourceNode bereikbaar zit al in het pad == lus --> verwerpen
         // else --> create new ant
@@ -46,13 +52,11 @@ public class ExplorationAnt {
                 // Lus, geen ant uitsturen
             }
         }
+        
+    	}
     }
 
     public void addToPath(Fairway fairway){
         pathSoFar.add(fairway);
     }
-
-
-
-
 }
