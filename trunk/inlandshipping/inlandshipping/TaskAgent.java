@@ -113,8 +113,16 @@ public class TaskAgent {
 	 * Returns the time to cross the given path.
 	 */
 	public int getTimeToCrossPath(ArrayList<Fairway> path){
+		int time = 0;
+		ResAgent agent;
+		Fairway fairway;
 		
-		return 0;
+		for (int i = 0; i < path.size(); i++) {
+			fairway = path.get(i);
+			
+			
+		}
+		return time;
 	}
 	
    /*******************************************************
