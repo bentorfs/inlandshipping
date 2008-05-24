@@ -26,16 +26,10 @@ public class ExplorationAnt {
     }
 
     public void scanForPossiblePaths() {
-    	
     	if (sourceNode != destinationNode) { // If this is the case, no exploration ants need to be sent out!
-    		
-
-    	
-    	
         //sourcenode == destination -> addToPossiblePaths
         // bepaalde node vanuit sourceNode bereikbaar zit al in het pad == lus --> verwerpen
         // else --> create new ant
-
         Vector<Fairway> reachableFairways = sourceNode.getFairways();
         for(int i = 0; i < reachableFairways.size(); i++) {
             if (reachableFairways.get(i).getOtherNode(sourceNode) == destinationNode) { // bestemming bereikt
