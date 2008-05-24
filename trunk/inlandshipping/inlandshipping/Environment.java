@@ -192,10 +192,10 @@ public class Environment {
         vessels.add(vessel1);
         Vessel vessel2 = new Vessel(mons,bruges,Size.SMALL, Speed.SLOW);
         vessels.add(vessel2);
-        /*Vessel vessel3 = new Vessel(mons,bruges,Size.SMALL, Speed.SLOW);
+        Vessel vessel3 = new Vessel(mons,bruges,Size.SMALL, Speed.SLOW);
         vessels.add(vessel3);
-        /*Vessel vessel4 = new Vessel(bruges,mons,Size.SMALL, Speed.SLOW);
-        vessels.add(vessel4);*/
+        Vessel vessel4 = new Vessel(bruges,mons,Size.SMALL, Speed.SLOW);
+        vessels.add(vessel4);
         
         for (int i=0; i<Configuration.nbStartVessels; i++) {
             Vessel v = getRandomVessel();

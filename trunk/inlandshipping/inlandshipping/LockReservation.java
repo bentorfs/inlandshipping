@@ -117,7 +117,19 @@ public class LockReservation implements Comparable<LockReservation> {
         return ((Integer) getRanking()).compareTo(other.getRanking());
     }
 
-
+    /**
+     * Returns whether this reservation equals the given one
+     */
+    public boolean equals(LockReservation other) {
+    	if (getDirection() == other.getDirection() && getArrivalTime() == other.getArrivalTime()
+    			&& getVessel() == other.getVessel()) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    		
+    }
 
 
 
