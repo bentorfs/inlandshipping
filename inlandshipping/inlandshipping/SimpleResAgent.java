@@ -171,14 +171,13 @@ public class SimpleResAgent extends ResAgent {
             Vessel v = lock.getVesselInChamber();
             if (v.getPreviousSegment() == lock.getSideOne()) {
                 v.setCurrentPosition(lock.getSideTwo());
-                System.out.println("een");
+                v.setPreviousSegment(getLock());
             }
             else if (v.getPreviousSegment() == lock.getSideTwo()) {
                 v.setCurrentPosition(lock.getSideOne());
-                System.out.println("twee");
+                v.setPreviousSegment(getLock());
             }
             lock.setVesselInChamber(null);
-            System.out.println("drie");
         }
         else if (task != null && task.getEvent() == SchedulingEvent.STARTTRANSIT) {
             Vessel currentVessel = task.getVessel();
@@ -196,6 +195,7 @@ public class SimpleResAgent extends ResAgent {
                 // The scheduled vessel is not present
                 // Remove his reservation
                 removeReservationsBy(currentVessel);
+                System.out.println("a vessel did not show up on time");
             }
         }
     }
