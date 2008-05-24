@@ -95,6 +95,21 @@ public class TaskAgent {
 		return distance;
 	}
 
+	public ArrayList<Fairway> getBestPath(){
+		if(possiblePaths.size() == 0) return null;
+		ArrayList<Fairway> best = possiblePaths.get(0);
+		for(int i = 1; i < possiblePaths.size(); i ++){
+			if(getTimeToCrossPath(possiblePaths.get(i)) < getTimeToCrossPath(best)){
+				best = possiblePaths.get(i);
+			}
+		}
+		return null;
+	}
+	
+	public int getTimeToCrossPath(ArrayList<Fairway> path){
+		
+		return 0;
+	}
 	
    /*******************************************************
     * 			Acting Methods
