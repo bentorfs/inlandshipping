@@ -95,6 +95,9 @@ public class TaskAgent {
 		return distance;
 	}
 
+	/**
+	 * Returns the path with the shortest time to cross it.
+	 */
 	public ArrayList<Fairway> getBestPath(){
 		if(possiblePaths.size() == 0) return null;
 		ArrayList<Fairway> best = possiblePaths.get(0);
@@ -106,6 +109,9 @@ public class TaskAgent {
 		return null;
 	}
 	
+	/**
+	 * Returns the time to cross the given path.
+	 */
 	public int getTimeToCrossPath(ArrayList<Fairway> path){
 		
 		return 0;
