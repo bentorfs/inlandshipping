@@ -68,7 +68,7 @@ public class TaskAgent {
         scanEnvironment();
         
         // Kijk naar het kortste pad. TODO: een "plan" invoeren, dat een paar iteraties
-        // bewaard blijft in plaats van élke iteratie alle paden te zoeken en het kortste
+        // bewaard blijft in plaats van ï¿½lke iteratie alle paden te zoeken en het kortste
         // te nemen.
         ArrayList<Fairway> path = getShortestPath();
         

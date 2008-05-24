@@ -32,5 +32,5 @@ public class Configuration {
     public static int reservationTTL = 1000;
     
     // The time needed for locks to transfer the water level of their chambers
-    public static int lockTimeNeeded = 3;
+    public static int lockTimeNeeded = 10;
 }

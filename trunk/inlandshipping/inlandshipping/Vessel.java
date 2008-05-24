@@ -101,7 +101,7 @@ public class Vessel {
     	return previousSegment;
     }
     
-    private void setPreviousSegment(Segment previous){
+    public void setPreviousSegment(Segment previous){
     	previousSegment = previous;
     }
     
