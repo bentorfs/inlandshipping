@@ -65,12 +65,18 @@ public abstract class ResAgent {
 	 * Remove all reservations by the given vessel
 	 */
 	public void removeReservationsBy(Vessel v) {
+		Vector<LockReservation> toRemove = new Vector<LockReservation>();
 	    Iterator<LockReservation> i = getReservations().iterator();
 	    while (i.hasNext()) {
 	        LockReservation res = i.next();
 	        if (res.getVessel() == v) {
-	            removeReservation(res);
+	        	toRemove.add(res);
 	        }
+	    }
+	    i = toRemove.iterator();
+	    while (i.hasNext()) {
+	    	LockReservation res = i.next();
+	    	removeReservation(res);
 	    }
 	}
 	
@@ -85,7 +91,8 @@ public abstract class ResAgent {
 	 * Returns the reservations made at this agent.
 	 */
 	protected Vector<LockReservation> getReservations() {
-	    return (Vector<LockReservation>) reservations.clone();
+	    //return (Vector<LockReservation>) reservations.clone();
+		return reservations;
 	}
 	
 	/**
@@ -149,7 +156,7 @@ public abstract class ResAgent {
 	 * If the vessel made another reservation at this agent, it is removed.
 	 */
 	public void makeReservation(Vessel vessel, int arrivalTime, Segment direction) {
-	    //System.out.println("a reservation has been made for time " + arrivalTime + " at " + getLock());
+	    System.out.println("a reservation has been made for time " + arrivalTime + " at " + getLock());
 	    LockReservation reservation = new LockReservation(this,vessel,arrivalTime,direction);
 	    LockReservation existingRes = getReservationOf(vessel);
 	    if (existingRes == null) {
@@ -185,8 +192,6 @@ public abstract class ResAgent {
 	    
 	    printReservations();
     	printTimeTable();
-    	
-    	
 	    
 	    // Perform the actions of this timepoint
 	    performActions(time);
