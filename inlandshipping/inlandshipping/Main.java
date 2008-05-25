@@ -63,6 +63,7 @@ public class Main {
                 ResAgent agent = l.getAgent();
                 agent.act(time);
             }
+            
             // Give the environment the opportunity to act
             env.act(time);
             

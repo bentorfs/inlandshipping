@@ -97,8 +97,9 @@ public class ExplorationAnt {
     	for(int i = 0; i < reachableFairways.size(); i++){
     		if (reachableFairways.get(i).getOtherNode(getSource()) == getDestination()) {
     			// bestemming bereikt
-    	        addToPathSoFar(reachableFairways.get(i));    
-    	        getAgent().addToPossiblePaths(getPathSoFar());
+    	        addToPathSoFar(reachableFairways.get(i));
+    	        getAgent().addToPossiblePaths((ArrayList<Fairway>) getPathSoFar().clone());
+    	        pathSoFar.remove(reachableFairways.get(i));
     		}
     	    else if (!getPathSoFar().contains(reachableFairways.get(i))) {
     	    	ArrayList<Fairway> newPathSoFar = (ArrayList<Fairway>) getPathSoFar().clone();

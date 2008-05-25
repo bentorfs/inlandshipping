@@ -127,9 +127,9 @@ public class Environment {
         lockPositions.clear();
         //lockPositions.add(20);
         //lockPositions.add(40);
-        Fairway way6 = new Fairway(gent,antwerp,2,60,Speed.FAST, lockPositions, "gent-antwerp");
-        fairways.add(way6);
-        locks.addAll(way6.getLocks());
+        //Fairway way6 = new Fairway(gent,antwerp,2,60,Speed.FAST, lockPositions, "gent-antwerp");
+        //fairways.add(way6);
+        //locks.addAll(way6.getLocks());
         
         lockPositions.clear();
         //lockPositions.add(25);
@@ -146,7 +146,7 @@ public class Environment {
         
         lockPositions.clear();
         Fairway way9 = new Fairway(hub,mons,2,20,Speed.FAST, lockPositions, "hub-mons");
-        fairways.add(way9);
+        //fairways.add(way9);
         locks.addAll(way9.getLocks());
         
         lockPositions.clear();
@@ -193,19 +193,19 @@ public class Environment {
 
         
         // new Vessel(source,destination,size,maxSpeed)
-        /*Vessel vessel1 = new Vessel(antwerp,liege,Size.SMALL, Speed.SLOW);
+        Vessel vessel1 = new Vessel(antwerp,liege,Size.SMALL, Speed.SLOW);
         vessels.add(vessel1);
-        Vessel vessel2 = new Vessel(hasselt,bruges,Size.SMALL, Speed.SLOW);
+        /*Vessel vessel2 = new Vessel(hasselt,bruges,Size.SMALL, Speed.SLOW);
         vessels.add(vessel2);
         /*Vessel vessel3 = new Vessel(mons,bruges,Size.SMALL, Speed.SLOW);
         vessels.add(vessel3);
         Vessel vessel4 = new Vessel(bruges,mons,Size.SMALL, Speed.SLOW);
         vessels.add(vessel4);*/
         
-        for (int i=0; i<10; i++) {
-        	Vessel vessel1 = new Vessel(liege,antwerp,Size.SMALL, Speed.SLOW);
-            vessels.add(vessel1);
-        }
+        //for (int i=0; i<10; i++) {
+        //	Vessel vessel1 = new Vessel(liege,antwerp,Size.SMALL, Speed.SLOW);
+        //  vessels.add(vessel1);
+        //}
         
         for (int i=0; i<Configuration.nbStartVessels; i++) {
             Vessel v = getRandomVessel();
@@ -293,12 +293,12 @@ public class Environment {
             System.out.println("A new vessel has entered the environment");
         }
         
-        if (timePoint == 5) {
+        /*if (timePoint == 5) {
         for (int j=0; j<1; j++) {
         	Vessel vessel1 = new Vessel(liege2,antwerp2,Size.SMALL, Speed.SLOW);
             vessels.add(vessel1);
         }
-        }
+        }*/
     }
     
     // This is a test.
