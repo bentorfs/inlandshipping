@@ -1,6 +1,8 @@
 package inlandshipping;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Vector;
 
 public class IntentionAnt {
 	
@@ -26,10 +28,94 @@ public class IntentionAnt {
 		previousNode = vessel.getSource();
 	}
 
+	
+	/**
+	 * Returns the next position this ant has to move to
+	 */
+	public Segment getNextPosition(Segment currentPosition, Segment previousPosition) {
+		ArrayList<Segment> neighbours = currentPosition.getNeighbours();
+		if (neighbours.get(0) == previousPosition) {
+			return neighbours.get(1);
+		}
+		else {
+			return neighbours.get(0);
+		}
+	}
+	
 	/**
 	 * Makes reservations at all the locks where the ship will pass. 
 	 * PreviousNode makes you know on which way you will enter the lock.
 	 */
+	public void makeReservations(int timeNow) {
+		// Start positions for the intentionAnt
+		Segment previousPosition = vessel.getPreviousSegment();
+		Segment currentPosition = vessel.getCurrentPosition();
+		// time is the time at which reservations are made
+		int time = timeNow;
+		
+		// finished becomes true when the ant has reached the destination node of the vessel
+		boolean finished = false;
+		while (!finished) {
+			// If the currentposition is a lock, make a reservation (except if the vessel is already in the lock)
+			if (currentPosition instanceof Lock && vessel.getCurrentPosition() != currentPosition) {
+				Lock currentLock = ((Lock) currentPosition);
+				ResAgent agent = currentLock.getAgent();
+				// Make the reservation
+				agent.makeReservation(vessel, time, previousPosition);
+				// Increase time to the time the ant is out of the lock
+				time = agent.whatIf(vessel, time, previousPosition, timeNow);
+				// Move ant to next segment
+				Segment tempPosition = currentPosition;
+				currentPosition = getNextPosition(currentPosition, previousPosition);
+				previousPosition = tempPosition;
+			}
+			else if (currentPosition instanceof Node) {
+				// The ant is in a node, and needs to choose a new direction
+				
+				// if previousPosition == null, the vessel has only just appeared
+				// and there is no previous position
+				if (previousPosition != null) {
+					// Remove the fairway that has just been crossed from the path
+					pathToCheck.remove(previousPosition.getFairway());
+				}
+				
+				Node currentNode = (Node) currentPosition;
+				
+				// See if the ant has reached its final destination.
+				if (currentNode == vessel.getDestination()) {
+					finished = true;
+				}
+				// Otherwise, make a choice of the fairways in this node.
+				else {
+					Vector<Fairway> possibleFairways = currentNode.getFairways();
+					Iterator<Fairway> i1 = possibleFairways.iterator();
+					while (i1.hasNext()) {
+						Fairway possible = i1.next();
+						if (pathToCheck.contains(possible)) {
+							time++;
+							currentPosition = possible.getNeighbourSegmentOfNode(currentNode);
+							previousPosition = currentNode;
+						}
+					}
+				}
+			}
+			else { // instanceof Segment
+				// The ant is on a regular segment, and needs to advance to the next one
+				// time is increased by 1 to reflect the time needed to cross this segment
+				// TODO: Speed of the vessel in rekening nemen!
+				time++;
+				Segment tempPosition = currentPosition;
+				currentPosition = getNextPosition(currentPosition, previousPosition);
+				previousPosition = tempPosition;
+			}
+		}
+	}
+	
+	/**
+	 * Makes reservations at all the locks where the ship will pass. 
+	 * PreviousNode makes you know on which way you will enter the lock.
+	 */
+	/*
 	public void makeReservations(int timeNow) {
 		int steps = 0;
 		Fairway fairway;
@@ -99,6 +185,7 @@ public class IntentionAnt {
 			previousNode = fairway.getOtherNode(previousNode);
 		}
 	}
+	*/
 
 	// zou moete gerefactored worde naar hoeveel steps een large vessel kan make etc,
 	// maar hoe rond ge dan af??
