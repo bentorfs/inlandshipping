@@ -38,10 +38,9 @@ public class SimpleResAgent extends ResAgent {
         	makeReservation(vessel, arrivalTime, direction);
         	updateScheduling(timeNow);
         	int result = findPassThroughTime(vessel, arrivalTime);
+        	removeReservationsBy(vessel);
         	// Put the original timetable back in place
         	timeTable = timeTableBackup;
-        
-        	System.out.println("whatif: " + result);
         	return result;
     	}
     }
@@ -102,15 +101,18 @@ public class SimpleResAgent extends ResAgent {
         // Add the starttransit block
         SchedulingElem elem = new SchedulingElem(r.getVessel(), SchedulingEvent.STARTTRANSIT);
         timeTable.put(start,elem);
+        //System.out.println("putting starttransit at " + start + " for vessel " + r.getVessel());
         // See which direction the vessel is transferring in
         SchedulingEvent event = (r.getDirection() == getLock().getSideOne() ? SchedulingEvent.TRANSIT_TO_2 : SchedulingEvent.TRANSIT_TO_1);
         // Add the intransit blocks
         for (int i=1; i<=getLock().getTimeNeeded(); i++) {
             elem = new SchedulingElem(r.getVessel(), event);
             timeTable.put(start+i,elem);
+            //System.out.println("putting intransit at " + (start+i) + " for vessel " + r.getVessel());
         }
         // Add the endtransit block
         elem = new SchedulingElem(r.getVessel(), SchedulingEvent.ENDTRANSIT);
+        //System.out.println("putting endtransit at " + (start + getLock().getTimeNeeded() + 1) + " for vessel " + r.getVessel());
         timeTable.put(start + getLock().getTimeNeeded() + 1,elem);
     }
     
@@ -209,6 +211,8 @@ public class SimpleResAgent extends ResAgent {
                 // The scheduled vessel is not present
                 // Remove his reservation
                 removeReservationsBy(currentVessel);
+                //System.out.println(getReservationOf(currentVessel));
+                updateScheduling(time);
                 System.out.println("a vessel did not show up on time");
             }
         }
