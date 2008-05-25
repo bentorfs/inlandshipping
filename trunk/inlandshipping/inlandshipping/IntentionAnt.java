@@ -35,7 +35,7 @@ public class IntentionAnt {
 		Fairway fairway;
 		int time;
 		ResAgent agent;
-		
+			
 		// for the part from the current position of the vessel to the node where pathToCheck starts
 		if(!(vessel.getCurrentPosition() instanceof Node)){
 			fairway = vessel.getCurrentPosition().getFairway();
