@@ -185,8 +185,10 @@ public class TaskAgent {
         
         // Send an intention ant to the current chosen path.
         // TODO: this should not happen at every time point.
-        IntentionAnt intAnt = new IntentionAnt(getVessel(), path);
-        intAnt.makeReservations(timeNow);
+        //if (getVessel().getCurrentPosition() instanceof Node) {
+        	IntentionAnt intAnt = new IntentionAnt(getVessel(), path);
+        	intAnt.makeReservations(timeNow);
+        //}
 
         // Verplaats het schip in de richting van pad van het huidige plan.
         // TODO: currentSpeed moet nog geimplementeerd worden!

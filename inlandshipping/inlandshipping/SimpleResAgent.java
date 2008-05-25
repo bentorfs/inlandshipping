@@ -24,6 +24,8 @@ public class SimpleResAgent extends ResAgent {
      * the lock, if it arrived at the specified time from the specified direction.
      */
     public int whatIf(Vessel vessel, int arrivalTime, Segment direction, int timeNow) {
+    	printTimeTable();
+    	
     	// See if this vessel has this reservation already
     	// If so, just return the information of that reservation
     	LockReservation res = getReservationOf(vessel);
@@ -31,6 +33,8 @@ public class SimpleResAgent extends ResAgent {
     			&& res.getDirection() == direction) {
     		updateScheduling(timeNow);
     		//System.out.println("whatif returns " + findPassThroughTime(vessel,arrivalTime));
+        	printTimeTable();
+    		
     		return findPassThroughTime(vessel,arrivalTime);
     	}
     	// Otherwise, make a tentative reservation and see what the result would be.
@@ -43,6 +47,8 @@ public class SimpleResAgent extends ResAgent {
         	removeReservationsBy(vessel);
         	// Put the original timetable back in place
         	timeTable = timeTableBackup;
+        	printTimeTable();
+        	
         	return result;
     	}
     }
@@ -69,8 +75,12 @@ public class SimpleResAgent extends ResAgent {
         timeTable.clear();
         // Add all stored events to the empty timetable
         timeTable.putAll(inTransfer);
+        
+        //System.out.println("size of timetable at start of scheduling: " + timeTable.size());
+        
         // Sort the reservations according to arrival time
         java.util.Collections.sort(getReservations());
+        
         Iterator<LockReservation> i = getReservations().iterator();
         while (i.hasNext()) {
             LockReservation r = i.next();
