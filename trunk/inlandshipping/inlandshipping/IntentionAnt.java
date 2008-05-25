@@ -40,7 +40,7 @@ public class IntentionAnt {
 		if(!(vessel.getCurrentPosition() instanceof Node)){
 			fairway = vessel.getCurrentPosition().getFairway();
 			int fairwayLength = fairway.getSegments().length;
-			int position = (fairwayLength - vessel.getNbSegmentsToGo()) - 1 ;
+			int position = fairwayLength - (vessel.getNbSegmentsToGo() - 1) ;
 			Node comingFrom = fairway.getOtherNode(previousNode);
 			if (fairway.getNode1() == comingFrom) {
 				for(int k = position; k < fairwayLength; k++){
@@ -54,7 +54,7 @@ public class IntentionAnt {
 				}
 			}
 			else{
-				for(int k = fairwayLength - 1; k > position; k--){
+				for(int k = fairwayLength - 1; k >= position; k--){
 					steps++;
 					if (fairway.getSegments()[k] instanceof Lock) {
 						time = calculateTimeForReservation(steps, timeNow);
