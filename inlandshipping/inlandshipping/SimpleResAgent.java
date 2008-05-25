@@ -187,7 +187,7 @@ public class SimpleResAgent extends ResAgent {
      * performing the calculated schedule.
      */
     protected void performActions(int time) {
-    	System.out.println("performing actions at time " + time);
+    	//System.out.println("performing actions at time " + time);
     	
         // See what has to happen at this moment, according to the schedule.
         SchedulingElem task = timeTable.get(time);
