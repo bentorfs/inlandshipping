@@ -1,7 +1,9 @@
 package inlandshipping;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.Vector;
 
 public class SimpleResAgent extends ResAgent {
@@ -237,6 +239,23 @@ public class SimpleResAgent extends ResAgent {
             i++;
         }
         
+    }
+    
+    /**
+     * Prints the current timetable to the terminal
+     */
+    public void printTimeTable() {
+    	Set<Integer> keyset = timeTable.keySet();
+    	Vector<Integer> keys = new Vector<Integer>(keyset);
+    	Collections.sort(keys);
+    	Iterator<Integer> i = keys.iterator();
+    	System.out.println("----Start timetable for " + this.toString() + "---");
+    	while (i.hasNext()) {
+    		int current = i.next();
+    		SchedulingElem e = timeTable.get(current);
+    		System.out.println("At time " + current + ": \t" + e.toString());
+    	}
+    	System.out.println("-------------------");
     }
 
 }

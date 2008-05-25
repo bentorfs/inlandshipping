@@ -89,6 +89,25 @@ public abstract class ResAgent {
 	}
 	
 	/**
+	 * Prints a list of all reservations to the terminal
+	 */
+	public void printReservations() {
+		System.out.println("-- Reservations for " + this + "---");
+		Iterator<LockReservation> i = getReservations().iterator();
+		while (i.hasNext()) {
+			LockReservation lr = i.next();
+			System.out.println(lr.toString());
+		}
+		System.out.println("-----------------");
+		
+	}
+	
+	/**
+     * Prints the current timetable to the terminal
+     */
+    public abstract void printTimeTable();
+	
+	/**
 	 * Removes a reservation from the list of reservations.
 	 * @param reservation
 	 */
@@ -163,6 +182,12 @@ public abstract class ResAgent {
 	    decreaseTTLs();
 	    // Create a new scheduling based on the remaining reservations
 	    updateScheduling(time);
+	    
+	    printReservations();
+    	printTimeTable();
+    	
+    	
+	    
 	    // Perform the actions of this timepoint
 	    performActions(time);
 	}
