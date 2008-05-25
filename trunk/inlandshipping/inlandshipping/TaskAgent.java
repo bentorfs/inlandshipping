@@ -77,11 +77,11 @@ public class TaskAgent {
 	
 	/**
 	 * Returns the path with the shortest distance.
-	 * 
-	 * (Currently not in use)
 	 */
 	public ArrayList<Fairway> getShortestPath() {
-		if(possiblePaths.size() == 0) return new ArrayList<Fairway>();
+		if(possiblePaths.size() == 0) {
+			return new ArrayList<Fairway>();
+		}
 		ArrayList<Fairway> shortest = possiblePaths.get(0);
 		for(int i = 1; i < possiblePaths.size(); i ++){
 			if(getLengthOfPath(possiblePaths.get(i)) < getLengthOfPath(shortest)){
@@ -112,15 +112,27 @@ public class TaskAgent {
 			// Destination has been reached
 			return new ArrayList<Fairway>();
 		}
-		ArrayList<Fairway> best = possiblePaths.get(0);
+		//ArrayList<Fairway> best = possiblePaths.get(0);
+		//for(int i = 1; i < possiblePaths.size(); i ++){
+		//	if(getTimeToCrossPath(possiblePaths.get(i), timeNow) < getTimeToCrossPath(best, timeNow)){
+		//		best = possiblePaths.get(i);
+		//	}
+		//}
+		
+		ArrayList<Fairway> pathToCheck = (ArrayList<Fairway>) possiblePaths.get(0).clone();
+		ExplorationAntFast ant = new ExplorationAntFast(getVessel(),pathToCheck);
+		int bestTimeTillNow = ant.checkTimeNeeded(timeNow);
+		ArrayList<Fairway> bestPathTillNow = possiblePaths.get(0);
 		for(int i = 1; i < possiblePaths.size(); i ++){
-			//System.out.println("mogelijk: " + getTimeToCrossPath(possiblePaths.get(i),timeNow));
-			if(getTimeToCrossPath(possiblePaths.get(i), timeNow) < getTimeToCrossPath(best, timeNow)){
-				best = possiblePaths.get(i);
+			pathToCheck = (ArrayList<Fairway>) possiblePaths.get(i).clone();
+			ant = new ExplorationAntFast(getVessel(),pathToCheck);
+			int timeNeeded = ant.checkTimeNeeded(timeNow);
+			if(timeNeeded < bestTimeTillNow){
+				bestTimeTillNow = timeNeeded;
+				bestPathTillNow = possiblePaths.get(i);
 			}
 		}
-		//System.out.println("best: " + getTimeToCrossPath(best,timeNow));
-		return best;
+		return bestPathTillNow;
 	}
 	
 	/**
@@ -172,16 +184,15 @@ public class TaskAgent {
      * for decision making and acting.
      */
     public void act(int timeNow) {
-        // TODO elke keer de agent gaat scanne kan hij het pad veranderen
-        // Enkel van in een node kan hij wel zijn pad maar gaan veranderen,
-        // hij kan zijn route niet wijzigen van in een egwoon segment.
-        // TODO de voorwaarden om naar een segment/node te kunnen bewegen
         // TODO explorationants enkel uitsturen opt moment da vessel in ne node komt (of ga komen)
         scanEnvironment();
         
-        // Kijk naar het kortste pad. TODO: een "plan" invoeren, dat een paar iteraties
+        // Kijk naar het kortste pad. 
+        // TODO: een "plan" invoeren, dat een paar iteraties
         // bewaard blijft in plaats van élke iteratie alle paden te zoeken en het kortste
         // te nemen.
+        
+
         
         //ArrayList<Fairway> path = getShortestPath();
         ArrayList<Fairway> path = getBestPath(timeNow);
