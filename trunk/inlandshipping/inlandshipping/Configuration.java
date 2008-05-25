@@ -26,11 +26,11 @@ public class Configuration {
 	public static int nbSegmentsPerStepFast = 2;
 	
 	// The probability that a new vessel appears in a given timestep
-	public static double probNewVessel = 0.00;
+	public static double probNewVessel = 0.0;
 
 	// The number of timesteps that a reservation in a lock stays active before it "evaporates"
     public static int reservationTTL = 10000;
     
     // The time needed for locks to transfer the water level of their chambers
-    public static int lockTimeNeeded = 2;
+    public static int lockTimeNeeded = 6;
 }

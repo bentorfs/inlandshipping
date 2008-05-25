@@ -121,8 +121,8 @@ public class Environment {
         locks.addAll(way5.getLocks());
         
         lockPositions.clear();
-        lockPositions.add(20);
-        lockPositions.add(40);
+        //lockPositions.add(20);
+        //lockPositions.add(40);
         Fairway way6 = new Fairway(gent,antwerp,2,60,Speed.FAST, lockPositions, "gent-antwerp");
         fairways.add(way6);
         locks.addAll(way6.getLocks());
@@ -167,8 +167,8 @@ public class Environment {
         locks.addAll(way12.getLocks());
         
         lockPositions.clear();
-        lockPositions.add(10);
-        lockPositions.add(30);
+        //lockPositions.add(10);
+        //lockPositions.add(30);
         Fairway way13 = new Fairway(hasselt,liege,2,50,Speed.SLOW, lockPositions, "hasselt-liege");
         fairways.add(way13);
         locks.addAll(way13.getLocks());
