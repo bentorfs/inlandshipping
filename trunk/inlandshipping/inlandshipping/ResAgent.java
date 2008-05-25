@@ -156,7 +156,7 @@ public abstract class ResAgent {
 	 * If the vessel made another reservation at this agent, it is removed.
 	 */
 	public void makeReservation(Vessel vessel, int arrivalTime, Segment direction) {
-	    System.out.println("a reservation has been made for time " + arrivalTime + " at " + getLock());
+	    //System.out.println("a reservation has been made for time " + arrivalTime + " at " + getLock());
 	    LockReservation reservation = new LockReservation(this,vessel,arrivalTime,direction);
 	    LockReservation existingRes = getReservationOf(vessel);
 	    if (existingRes == null) {
@@ -190,8 +190,8 @@ public abstract class ResAgent {
 	    // Create a new scheduling based on the remaining reservations
 	    updateScheduling(time);
 	    
-	    printReservations();
-    	printTimeTable();
+	    //printReservations();
+    	//printTimeTable();
 	    
 	    // Perform the actions of this timepoint
 	    performActions(time);
