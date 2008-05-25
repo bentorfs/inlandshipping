@@ -29,10 +29,13 @@ public class Main {
         Vessel v2 = env.getVessels().elementAt(1);
         Lock l = env.getLocks().elementAt(0);
         ResAgent a = l.getAgent();
+        
         a.makeReservation(v, 10, l.getSideOne());
         
-        int test = a.whatIf(v2, 11, l.getSideOne(), 0);
-        System.out.println(test);
+        a.makeReservation(v2,11,l.getSideTwo());
+        a.updateScheduling(1);
+        //int test = a.whatIf(v2, 11, l.getSideTwo(), 0);
+        System.out.println("test");
         
         //a.makeReservation(v2, 11,l.getSideOne());
         //a.updateScheduling(1);
@@ -52,6 +55,7 @@ public class Main {
                 TaskAgent agent = v.getAgent();
                 agent.act(time);
             }
+            
             // Give all the resource agents the opportunity to act
             Iterator<Lock> it = env.getLocks().iterator();
             while (it.hasNext()) {

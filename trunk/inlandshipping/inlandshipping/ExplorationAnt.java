@@ -93,24 +93,22 @@ public class ExplorationAnt {
      * Scans for all the possible path from the source to the destination.
      */
     public void scanForPossiblePaths(){
-    	if(getSource() != getDestination()){
-    		Vector<Fairway> reachableFairways = getSource().getFairways();
-    		for(int i = 0; i < reachableFairways.size(); i ++){
-    			 if (reachableFairways.get(i).getOtherNode(getSource()) == getDestination()) {
-    				 	// bestemming bereikt
-    	                addToPathSoFar(reachableFairways.get(i));    
-    	                getAgent().addToPossiblePaths(getPathSoFar());
-    	            }
-    	            else if (!pathSoFar.contains(reachableFairways.get(i))) {
-    	                ArrayList<Fairway> newPathSoFar = (ArrayList<Fairway>) getPathSoFar().clone();
-    	                ExplorationAnt newAnt = new ExplorationAnt(reachableFairways.get(i).getOtherNode(getSource()),getDestination(),getAgent(),newPathSoFar);
-    	                newAnt.addToPathSoFar(reachableFairways.elementAt(i));
-    	                newAnt.scanForPossiblePaths();
-    	            }
-    	            	else {
-    	            		// Lus, geen ant uitsturen
-    	            	}
+    	Vector<Fairway> reachableFairways = getSource().getFairways();
+    	for(int i = 0; i < reachableFairways.size(); i++){
+    		if (reachableFairways.get(i).getOtherNode(getSource()) == getDestination()) {
+    			// bestemming bereikt
+    	        addToPathSoFar(reachableFairways.get(i));    
+    	        getAgent().addToPossiblePaths(getPathSoFar());
     		}
+    	    else if (!getPathSoFar().contains(reachableFairways.get(i))) {
+    	    	ArrayList<Fairway> newPathSoFar = (ArrayList<Fairway>) getPathSoFar().clone();
+    	        ExplorationAnt newAnt = new ExplorationAnt(reachableFairways.elementAt(i).getOtherNode(getSource()),getDestination(),getAgent(),newPathSoFar);
+    	        newAnt.addToPathSoFar(reachableFairways.elementAt(i));
+    	        newAnt.scanForPossiblePaths();
+    	    }
+    	    else {
+    	    	// Lus, geen ant uitsturen
+    	    }
     	}
     }
     

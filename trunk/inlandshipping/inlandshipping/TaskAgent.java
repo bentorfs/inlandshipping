@@ -59,8 +59,13 @@ public class TaskAgent {
 	    else {
 	        antStartNode = currentPosition.getFairway().getOtherNode(getVessel().getSource());
 	    }
-		ExplorationAnt ant = new ExplorationAnt(antStartNode, getVessel().getDestination(), this, new ArrayList<Fairway>());
-		ant.scanForPossiblePaths();
+	    if (antStartNode != getVessel().getDestination()) {
+	    	ExplorationAnt ant = new ExplorationAnt(antStartNode, getVessel().getDestination(), this, new ArrayList<Fairway>());
+	    	ant.scanForPossiblePaths();
+	    }
+	    else {
+	    	// No exploration ants needed any more, the vessel is on its last fairway
+	    }
 	}
 	
 	/**
@@ -72,9 +77,11 @@ public class TaskAgent {
 	
 	/**
 	 * Returns the path with the shortest distance.
+	 * 
+	 * (Currently not in use)
 	 */
 	public ArrayList<Fairway> getShortestPath() {
-		if(possiblePaths.size() == 0) return null;
+		if(possiblePaths.size() == 0) return new ArrayList<Fairway>();
 		ArrayList<Fairway> shortest = possiblePaths.get(0);
 		for(int i = 1; i < possiblePaths.size(); i ++){
 			if(getLengthOfPath(possiblePaths.get(i)) < getLengthOfPath(shortest)){
@@ -101,14 +108,16 @@ public class TaskAgent {
 	 * 			  the node is the current source of the vessel.
 	 */
 	public ArrayList<Fairway> getBestPath(int timeNow){
-		if(possiblePaths.size() == 0) return null;
+		if(possiblePaths.size() == 0) {
+			return new ArrayList<Fairway>();
+		}
 		ArrayList<Fairway> best = possiblePaths.get(0);
 		for(int i = 1; i < possiblePaths.size(); i ++){
 			if(getTimeToCrossPath(possiblePaths.get(i), timeNow) < getTimeToCrossPath(best, timeNow)){
 				best = possiblePaths.get(i);
 			}
 		}
-		return null;
+		return best;
 	}
 	
 	/**
@@ -171,12 +180,12 @@ public class TaskAgent {
         // bewaard blijft in plaats van élke iteratie alle paden te zoeken en het kortste
         // te nemen.
         
-        //ArrayList<Fairway> path = getShortestPath();
-        ArrayList<Fairway> path = getBestPath(timeNow);
+        ArrayList<Fairway> path = getShortestPath();
+        //ArrayList<Fairway> path = getBestPath(timeNow);
         
         // Send an intention ant to the current chosen path.
         // TODO: this should not happen at every time point.
-        IntentionAnt intAnt = new IntentionAnt(getVessel());
+        IntentionAnt intAnt = new IntentionAnt(getVessel(), path);
         intAnt.makeReservations(timeNow);
 
         // Verplaats het schip in de richting van pad van het huidige plan.

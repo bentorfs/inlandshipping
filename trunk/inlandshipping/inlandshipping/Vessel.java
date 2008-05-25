@@ -14,7 +14,18 @@ public class Vessel {
     private Speed currentSpeed = Speed.STILL;
     private Segment currentPosition;
     private Segment previousSegment;
-    private Cargo cargo = Cargo.EMPTY;
+    
+    /**
+     * Cargo properties of the vessel.
+     */
+    private Cargo cargo = Cargo.FULL;
+	public Cargo getCargo() {
+		return cargo;
+	}
+
+	public void setCargo(Cargo cargo) {
+		this.cargo = cargo;
+	}
     
     /*
      * The top speed of the vessel.
@@ -41,14 +52,12 @@ public class Vessel {
     
     private TaskAgent agent;
     
-    private Environment env;
-    
     /**
      * Constructs a new vessel with given size, top speed and start and destination node
      * @throws InterruptedException 
      * @throws CloneNotSupportedException 
      */
-    public Vessel(Node startNode, Node destinationNode, Size size, Speed topSpeed, Environment env) {
+    public Vessel(Node startNode, Node destinationNode, Size size, Speed topSpeed) {
         this.startNode = startNode;
         this.destinationNode = destinationNode;
         this.size = size;
@@ -57,7 +66,6 @@ public class Vessel {
         setCurrentPosition(startNode);
         this.previousSegment = null;
         nbSegmentsPassed = 0;
-        this.env = env;
     }
     
     /******************************************************
@@ -155,7 +163,7 @@ public class Vessel {
                 nbSegmentsPassed = 0;
                 if (getCurrentPosition() == getDestination()) {
                     System.out.println("Vessel has reached target");
-                    env.vesselArrived(this);
+                    setCargo(Cargo.EMPTY);
                 }
             }
         } else {
@@ -174,7 +182,7 @@ public class Vessel {
                 nbSegmentsPassed = 0;
                 if (getCurrentPosition() == getDestination()) {
                     System.out.println("Vessel has reached target");
-                    env.vesselArrived(this);
+                    setCargo(Cargo.EMPTY);
                 }
             }
         }
@@ -198,4 +206,6 @@ public class Vessel {
     	if(getCurrentPosition() instanceof Node) return 0;
     	else return getCurrentPosition().getFairway().getLength() - nbSegmentsPassed + 1;
     }
+
+
 }
