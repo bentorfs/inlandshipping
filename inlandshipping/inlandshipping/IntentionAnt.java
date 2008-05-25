@@ -54,7 +54,7 @@ public class IntentionAnt {
 				}
 			}
 			else{
-				for(int k = fairwayLength - 1; k >= position; k--){
+				for(int k = fairwayLength - 1; k > position; k--){
 					steps++;
 					if (fairway.getSegments()[k] instanceof Lock) {
 						time = calculateTimeForReservation(steps, timeNow);
