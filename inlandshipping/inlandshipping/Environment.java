@@ -173,7 +173,7 @@ public class Environment {
         fairways.add(way13);
         locks.addAll(way13.getLocks());
         
-        //lockPositions.clear();
+        lockPositions.clear();
         //lockPositions.add(40);
         Fairway way14 = new Fairway(hasselt,brussels,2,70,Speed.FAST, lockPositions, "hasselt-brussels");
         fairways.add(way14);

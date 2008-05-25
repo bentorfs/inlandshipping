@@ -131,7 +131,9 @@ public class LockReservation implements Comparable<LockReservation> {
     		
     }
 
-
+    public String toString() {
+    	return "Reservation by " + getVessel().toString() + " at time " + getArrivalTime() + " from direction " + getDirection();
+    }
 
 
 

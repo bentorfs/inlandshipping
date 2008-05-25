@@ -34,4 +34,8 @@ public class SchedulingElem {
         return event;
     }
     
+    public String toString() {
+    	return event.toString() + "\t for vessel " + (vessel == null ? "empty" : vessel.toString());
+    }
+    
 }
