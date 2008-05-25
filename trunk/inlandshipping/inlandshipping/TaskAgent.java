@@ -186,7 +186,8 @@ public class TaskAgent {
         // Send an intention ant to the current chosen path.
         // TODO: this should not happen at every time point.
         //if (getVessel().getCurrentPosition() instanceof Node) {
-        	IntentionAnt intAnt = new IntentionAnt(getVessel(), path);
+        	ArrayList<Fairway> path2 = (ArrayList<Fairway>) path.clone();
+        	IntentionAnt intAnt = new IntentionAnt(getVessel(), path2);
         	intAnt.makeReservations(timeNow);
         //}
 
