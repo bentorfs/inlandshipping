@@ -109,14 +109,17 @@ public class TaskAgent {
 	 */
 	public ArrayList<Fairway> getBestPath(int timeNow){
 		if(possiblePaths.size() == 0) {
+			// Destination has been reached
 			return new ArrayList<Fairway>();
 		}
 		ArrayList<Fairway> best = possiblePaths.get(0);
 		for(int i = 1; i < possiblePaths.size(); i ++){
+			//System.out.println("mogelijk: " + getTimeToCrossPath(possiblePaths.get(i),timeNow));
 			if(getTimeToCrossPath(possiblePaths.get(i), timeNow) < getTimeToCrossPath(best, timeNow)){
 				best = possiblePaths.get(i);
 			}
 		}
+		//System.out.println("best: " + getTimeToCrossPath(best,timeNow));
 		return best;
 	}
 	
@@ -180,8 +183,8 @@ public class TaskAgent {
         // bewaard blijft in plaats van élke iteratie alle paden te zoeken en het kortste
         // te nemen.
         
-        ArrayList<Fairway> path = getShortestPath();
-        //ArrayList<Fairway> path = getBestPath(timeNow);
+        //ArrayList<Fairway> path = getShortestPath();
+        ArrayList<Fairway> path = getBestPath(timeNow);
         
         // Send an intention ant to the current chosen path.
         // TODO: this should not happen at every time point.
