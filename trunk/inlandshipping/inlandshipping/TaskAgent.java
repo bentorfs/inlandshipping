@@ -9,6 +9,7 @@ public class TaskAgent {
 	 ******************************************************/
 	private Vessel vessel;
 	ArrayList<ArrayList<Fairway>> possiblePaths;
+	ArrayList<Fairway> plan;
 	
 	
 	/******************************************************
@@ -18,6 +19,7 @@ public class TaskAgent {
 	public TaskAgent(Vessel vessel) {
 		setVessel(vessel);
 		initializePossiblePaths(new ArrayList<ArrayList<Fairway>>());
+		plan = null;
 	}
 	
 	/******************************************************
@@ -157,7 +159,7 @@ public class TaskAgent {
 					if (fairway.getSegments()[j] instanceof Lock) {
 						agent = ((Lock) fairway.getSegments()[j]).getAgent();
 						// probleemke... :(
-						time += (agent.whatIf(vessel, time, fairway.getSegments()[j - 1], timeNow) - time);
+						time += (agent.whatIf(vessel, time, fairway.getSegments()[j - 1], timeNow) - timeNow);
 					}
 				}
 			}else {
@@ -166,7 +168,7 @@ public class TaskAgent {
 					if (fairway.getSegments()[j] instanceof Lock) {
 						agent = ((Lock) fairway.getSegments()[j]).getAgent();
 						// probleemke... :(
-						time += (agent.whatIf(vessel, time, fairway.getSegments()[j + 1], timeNow) - time);
+						time += (agent.whatIf(vessel, time, fairway.getSegments()[j + 1], timeNow) - timeNow);
 					}
 				}
 			}
@@ -184,23 +186,34 @@ public class TaskAgent {
      * for decision making and acting.
      */
     public void act(int timeNow) {
-        // TODO explorationants enkel uitsturen opt moment da vessel in ne node komt (of ga komen)
-        scanEnvironment();
-        
+    	// The threshold (in timeunits) at which the agent will change his plan.
+    	int threshold = 50;
+    	
+    	// TODO explorationants enkel uitsturen opt moment da vessel in ne node komt (of ga komen)
+        if(vessel.getCurrentPosition() instanceof Node){
+    		scanEnvironment();
+        }
         // Kijk naar het kortste pad. 
         // TODO: een "plan" invoeren, dat een paar iteraties
         // bewaard blijft in plaats van élke iteratie alle paden te zoeken en het kortste
         // te nemen.
-        
-
-        
+                
         //ArrayList<Fairway> path = getShortestPath();
-        ArrayList<Fairway> path = getBestPath(timeNow);
+        if(plan == null){
+        	plan = getBestPath(timeNow);
+        }else {
+        	ArrayList<Fairway> newPath = getBestPath(timeNow);
+        	if(getTimeToCrossPath(newPath, timeNow) < (getTimeToCrossPath(plan, timeNow)+ threshold) ){
+        		if(Math.random() < 0.6){ // experiment!!	
+        			plan = newPath;
+        		}
+        	}
+        }
         
         // Send an intention ant to the current chosen path.
         // TODO: this should not happen at every time point.
         //if (getVessel().getCurrentPosition() instanceof Node) {
-        	ArrayList<Fairway> path2 = (ArrayList<Fairway>) path.clone();
+        	ArrayList<Fairway> path2 = (ArrayList<Fairway>) plan.clone();
         	IntentionAnt intAnt = new IntentionAnt(getVessel(), path2);
         	intAnt.makeReservations(timeNow);
         //}
@@ -210,11 +223,11 @@ public class TaskAgent {
         // dus er staat getTopSpeed ipv getCurrentSpeed
         if (getVessel().getTopSpeed() == Speed.SLOW) {
             for (int k = 0; k < Configuration.nbSegmentsPerStepSlow; k++) {
-                getVessel().moveToNextSegment(path);
+                getVessel().moveToNextSegment(plan);
             }
         } else if (getVessel().getTopSpeed() == Speed.FAST) {
             for (int k = 0; k < Configuration.nbSegmentsPerStepFast; k++) {
-                getVessel().moveToNextSegment(path);
+                getVessel().moveToNextSegment(plan);
             }
         }
     }
