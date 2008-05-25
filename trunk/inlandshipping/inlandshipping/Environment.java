@@ -81,6 +81,10 @@ public class Environment {
         hub.posY = 400;
         nodes.add(hub);
         
+        //TEMP
+        this.liege2 = liege;
+        this.antwerp2 = antwerp;
+        
         // new Fairway(from,to,nbLanes,length,maxSpeed)
         Vector<Integer> lockPositions;
         lockPositions = new Vector<Integer>();
@@ -189,7 +193,7 @@ public class Environment {
 
         
         // new Vessel(source,destination,size,maxSpeed)
-        Vessel vessel1 = new Vessel(antwerp,liege,Size.SMALL, Speed.SLOW);
+        /*Vessel vessel1 = new Vessel(antwerp,liege,Size.SMALL, Speed.SLOW);
         vessels.add(vessel1);
         Vessel vessel2 = new Vessel(hasselt,bruges,Size.SMALL, Speed.SLOW);
         vessels.add(vessel2);
@@ -197,6 +201,11 @@ public class Environment {
         vessels.add(vessel3);
         Vessel vessel4 = new Vessel(bruges,mons,Size.SMALL, Speed.SLOW);
         vessels.add(vessel4);*/
+        
+        for (int i=0; i<10; i++) {
+        	Vessel vessel1 = new Vessel(liege,antwerp,Size.SMALL, Speed.SLOW);
+            vessels.add(vessel1);
+        }
         
         for (int i=0; i<Configuration.nbStartVessels; i++) {
             Vessel v = getRandomVessel();
@@ -260,7 +269,7 @@ public class Environment {
      * 
 	 * According to settings of the simulation.
      */
-    public void act() {
+    public void act(int timePoint) {
     	
     	// Remove vessels that have delivered their cargo
     	Vector<Vessel> toRemove = new Vector<Vessel>();
@@ -283,7 +292,18 @@ public class Environment {
             addToVessels(v);
             System.out.println("A new vessel has entered the environment");
         }
+        
+        if (timePoint == 5) {
+        for (int j=0; j<1; j++) {
+        	Vessel vessel1 = new Vessel(liege2,antwerp2,Size.SMALL, Speed.SLOW);
+            vessels.add(vessel1);
+        }
+        }
     }
+    
+    // This is a test.
+    Node liege2;
+    Node antwerp2;
     
     /**
      * This method is to be called when a given vessel has arrived at its

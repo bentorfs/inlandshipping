@@ -190,9 +190,9 @@ public abstract class ResAgent {
 	    // Create a new scheduling based on the remaining reservations
 	    updateScheduling(time);
 	    
-	    System.out.println("time now: " + time);
-	    printReservations();
-    	printTimeTable();
+	    //System.out.println("Time now: " + time);
+	    //printReservations();
+    	//printTimeTable();
 	    
 	    // Perform the actions of this timepoint
 	    performActions(time);

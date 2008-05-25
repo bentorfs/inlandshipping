@@ -64,7 +64,7 @@ public class Main {
                 agent.act(time);
             }
             // Give the environment the opportunity to act
-            env.act();
+            env.act(time);
             
             // Update GUI
             Thread.sleep(Configuration.sleepTime);
