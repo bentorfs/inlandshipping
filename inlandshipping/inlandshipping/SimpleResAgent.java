@@ -24,7 +24,6 @@ public class SimpleResAgent extends ResAgent {
      * the lock, if it arrived at the specified time from the specified direction.
      */
     public int whatIf(Vessel vessel, int arrivalTime, Segment direction, int timeNow) {
-    	printTimeTable();
     	
     	// See if this vessel has this reservation already
     	// If so, just return the information of that reservation
@@ -33,7 +32,6 @@ public class SimpleResAgent extends ResAgent {
     			&& res.getDirection() == direction) {
     		updateScheduling(timeNow);
     		//System.out.println("whatif returns " + findPassThroughTime(vessel,arrivalTime));
-        	printTimeTable();
     		
     		return findPassThroughTime(vessel,arrivalTime);
     	}
@@ -47,7 +45,6 @@ public class SimpleResAgent extends ResAgent {
         	removeReservationsBy(vessel);
         	// Put the original timetable back in place
         	timeTable = timeTableBackup;
-        	printTimeTable();
         	
         	return result;
     	}
@@ -84,7 +81,7 @@ public class SimpleResAgent extends ResAgent {
         Iterator<LockReservation> i = getReservations().iterator();
         while (i.hasNext()) {
             LockReservation r = i.next();
-            schedule(r);
+            schedule(r,time);
         }
     }
     
@@ -100,7 +97,7 @@ public class SimpleResAgent extends ResAgent {
     /**
      * Adds the given reservation to the schedule.
      */
-    private void schedule(LockReservation r) {
+    private void schedule(LockReservation r,int timeNow) {
         // See when the ship can start transferring.
         int start = prepareStartTime(r.getArrivalTime());
         // Add empty transferslots if needed, and get the resulting new start time.
@@ -190,6 +187,8 @@ public class SimpleResAgent extends ResAgent {
      * performing the calculated schedule.
      */
     protected void performActions(int time) {
+    	System.out.println("performing actions at time " + time);
+    	
         // See what has to happen at this moment, according to the schedule.
         SchedulingElem task = timeTable.get(time);
         SimpleLock lock = (SimpleLock) getLock();
@@ -206,6 +205,7 @@ public class SimpleResAgent extends ResAgent {
                 v.setPreviousSegment(getLock());
             }
             lock.setVesselInChamber(null);
+            //removeReservationsBy(v);
         }
         else if (task != null && task.getEvent() == SchedulingEvent.STARTTRANSIT) {
             Vessel currentVessel = task.getVessel();
@@ -259,7 +259,7 @@ public class SimpleResAgent extends ResAgent {
     	Vector<Integer> keys = new Vector<Integer>(keyset);
     	Collections.sort(keys);
     	Iterator<Integer> i = keys.iterator();
-    	System.out.println("----Start timetable for " + this.toString() + "---");
+    	System.out.println("----Timetable for " + this.toString() + "---");
     	while (i.hasNext()) {
     		int current = i.next();
     		SchedulingElem e = timeTable.get(current);
