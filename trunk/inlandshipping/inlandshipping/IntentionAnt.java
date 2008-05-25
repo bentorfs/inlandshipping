@@ -39,25 +39,25 @@ public class IntentionAnt {
 		if(!(vessel.getCurrentPosition() instanceof Node)){
 			fairway = vessel.getCurrentPosition().getFairway();
 			int fairwayLength = fairway.getSegments().length;
-			int position = fairwayLength - vessel.getNbSegmentsToGo() ;
+			int position = fairwayLength - (vessel.getNbSegmentsToGo()-1) ;
 			Node comingFrom = previousNode;
 			if (fairway.getNode1() == comingFrom) {
 				System.out.println("SCHIP 1: position: " + position);
-				for(int k = position; k < fairwayLength; k++){
+				for(int k = position; k <= fairwayLength; k++){
 					steps++;
-					if (fairway.getSegments()[k] instanceof Lock) {
+					if (fairway.getSegments()[k-1] instanceof Lock) {
 						time = calculateTimeForReservation(steps, timeNow);
 						System.out.println("TIME_RESERVATION_1: "+ time);
-						agent = ((Lock) fairway.getSegments()[k]).getAgent();
-						agent.makeReservation(vessel, time, fairway.getSegments()[k - 1]);
-						steps += (agent.whatIf(vessel, time, fairway.getSegments()[k - 1], timeNow) - time);
+						agent = ((Lock) fairway.getSegments()[k-1]).getAgent();
+						agent.makeReservation(vessel, time, fairway.getSegments()[k - 2]);
+						steps += (agent.whatIf(vessel, time, fairway.getSegments()[k - 2], timeNow) - time);
 					}
 				}
 			}
 			else{
-				position = (fairwayLength - position) - 1;
+				position = (fairwayLength - position)-1;
 				System.out.println("SCHIP 2: position: " + position);
-				for(int k = position; k >= 0; k--){
+				for(int k = position; k > 0; k--){
 					steps++;
 					if (fairway.getSegments()[k] instanceof Lock) {
 						time = calculateTimeForReservation(steps, timeNow);
@@ -69,7 +69,6 @@ public class IntentionAnt {
 				}
 			}
 		}
-		steps = vessel.getNbSegmentsToGo();
 		
 		// for the part where pathToCheck starts
 		for (int i = 0; i < pathToCheck.size(); i++) {
