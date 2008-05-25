@@ -33,12 +33,12 @@ public class ExplorationAntFast {
 	 * PreviousNode makes you know on which way you will enter the lock.
 	 */
 	public int checkTimeNeeded(int timeNow) {
-		Iterator<Fairway> it = pathToCheck.iterator();
+		/*Iterator<Fairway> it = pathToCheck.iterator();
 		System.out.println("begin " + timeNow);
 		while (it.hasNext()) {
 			Fairway fw = it.next();
 			System.out.println("pathtocheck " + fw.name);
-		}
+		}*/
 		
 		// Start positions for the intentionAnt
 		Segment previousPosition = vessel.getPreviousSegment();
@@ -49,7 +49,6 @@ public class ExplorationAntFast {
 		
 		// finished becomes true when the ant has reached the destination node of the vessel
 		boolean finished = false;
-		boolean firstpart = true;
 		while (!finished) {
 			// If the currentposition is a lock, do a whatif query
 			if (currentPosition instanceof Lock && vessel.getCurrentPosition() != currentPosition) {
@@ -70,13 +69,7 @@ public class ExplorationAntFast {
 				// and there is no previous position
 				if (previousPosition != null) {
 					// Remove the fairway that has just been crossed from the path,
-					// if this is not the first part of the route before the first node.
-					if (!firstpart) {
-						pathToCheck.remove(previousPosition.getFairway());
-					}
-					else {
-						firstpart = false;
-					}
+					pathToCheck.remove(previousPosition.getFairway());
 				}
 				
 				Node currentNode = (Node) currentPosition;
@@ -89,12 +82,12 @@ public class ExplorationAntFast {
 				else {
 					Vector<Fairway> possibleFairways = currentNode.getFairways();
 					
-					System.out.println("in node loop:");
+					/*System.out.println("in node loop:");
 					Iterator<Fairway> it2 = pathToCheck.iterator();
 					while (it2.hasNext()) {
 						Fairway fw = it2.next();
 						System.out.println("pathtocheck " + fw.name);
-					}
+					}*/
 					
 					
 					Iterator<Fairway> i1 = possibleFairways.iterator();
@@ -117,7 +110,7 @@ public class ExplorationAntFast {
 				Segment tempPosition = currentPosition;
 				currentPosition = getNextPosition(tempPosition, previousPosition);
 				previousPosition = tempPosition;
-				System.out.println("next " + timeNow);
+				//System.out.println("next " + timeNow);
 			}
 		}
 		return time;
