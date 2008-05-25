@@ -133,6 +133,7 @@ public class Vessel {
         if (getCurrentPosition() instanceof Lock) {
             // He is in a lock
             // Notify the lock
+        	nbSegmentsPassed--;
             Lock lock = (Lock) getCurrentPosition();
             lock.arrival(this);
         } else if (getCurrentPosition() instanceof Node) {
