@@ -44,7 +44,7 @@ public class IntentionAnt {
 			int position = fairwayLength - vessel.getNbSegmentsToGo() ;
 			Node comingFrom = fairway.getOtherNode(previousNode);
 			if (fairway.getNode1() == comingFrom) {
-				System.out.println("Nu hier1");
+				System.out.println("SCHIP 1");
 				System.out.println(vessel + ": position:" + position);
 				for(int k = position; k < fairwayLength; k++){
 					steps++;
@@ -58,7 +58,7 @@ public class IntentionAnt {
 			}
 			else{
 				position = (fairwayLength - position) - 1;
-				System.out.println("Nu hier2");
+				System.out.println("SCHIP 2");
 				System.out.println(vessel + ": position:" + position);
 				for(int k = position; k >= 0; k--){
 					steps++;
