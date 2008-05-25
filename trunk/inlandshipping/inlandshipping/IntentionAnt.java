@@ -41,6 +41,9 @@ public class IntentionAnt {
 			fairway = vessel.getCurrentPosition().getFairway();
 			int fairwayLength = fairway.getSegments().length;
 			int position = fairwayLength - (vessel.getNbSegmentsToGo() - 1) ;
+			if( fairway.getSegments()[position] == vessel.getCurrentPosition()){
+				System.out.println("YOW");
+			}
 			Node comingFrom = fairway.getOtherNode(previousNode);
 			if (fairway.getNode1() == comingFrom) {
 				for(int k = position; k < fairwayLength; k++){
