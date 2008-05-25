@@ -41,13 +41,10 @@ public class IntentionAnt {
 			fairway = vessel.getCurrentPosition().getFairway();
 			int fairwayLength = fairway.getSegments().length;
 			int position = fairwayLength - vessel.getNbSegmentsToGo() ;
-			System.out.println(vessel + ": position:" + position);
-			System.out.println(fairwayLength);
-			if( fairway.getSegments()[position] == vessel.getCurrentPosition()){
-				System.out.println("YOW");
-			}
 			Node comingFrom = fairway.getOtherNode(previousNode);
 			if (fairway.getNode1() == comingFrom) {
+				System.out.println("Nu hier1");
+				System.out.println(vessel + ": position:" + position);
 				for(int k = position; k < fairwayLength; k++){
 					steps++;
 					if (fairway.getSegments()[k] instanceof Lock) {
@@ -59,7 +56,10 @@ public class IntentionAnt {
 				}
 			}
 			else{
-				for(int k = fairwayLength - 1; k >= position; k--){
+				position = (fairwayLength - position) - 1;
+				System.out.println("Nu hier2");
+				System.out.println(vessel + ": position:" + position);
+				for(int k = position; k >= 0; k--){
 					steps++;
 					if (fairway.getSegments()[k] instanceof Lock) {
 						time = calculateTimeForReservation(steps, timeNow);
