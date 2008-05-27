@@ -50,23 +50,18 @@ public class TaskAgent {
 	/**
 	 * This method sends exploration ants to scan the environment for the possible
 	 * paths from the vessels source to its destination.
+	 * OK
 	 */
 	public void scanEnvironment() {
 	    possiblePaths.clear();
 	    Segment currentPosition = getVessel().getCurrentPosition();
-	    Node antStartNode;
-	    if (currentPosition instanceof Node) {
-	        antStartNode = (Node) currentPosition;
-	    }
-	    else {
-	        antStartNode = currentPosition.getFairway().getOtherNode(getVessel().getSource());
-	    }
+	    Node antStartNode = (Node) currentPosition;
 	    if (antStartNode != getVessel().getDestination()) {
 	    	ExplorationAnt ant = new ExplorationAnt(antStartNode, getVessel().getDestination(), this, new ArrayList<Fairway>());
 	    	ant.scanForPossiblePaths();
 	    }
 	    else {
-	    	// No exploration ants needed any more, the vessel is on its last fairway
+	    	// VESSEL REACHED TARGET
 	    }
 	}
 	
@@ -79,6 +74,7 @@ public class TaskAgent {
 	
 	/**
 	 * Returns the path with the shortest distance.
+	 * OK
 	 */
 	public ArrayList<Fairway> getShortestPath() {
 		if(possiblePaths.size() == 0) {
@@ -95,6 +91,7 @@ public class TaskAgent {
 	
 	/**
 	 * Returns the length of the given path.
+	 * OK
 	 */
 	public int getLengthOfPath(ArrayList<Fairway> path) {
 		int distance = 0;
@@ -114,13 +111,6 @@ public class TaskAgent {
 			// Destination has been reached
 			return new ArrayList<Fairway>();
 		}
-		//ArrayList<Fairway> best = possiblePaths.get(0);
-		//for(int i = 1; i < possiblePaths.size(); i ++){
-		//	if(getTimeToCrossPath(possiblePaths.get(i), timeNow) < getTimeToCrossPath(best, timeNow)){
-		//		best = possiblePaths.get(i);
-		//	}
-		//}
-		
 		ArrayList<Fairway> pathToCheck = (ArrayList<Fairway>) possiblePaths.get(0).clone();
 		ExplorationAntFast ant = new ExplorationAntFast(getVessel(),pathToCheck);
 		int bestTimeTillNow = ant.checkTimeNeeded(timeNow);
@@ -189,26 +179,23 @@ public class TaskAgent {
     	// The threshold (in timeunits) at which the agent will change his plan.
     	int threshold = 50;
     	
-    	// TODO explorationants enkel uitsturen opt moment da vessel in ne node komt (of ga komen)
+    	// An explorationAnt can only be send when the vessel is in a node.
         if(vessel.getCurrentPosition() instanceof Node){
     		scanEnvironment();
+    		 if(plan == null){
+    	        	plan = getBestPath(timeNow);
+    	        }else {
+    	        	ArrayList<Fairway> newPath = getBestPath(timeNow);
+    	        	if(getTimeToCrossPath(newPath, timeNow) < (getTimeToCrossPath(plan, timeNow)+ threshold) ){
+    	        		if(Math.random() < 0.6){ // experiment!!	
+    	        			plan = newPath;
+    	        		}
+    	        	}
+    	        }
+    		
         }
-        // Kijk naar het kortste pad. 
-        // TODO: een "plan" invoeren, dat een paar iteraties
-        // bewaard blijft in plaats van élke iteratie alle paden te zoeken en het kortste
-        // te nemen.
-                
         //ArrayList<Fairway> path = getShortestPath();
-        if(plan == null){
-        	plan = getBestPath(timeNow);
-        }else {
-        	ArrayList<Fairway> newPath = getBestPath(timeNow);
-        	if(getTimeToCrossPath(newPath, timeNow) < (getTimeToCrossPath(plan, timeNow)+ threshold) ){
-        		if(Math.random() < 0.6){ // experiment!!	
-        			plan = newPath;
-        		}
-        	}
-        }
+        
         
         // Send an intention ant to the current chosen path.
         // TODO: this should not happen at every time point.
@@ -231,4 +218,35 @@ public class TaskAgent {
             }
         }
     }
+    
+    /*******************************************************************************
+     * 			ROMMEL
+     ******************************************************************************/
+    
+    /**
+	 * This method sends exploration ants to scan the environment for the possible
+	 * paths from the vessels source to its destination.
+	 */
+    
+//	public void scanEnvironment() {
+//	    possiblePaths.clear();
+//	    Segment currentPosition = getVessel().getCurrentPosition();
+//	    Node antStartNode;
+//	    if (currentPosition instanceof Node) {
+//	        antStartNode = (Node) currentPosition;
+//	    }
+//	    else {
+//	        antStartNode = currentPosition.getFairway().getOtherNode(getVessel().getSource());
+//	    }
+//	    if (antStartNode != getVessel().getDestination()) {
+//	    	ExplorationAnt ant = new ExplorationAnt(antStartNode, getVessel().getDestination(), this, new ArrayList<Fairway>());
+//	    	ant.scanForPossiblePaths();
+//	    }
+//	    else {
+//	    	// No exploration ants needed any more, the vessel is on its last fairway
+//	    }
+//	}
+    
+    
+    
 }

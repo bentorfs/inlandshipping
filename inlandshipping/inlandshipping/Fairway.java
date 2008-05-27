@@ -7,11 +7,25 @@ import java.util.Vector;
  * Class representing a fairway.
  */
 public class Fairway {
-    private int nbLanes;
-    private int nbLanesInUse = 0;
     
+	/******************************************************
+	 * 			INSTANTIATION VARIABLES					  *
+	 ******************************************************/
+	
+	/*
+	 * Number of lanes of the fairway.
+	 */
+	private int nbLanes;
+	
+	/*
+	 * The max speed that is currently alowed on this fairway.
+	 * TODO NIET NODIG!!!
+	 */
     private Speed maxSpeed;
     
+    /*
+     * The name of the fairway.
+     */
     public String name;
     
     /*
@@ -19,56 +33,153 @@ public class Fairway {
      */
     private Node node1;
     private Node node2;
-    public Node getNode1() {
-        return node1;
-    }
-    public Node getNode2() {
-        return node2;
-    }    
-
+    
     /*
      * The segments this fairway is composed of
      */
     private Segment[] segments;
-    
-    public Segment[] getSegments(){
-        return segments;
-    }
     
     /*
      * The length of this fairway
      */
     private int length;
     
-    public int getLength(){
-        return length;
-    }
-    
     /*
      * The locks that are located on this fairway
      */
     private Vector<Lock> locks = new Vector<Lock>();
     
-    public Vector<Lock> getLocks() {
-        return locks;
-    }
-   
+
+  /********************************************************
+   * 			CONSTRUCTOR
+   ********************************************************/
+    
     /**
      * Constructs a fairway from the given startnode to the given endnode. The length
      * is the number of segments this fairway is composed of.
      * The new fairway will have locks positioned on all positions in lockpositions.
      */
     public Fairway(Node node1, Node node2, int nbLanes, int length, Speed maxSpeed, Vector<Integer> lockPositions, String name) {
-        this.nbLanes = nbLanes;
+        setNbLanes(nbLanes);
+        //TODO 
         this.maxSpeed = maxSpeed;
-        this.node1 = node1;
-        this.node2 = node2;
+        setNode1(node1);
+        setNode2(node2);
         node1.attachFairway(this);
         node2.attachFairway(this);
-        this.length = length;
+        setLength(length);
         constructSegments(lockPositions);
-        this.name = name;
+        setName(name);
     }
+    
+    /******************************************************
+     * 			SETTERS AND GETTERS			  			  *
+     ******************************************************/
+    
+    /**
+     * Returns the number of lanes of this fairway.
+     */
+    public int getNbLanes() {
+    	return nbLanes;
+    }
+    
+    /**
+     * Sets the given number as the number of lanes of this fairway.
+     */
+    private void setNbLanes(int number) {
+    	nbLanes = number;
+    }
+    
+    /**
+     * Returns the first node of the fairway.
+     */
+    public Node getNode1() {
+        return node1;
+    }
+    
+    /**
+     * Sets the given node as the first node of the fairway.
+     */
+    private void setNode1(Node node) {
+    	node1 = node;
+    }
+     
+    /**
+     * Returns the second node of the fairway.
+     */
+    public Node getNode2() {
+        return node2;
+    }    
+    
+    /**
+     * Sets the given node as the second node of the fairway.
+     */
+    private void setNode2(Node node) {
+    	node2 = node;
+    }
+    
+    /**
+     * Returns the length of the fairway (the nodes not included).
+     * @return
+     */
+    public int getLength() {
+        return length;
+    }
+    
+    /**
+     * Sets the given length as the length of this fairway.
+     */
+    private void setLength(int length) {
+    	this.length = length;
+    }
+    
+    /**
+     * Returns the name of the fairway.
+     */
+    public String getName(){
+    	return name;
+    }
+    
+    /**
+     * Sets the given name as the name of this fairway.
+     */
+    private void setName(String name){
+    	this.name =  name;
+    }
+    /**
+     * Returns the locks on this fairway.
+     */
+    public Vector<Lock> getLocks() {
+        return locks;
+    }
+    
+    /**
+     * Returns the segments of the fairway (the nodes not included).
+     */
+    public Segment[] getSegments(){
+        return segments;
+    }
+    
+    /**
+     * Returns the neighbour segment of the given node from this fairway.
+     * OK
+     */
+    public Segment getNeighbourSegmentOfNode(Node node){
+    	if(node == node1)return getSegments()[0];
+    	else return getSegments()[getSegments().length -1];
+    }
+    
+    /**
+     * Returns the other node then the given node of this fairway.
+     * OK
+     */
+    public Node getOtherNode(Node node){
+    	return(node == node1 ? node2 : node1);
+    }
+    
+    /******************************************************
+     * 			CONSTRUCTION OF FAIRWAY
+     ******************************************************/
     
     /**
      * Constructs the segments composing this fairway and initializes the neighbours.
@@ -99,14 +210,7 @@ public class Fairway {
         }
     }
     
-    public Segment getNeighbourSegmentOfNode(Node node){
-    	if(node == node1)return getSegments()[0];
-    	else return getSegments()[getSegments().length -1];
-    }
-    
-    public Node getOtherNode(Node node){
-    	return(node == node1 ? node2 : node1);
-    }
+   
 
 
 

@@ -6,7 +6,7 @@ import java.util.Vector;
 public class ExplorationAnt {
 
 	/******************************************************
-	 * 			Instance variables
+	 * 			Instantiation variables
 	 ******************************************************/
 	private Node sourceNode;
     private Node destinationNode;
@@ -17,6 +17,7 @@ public class ExplorationAnt {
     /******************************************************
      * 			Constructor
      ******************************************************/
+    
     public ExplorationAnt(Node sourceNode, Node destinationNode, TaskAgent agent, ArrayList<Fairway> pathSoFar){
         setSource(sourceNode);
         setDestination(destinationNode);
@@ -96,10 +97,10 @@ public class ExplorationAnt {
     	Vector<Fairway> reachableFairways = getSource().getFairways();
     	for(int i = 0; i < reachableFairways.size(); i++){
     		if (reachableFairways.get(i).getOtherNode(getSource()) == getDestination()) {
-    			// bestemming bereikt
+    			// laatste fairway tot bestemming
     	        addToPathSoFar(reachableFairways.get(i));
     	        getAgent().addToPossiblePaths((ArrayList<Fairway>) getPathSoFar().clone());
-    	        pathSoFar.remove(reachableFairways.get(i));
+    	        getPathSoFar().remove(reachableFairways.get(i));
     		}
     	    else if (!getPathSoFar().contains(reachableFairways.get(i))) {
     	    	ArrayList<Fairway> newPathSoFar = (ArrayList<Fairway>) getPathSoFar().clone();
