@@ -43,8 +43,10 @@ public class TaskAgent {
 	}
 	
 
+	
+	
 	/******************************************************
-	 * 			Path Finding Methods
+	 * 		I	Path Finding Methods
 	 ******************************************************/
 	
 	/**
@@ -71,6 +73,11 @@ public class TaskAgent {
 	public void addToPossiblePaths(ArrayList<Fairway> path){
 		possiblePaths.add(path);
 	}
+	
+		
+	/******************************************************
+	 * 		I)a.	PATH FINDING METHODS (DISTANCE)		  *
+	 ******************************************************/
 	
 	/**
 	 * Returns the path with the shortest distance.
@@ -101,6 +108,11 @@ public class TaskAgent {
 		return distance;
 	}
 
+	
+	/******************************************************
+	 * 		I)b.	PATH FINDING METHODS (TIME)		  *
+	 ******************************************************/
+	
 	/**
 	 * Returns the path with the shortest time to cross it.
 	 * Invariant: this method can only be called when the vessel is in a node,
@@ -127,45 +139,11 @@ public class TaskAgent {
 		return bestPathTillNow;
 	}
 	
-	/**
-	 * Returns the time to cross the given path.
-	 * Invariant: this method can only be called when the vessel is in a node,
-	 * 			  the node is the current source of the vessel.
-	 */
-	// Om de tijd van die locks te weten moetk timeNow meegeven, isser een 
-	// andere methode waar da niet bij moet??? want nu gebeurt diene
-	// updateScheduling automatisch...
-	public int getTimeToCrossPath(ArrayList<Fairway> path, int timeNow){
-		int time = 0;
-		ResAgent agent;
-		Fairway fairway;
-		Node previousNode = getVessel().getSource();
-		
-		for (int i = 0; i < path.size(); i++) {
-			fairway = path.get(i);
-			if (fairway.getNode1() == previousNode) {
-				for (int j = 0; j < fairway.getSegments().length; j++) {
-					time++;
-					if (fairway.getSegments()[j] instanceof Lock) {
-						agent = ((Lock) fairway.getSegments()[j]).getAgent();
-						// probleemke... :(
-						time += (agent.whatIf(vessel, time, fairway.getSegments()[j - 1], timeNow) - timeNow);
-					}
-				}
-			}else {
-				for (int j = fairway.getSegments().length - 1; j >= 0; j--) {
-					time++;
-					if (fairway.getSegments()[j] instanceof Lock) {
-						agent = ((Lock) fairway.getSegments()[j]).getAgent();
-						// probleemke... :(
-						time += (agent.whatIf(vessel, time, fairway.getSegments()[j + 1], timeNow) - timeNow);
-					}
-				}
-			}
-			
-		}
-		return time;
-	}
+	
+	
+	
+	
+	
 	
    /*******************************************************
     * 			Acting Methods
@@ -247,6 +225,44 @@ public class TaskAgent {
 //	    }
 //	}
     
-    
+    /**
+	 * Returns the time to cross the given path.
+	 * Invariant: this method can only be called when the vessel is in a node,
+	 * 			  the node is the current source of the vessel.
+	 */
+	// Om de tijd van die locks te weten moetk timeNow meegeven, isser een 
+	// andere methode waar da niet bij moet??? want nu gebeurt diene
+	// updateScheduling automatisch...
+	public int getTimeToCrossPath(ArrayList<Fairway> path, int timeNow){
+		int time = 0;
+		ResAgent agent;
+		Fairway fairway;
+		Node previousNode = getVessel().getSource();
+		
+		for (int i = 0; i < path.size(); i++) {
+			fairway = path.get(i);
+			if (fairway.getNode1() == previousNode) {
+				for (int j = 0; j < fairway.getSegments().length; j++) {
+					time++;
+					if (fairway.getSegments()[j] instanceof Lock) {
+						agent = ((Lock) fairway.getSegments()[j]).getAgent();
+						// probleemke... :(
+						time += (agent.whatIf(vessel, time, fairway.getSegments()[j - 1], timeNow) - timeNow);
+					}
+				}
+			}else {
+				for (int j = fairway.getSegments().length - 1; j >= 0; j--) {
+					time++;
+					if (fairway.getSegments()[j] instanceof Lock) {
+						agent = ((Lock) fairway.getSegments()[j]).getAgent();
+						// probleemke... :(
+						time += (agent.whatIf(vessel, time, fairway.getSegments()[j + 1], timeNow) - timeNow);
+					}
+				}
+			}
+			
+		}
+		return time;
+	}
     
 }
