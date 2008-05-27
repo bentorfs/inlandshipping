@@ -55,6 +55,7 @@ public class Main {
                 TaskAgent agent = v.getAgent();
                 agent.act(time);
             }
+            //check
             
             // Give all the resource agents the opportunity to act
             Iterator<Lock> it = env.getLocks().iterator();

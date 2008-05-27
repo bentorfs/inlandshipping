@@ -100,10 +100,19 @@ public class Vessel {
     /******************************************************
      * 				MOVEMENT
      ******************************************************/
+    /**
+     * Returns the current segment the vessel is on.
+     * OK
+     */
     public Segment getCurrentPosition() {
     	return currentPosition;
     }
 
+    /**
+     * Sets the given segment as the segment on which the vessel is currently on.
+     * OK
+     * @param position
+     */
     public void setCurrentPosition(Segment position) {
     	currentPosition = position;
     }
